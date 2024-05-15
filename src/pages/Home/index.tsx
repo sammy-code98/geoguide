@@ -1,7 +1,6 @@
-import React from 'react'
 
 export default function index() {
   return (
-    <div> Home Page </div>
+    <div className='px-4 sm:px-12 py-8'> Home Page </div>
   )
 }
