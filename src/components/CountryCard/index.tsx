@@ -1,25 +1,27 @@
 import { Link } from "react-router-dom"
 import { AppRoutes } from "../../types/routes"
+import { CountryCardI } from './card.interface';
 
 
-export default function index(): JSX.Element {
+export default function index({ name, population, region, capital, img, alt }: CountryCardI): JSX.Element {
   return (
     <>
       <Link to={AppRoutes.detail}>
-        <div className="max-w-sm bg-white border border-textGray rounded-lg shadow cursor-pointer">
-        <div >
-          <img className="rounded-t-lg" src="https://nextui.org/images/hero-card-complete.jpeg" />
+        <div className="w-80 py-4 bg-white  rounded-lg shadow cursor-pointer">
+          <div>
+            <img className="h-40 w-full object-cover rounded-t-lg" src={img} alt={alt} />
         </div>
-          <div className="p-5 space-y-4">
-            <h5 className="text-2xl font-bold tracking-light text-black">Counrty</h5>
+          <hr />
+          <div className="p-5 space-y-4 ">
+            <h5 className="text-lg font-bold tracking-light text-black">{name}</h5>
             <p className="font-normal text-black">Population :
-            <span className="text-textGray ml-1">loeleoe</span>
+              <span className="text-primary ml-1">{population}</span>
           </p>
             <p className="font-normal text-black">Region :
-            <span className="text-textGray ml-1">loeleoe</span>
+              <span className="text-primary ml-1">{region}</span>
           </p>
             <p className="font-normal text-black">Capital :
-            <span className="text-textGray ml-1">loeleoe</span>
+              <span className="text-primary ml-1">{capital}</span>
           </p>
         </div>
       </div>

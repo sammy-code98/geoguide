@@ -27,31 +27,52 @@ export default function index() {
             <div className='py-2 md:py-4 flex justify-between flex-wrap'>
               <div className='space-y-4'>
                 <p className="font-normal text-black">Native Name :
-                  <span className="text-textGray ml-1">loeleoe</span>
+                  <span className="text-primary ml-1">loeleoe</span>
+                </p>
+                <p className="font-normal text-black">Official Name :
+                  <span className="text-primary ml-1">loeleoe</span>
                 </p>
                 <p className="font-normal text-black">Population :
-                  <span className="text-textGray ml-1">loeleoe</span>
+                  <span className="text-primary ml-1">loeleoe</span>
                 </p>
                 <p className="font-normal text-black">Region :
-                  <span className="text-textGray ml-1">loeleoe</span>
+                  <span className="text-primary ml-1">loeleoe</span>
                 </p>
                 <p className="font-normal text-black">Sub Region :
-                  <span className="text-textGray ml-1">loeleoe</span>
+                  <span className="text-primary ml-1">loeleoe</span>
                 </p>
                 <p className="font-normal text-black">Capital :
-                  <span className="text-textGray ml-1">loeleoe</span>
+                  <span className="text-primary ml-1">loeleoe</span>
+                </p>
+                <p className="font-normal text-black">Phone Code :
+                  <span className="text-primary ml-1">loeleoe</span>
+                </p>
+                <p className="font-normal text-black">Phone Suffixes :
+                  <span className="text-primary ml-1">loeleoe</span>
                 </p>
               </div>
 
               <div className='space-y-4'>
                 <p className="font-normal text-black">Top Level Domain :
-                  <span className="text-textGray ml-1">loeleoe</span>
+                  <span className="text-primary ml-1">loeleoe</span>
                 </p>
-                <p className="font-normal text-black">Currency :
-                  <span className="text-textGray ml-1">loeleoe</span>
+                <p className="font-normal text-black">Currency Name :
+                  <span className="text-primary ml-1">loeleoe</span>
+                </p>
+                <p className="font-normal text-black">Currency Symbol :
+                  <span className="text-primary ml-1">loeleoe</span>
                 </p>
                 <p className="font-normal text-black">Langauges :
-                  <span className="text-textGray ml-1">loeleoe</span>
+                  <span className="text-primary ml-1">loeleoe</span>
+                </p>
+                <p className="font-normal text-black">UN Member :
+                  <span className="text-primary ml-1">loeleoe</span>
+                </p>
+                <p className="font-normal text-black">Start of Week :
+                  <span className="text-primary ml-1">loeleoe</span>
+                </p>
+                <p className="font-normal text-black">Time Zone :
+                  <span className="text-primary ml-1">loeleoe</span>
                 </p>
               </div>
             </div>
@@ -59,7 +80,7 @@ export default function index() {
             <div className='py-4'>
               <p className="font-normal text-black">Border Countries :
                 {[1, 2, 3, 4].map((_, i) => (
-                  <span key={i} className='py-1 px-4 border border-grayLight ml-2 rounded-md text-sm text-center cursor-pointer'>country</span>
+                  <span key={i} className='py-1 px-4 text-primary border border-grayLight ml-2 rounded-md text-sm text-center cursor-pointer'>country</span>
                 ))}
               </p>
             </div>
