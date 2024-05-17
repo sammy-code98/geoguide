@@ -3,7 +3,7 @@ import { getAllCountries } from "../../api/index.api"
 import Search from "../../components/Search"
 import Filter from "../../components/Filter"
 import CountryCard from "../../components/CountryCard"
-import { NumComma } from "../../utils/numComma"
+import { NumComma, shortenString } from "../../utils/custom"
 
 export default function Index(): JSX.Element {
   const { isLoading, data } = useQuery({ queryKey: ['getCountries'], queryFn: getAllCountries })
@@ -19,7 +19,7 @@ export default function Index(): JSX.Element {
           <>
             {data?.map((country: { name: { common: string }; population: number; region: string; capital: string; flags: { png: string; alt: string } }) => (
               <CountryCard key={country.name.common}
-                name={country.name.common || '____'}
+                name={shortenString(country.name.common) || '____'}
                 population={NumComma(country.population) || 0}
                 region={country.region || '____'}
                 capital={country.capital || '____'}
