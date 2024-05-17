@@ -7,6 +7,7 @@ import { AppRoutes } from "./types/routes"
 
 import GetStartedPage from "./pages/GetStarted"
 import HomePage from "./pages/Home"
+import DetailPage from "./pages/Detail"
 
 export const router = createBrowserRouter([
   {
@@ -20,12 +21,15 @@ export const router = createBrowserRouter([
     ]
   },
   {
-    path: AppRoutes.home,
     element: <HomeLayout />,
     children: [
       {
         path: AppRoutes.home,
         element: <HomePage />
+      },
+      {
+        path: AppRoutes.detail,
+        element: <DetailPage />
       }
     ]
   }

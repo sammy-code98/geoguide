@@ -10,8 +10,8 @@ export default function index() {
         <Filter />
       </div>
 
-      <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-4 gap-6 justify-items-center">
-        {[1, 2, 3, 4].map((_, index) => (
+      <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-12 justify-items-center">
+        {[1, 2, 3, 4, 5].map((_, index) => (
           <CountryCard key={index} />
         ))}
       </div>
