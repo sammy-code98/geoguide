@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
 import { MdArrowBackIos } from "react-icons/md";
 import { AppRoutes } from '../../types/routes';
