@@ -1,8 +1,23 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { MdArrowBackIos } from "react-icons/md";
+import { getSpecificCountry } from '../../api/index.api';
 import { AppRoutes } from '../../types/routes';
+export default function DetailsPage() {
+  const { code } = useParams()
 
-export default function index() {
+  const { isLoading, data } = useQuery({
+    queryKey: ['getACountry'], queryFn: async () => {
+      const data = await getSpecificCountry(code as string)
+      console.log({ data });
+
+      return data
+    }
+
+  })
+  console.log(data, "jeje")
+  if (isLoading) return <div>Loading...</div>
+
   return (
     <div className='px-4 sm:px-12 py-8'>
       <div>

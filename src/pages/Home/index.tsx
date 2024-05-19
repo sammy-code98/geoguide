@@ -5,7 +5,7 @@ import Filter from "../../components/Filter"
 import CountryCard from "../../components/CountryCard"
 import { NumComma, shortenString } from "../../utils/custom"
 
-export default function Index(): JSX.Element {
+export default function HomePage(): JSX.Element {
   const { isLoading, data } = useQuery({ queryKey: ['getCountries'], queryFn: getAllCountries })
   return (
     <div className='px-4 sm:px-12 py-8'>
