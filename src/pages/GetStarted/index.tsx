@@ -15,7 +15,7 @@ export default function index(): JSX.Element {
 
         <div className='py-8'>
           <Link to={AppRoutes.home}>
-            <button className='bg-primary text-white font-bold px-8 py-2 rounded hover:opacity-50'>Get Started</button>
+            <button className='bg-primary text-white font-bold px-8 py-2 rounded hover:opacity-50'>Start Exploring</button>
           </Link>
         </div>
       </div>
