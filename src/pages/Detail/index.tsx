@@ -14,13 +14,10 @@ export default function DetailsPage() {
   const { isLoading, data } = useQuery({
     queryKey: ['getACountry'], queryFn: async () => {
       const fetchedData = await getSpecificCountry(code as string)
-      console.log({ fetchedData });
-
       return fetchedData
     }
-
   })
-  console.log(data, "jeje")
+
   if (isLoading) return <div>Loading...</div>
 
   if (Array.isArray(data) && data.length === 1) {
