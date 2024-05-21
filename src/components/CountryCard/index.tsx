@@ -3,10 +3,11 @@ import { AppRoutes } from "../../types/routes"
 import { CountryCardI } from './card.interface';
 
 
-export default function index({ name, population, region, capital, img, alt }: CountryCardI): JSX.Element {
+export default function Index({ name, population, region, capital, img, alt, code }: CountryCardI): JSX.Element {
+  const detailLink = `${AppRoutes.detail.replace(':code', code)}`
   return (
     <>
-      <Link to={AppRoutes.detail}>
+      <Link to={detailLink} >
         <div className="w-80 py-4 bg-white  rounded-lg shadow cursor-pointer">
           <div>
             <img className="h-40 w-full object-cover rounded-t-lg" src={img} alt={alt} />

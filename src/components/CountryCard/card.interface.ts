@@ -5,4 +5,5 @@ export interface CountryCardI {
   capital: string;
   img: string;
   alt: string;
+  code: string;
 }
