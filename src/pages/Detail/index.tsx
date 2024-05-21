@@ -14,13 +14,10 @@ export default function DetailsPage() {
   const { isLoading, data } = useQuery({
     queryKey: ['getACountry'], queryFn: async () => {
       const fetchedData = await getSpecificCountry(code as string)
-      console.log({ fetchedData });
-
       return fetchedData
     }
-
   })
-  console.log(data, "jeje")
+
   if (isLoading) return <div>Loading...</div>
 
   if (Array.isArray(data) && data.length === 1) {
@@ -42,8 +39,8 @@ export default function DetailsPage() {
 
       <div className='py-4 md:py-12'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-40 justify-items-center'>
-          <div>
-            <img className="rounded-t-lg" src={country?.flags.png} />
+          <div className='w-full'>
+            <img className="rounded-lg  w-full h-fit shadow-md" src={country?.flags.png} />
           </div>
 
           <div>
@@ -54,6 +51,9 @@ export default function DetailsPage() {
                 <p className="font-normal text-black">Official Name :
                   <span className="text-primary ml-1">{country?.name.official}</span>
                 </p>
+                <p className="font-normal text-black">Capital :
+                  <span className="text-primary ml-1">{country?.capital}</span>
+                </p>
                 <p className="font-normal text-black">Population :
                   <span className="text-primary ml-1">{NumComma(country?.population)}</span>
                 </p>
@@ -63,9 +63,7 @@ export default function DetailsPage() {
                 <p className="font-normal text-black">Sub Region :
                   <span className="text-primary ml-1">{country?.subregion}</span>
                 </p>
-                <p className="font-normal text-black">Capital :
-                  <span className="text-primary ml-1">{country?.capital}</span>
-                </p>
+
                 <p className="font-normal text-black">Start of Week :
                   <span className="text-primary ml-1 capitalize">{country?.startOfWeek}</span>
                 </p>
@@ -114,11 +112,10 @@ export default function DetailsPage() {
 
             <div className='py-2'>
               <div className='grid grid-cols-2 md:grid-cols-4'>
-                <div>
                   <p className="font-normal text-black">Phone Suffixes :</p>
-                </div>
-                <div className='col-start- col-span-3'>
-                  <div className='grid grid-cols-4 md:grid-cols-12 gap-2'>
+
+                <div className='col-span-3'>
+                  <div className='grid grid-cols-4 md:grid-cols-12 gap-2 md:-ml-20'>
                     {country?.idd?.suffixes.map((_: string | number, i: Key | null | undefined) => (
                       <div key={i} className="py-1 px-4 text-primary  text-sm text-center">{_}</div>
                     ))}
@@ -130,9 +127,9 @@ export default function DetailsPage() {
               <div className='grid grid-cols-2 md:grid-cols-4'>
                 <p className="font-normal text-black">Time Zone :</p>
                 <div className='col-span-3'>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:-ml-24">
                     {country?.timezones.map((time: string) => (
-                      <div key={time} className="py-1 px-4 text-primary border border-grayLight ml-2 rounded-md text-sm text-center">{time}</div>
+                      <div key={time} className="py-1 px-2 text-primary border border-grayLight ml-2 rounded-md text-sm text-center">{time}</div>
                     ))}
                   </div>
                 </div>
