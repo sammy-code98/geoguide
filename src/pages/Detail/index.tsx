@@ -115,9 +115,9 @@ export default function DetailsPage() {
                   <p className="font-normal text-black">Phone Suffixes :</p>
 
                 <div className='col-span-3'>
-                  <div className='grid grid-cols-4 md:grid-cols-12 gap-2 md:-ml-20'>
+                  <div className='grid grid-cols-4 md:grid-cols-12 gap-2 md:-ml-12'>
                     {country?.idd?.suffixes.map((_: string | number, i: Key | null | undefined) => (
-                      <div key={i} className="py-1 px-4 text-primary  text-sm text-center">{_}</div>
+                      <div key={i} className="py-1 px-4 text-primary  text-sm">{_}</div>
                     ))}
                   </div>
                 </div>
@@ -127,7 +127,7 @@ export default function DetailsPage() {
               <div className='grid grid-cols-2 md:grid-cols-4'>
                 <p className="font-normal text-black">Time Zone :</p>
                 <div className='col-span-3'>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:-ml-24">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:-ml-20">
                     {country?.timezones.map((time: string) => (
                       <div key={time} className="py-1 px-2 text-primary border border-grayLight ml-2 rounded-md text-sm text-center">{time}</div>
                     ))}
