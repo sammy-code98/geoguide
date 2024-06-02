@@ -9,7 +9,7 @@ function HomeLayout(): JSX.Element {
       <HelmentHeader title="Home" description="GeoGuide Home Page" />
       <div>
         <Header />
-        <div>
+        <div className="py-16">
           <Outlet />
         </div>
       </div>
