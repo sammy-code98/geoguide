@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom"
 import MainLayout from "./layouts/Main.layout"
 import HomeLayout from "./layouts/Home.Layout"
-
 import { AppRoutes } from "./types/routes"
 
+import ErrorPage from "./modules/ErrorPage"
 
 import GetStartedPage from "./pages/GetStarted"
 import HomePage from "./pages/Home"
@@ -13,6 +13,7 @@ export const router = createBrowserRouter([
   {
     path: AppRoutes.getStarted,
     element: <MainLayout />,
+    errorElement:<ErrorPage/>,
     children: [
       {
         path: AppRoutes.getStarted,
