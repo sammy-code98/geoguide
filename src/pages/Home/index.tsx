@@ -1,13 +1,12 @@
+import { ChangeEvent, useCallback, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCountries } from "../../api/index.api";
-// import Search from "../../components/Search";
+import Search from "../../components/Search";
 import Filter from "../../components/Filter";
 import CardLoader from "../../components/CountryCard/cardLoader";
 import CountryCard from "../../components/CountryCard";
 import { NumComma, shortenString } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
-import { ChangeEvent, useCallback, useState } from "react";
-import Search from "../../components/Search";
 
 interface CountryI {
   name: { common: string };
@@ -19,24 +18,29 @@ interface CountryI {
 }
 export default function HomePage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [QueryKey.getCountries],
     queryFn: getAllCountries,
   });
 
-  const filteredCountries = data?.filter((country: CountryI) => {
-    const name = country.name.common.toLowerCase();
-    const capital =
-      country.capital && country.capital[0]
-        ? country.capital[0].toLowerCase()
-        : "";
+  let filteredCountries = data;
 
-    const searchQueryLower = searchQuery.toLowerCase();
-    return (
-      name.includes(searchQueryLower) || capital.includes(searchQueryLower)
-    );
-  });
+  if (searchQuery) {
+    filteredCountries = filteredCountries?.filter((country: CountryI) => {
+      const name = country.name.common.toLowerCase();
+      const capital =
+        country.capital && country.capital[0]
+          ? country.capital[0].toLowerCase()
+          : "";
+
+      const searchQueryLower = searchQuery.toLowerCase();
+      return (
+        name.includes(searchQueryLower) || capital.includes(searchQueryLower)
+      );
+    });
+  }
 
   const handleSearchChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +52,21 @@ export default function HomePage(): JSX.Element {
     },
     []
   );
+
+  if (selectedRegion) {
+    filteredCountries = filteredCountries?.filter((country: CountryI) => {
+      return country.region === selectedRegion;
+    });
+  }
+
+  const handleRegionChange = (region: string) => {
+    if (region === "All") {
+      setSelectedRegion("");
+    } else {
+      setSelectedRegion(region);
+    }
+  };
+
   if (isError) {
     return (
       <div className="px-4 py-12">
@@ -74,7 +93,10 @@ export default function HomePage(): JSX.Element {
     <div className="px-4 sm:px-12 py-8">
       <div className="flex justify-between items-center flex-wrap gap-4">
         <Search value={searchQuery} onChange={handleSearchChange} />
-        <Filter />
+        <Filter
+          onRegionChange={handleRegionChange}
+          value={selectedRegion === "" ? "All" : selectedRegion}
+        />
       </div>
 
       <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-12 justify-items-center">
@@ -97,7 +119,7 @@ export default function HomePage(): JSX.Element {
           </>
         )}
       </div>
-      {filteredCountries.length === 0 && (
+      {filteredCountries?.length === 0 && (
         <div className="flex justify-center items-center">
           <p className="text-center text-textGray text-xl">
             No countries found matching your search query. Try searching for a

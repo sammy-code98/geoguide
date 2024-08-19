@@ -1,31 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react'
-import Select from 'react-select';
-import { filterOptions } from './data';
+import Select from "react-select";
+import { filterOptions } from "./data";
 
-
+interface FilterI {
+  value: string;
+  onRegionChange: (region: string) => void;
+}
 const customStyles = {
   control: (base: any) => ({
     ...base,
-    boxShadow: 'none',
-    '&:hover': {
-      border: 'none',
+    boxShadow: "none",
+    "&:hover": {
+      border: "none",
     },
-    border: 'none',
+    border: "none",
   }),
 };
-export default function Index(): JSX.Element {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+export default function Index({ onRegionChange, value }: FilterI): JSX.Element {
+  const handleRegionChange = (option: any) => {
+    onRegionChange(option.value);
+  };
+  const selectedOption = filterOptions.find((option) => option.value === value);
+
   return (
-    <div className='max-w-xl'>
+    <div className="max-w-xl">
       <Select
-        className='p-2 text-sm md:text-md text-textGray shadow-md rounded bg-white'
+        className="p-2 text-sm md:text-md text-textGray shadow-md rounded bg-white"
         placeholder="Filter by region..."
         options={filterOptions}
-        isLoading={isLoading}
-        onChange={() => setIsLoading((state) => !state)}
+        value={selectedOption}
+        onChange={handleRegionChange}
         styles={customStyles}
       />
     </div>
-  )
+  );
 }
