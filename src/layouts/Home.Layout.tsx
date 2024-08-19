@@ -1,12 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import HelmentHeader from "../components/Helment";
-import Header from "../components/Header"
-
+import Header from "../components/Header";
 
 function HomeLayout(): JSX.Element {
+  const location = useLocation();
+  const pathname = location.pathname;
+
   return (
     <>
-      <HelmentHeader title="Home" description="GeoGuide Home Page" />
+      <HelmentHeader
+        title={pathname === "/home" ? "Home" : "Details"}
+        description="GeoGuide Home Page"
+      />
       <div>
         <Header />
         <div className="py-16">
@@ -14,7 +19,7 @@ function HomeLayout(): JSX.Element {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default HomeLayout
+export default HomeLayout;
