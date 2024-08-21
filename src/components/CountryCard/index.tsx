@@ -8,7 +8,7 @@ export default function Index({ name, population, region, capital, img, alt, cod
   return (
     <>
       <Link to={detailLink} >
-        <div className="w-80 py-4 bg-white  rounded-lg shadow cursor-pointer">
+        <div className="w-80 bg-white rounded-lg shadow cursor-pointer">
           <div>
             <img className="h-40 w-full object-cover rounded-t-lg" src={img} alt={alt} />
         </div>
