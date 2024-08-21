@@ -16,7 +16,7 @@ export default function index({ value, onChange }: SearchI): JSX.Element {
           value={value}
           onChange={onChange}
           placeholder="Search for countries by name or capital..."
-          className="block w-full px-3 py-4  ps-7 md:ps-10 text-sm md:text-md text-textGray  shadow-md rounded bg-white focus:ring-none focus:outline-0 focus:border-none"
+          className="block w-full px-3 py-4  ps-7 md:ps-10 text-sm md:text-md text-textGray  dark:text-textWhite shadow-md rounded bg-white dark:bg-bgDark focus:ring-none focus:outline-0 focus:border-none"
         />
       </div>
     </div>
