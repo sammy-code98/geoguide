@@ -90,7 +90,7 @@ export default function HomePage(): JSX.Element {
   }
 
   return (
-    <div className="px-4 sm:px-12 py-8 dark:bg-bgDark">
+    <div className="px-4 sm:px-12 py-4 dark:bg-bgDark">
       <div className="flex justify-between items-center flex-wrap gap-4">
         <Search value={searchQuery} onChange={handleSearchChange} />
         <Filter
