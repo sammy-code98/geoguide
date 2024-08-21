@@ -69,18 +69,18 @@ export default function HomePage(): JSX.Element {
 
   if (isError) {
     return (
-      <div className="px-4 py-12">
+      <div className="flex justify-center items-center px-4 dark:bg-bgDark h-screen">
         <div className="flex flex-col justify-center  items-center ">
           <div className="space-y-6">
             <h1 className="text-8xl font-bold text-primary italic text-center">
               Oops!
             </h1>
-            <p className="text-center text-textGray text-xl">
+            <p className="text-center text-textGray dark:text-textWhite text-xl">
               GeoGuide encounterd a{" "}
               <span className="font-bold ">{error.message}</span> while fetching
               countries
             </p>
-            <p className="text-center text-textGray text-xl">
+            <p className="text-center text-textGray dark:text-textWhite text-xl">
               Check your internet connection and try again.
             </p>
           </div>
@@ -90,7 +90,7 @@ export default function HomePage(): JSX.Element {
   }
 
   return (
-    <div className="px-4 sm:px-12 py-8">
+    <div className="px-4 sm:px-12 py-8 dark:bg-bgDark">
       <div className="flex justify-between items-center flex-wrap gap-4">
         <Search value={searchQuery} onChange={handleSearchChange} />
         <Filter

@@ -70,7 +70,7 @@ export default function Index(): JSX.Element {
 
   return (
     <header className="bg-white top-0 fixed w-full z-10 dark:bg-bgDark">
-      <div className="px-4 py-2 sm:px-12 pb-4 border ">
+      <div className="px-4 py-2 sm:px-12 pb-4">
         <nav>
           <div className="flex items-center justify-between mx-auto py-1">
             <div>
@@ -82,7 +82,11 @@ export default function Index(): JSX.Element {
               </Link>
             </div>
             <div className="flex justify-between items-center gap-8">
-              <FaGithub className="cursor-pointer text-black text-2xl" />
+              <div>
+                <button className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary">
+                  <FaGithub />
+                </button>
+              </div>
               <div className="bg-textWhite  rounded-md px-2">
                 {iconSet.map((icon) => (
                   <button

@@ -14,7 +14,7 @@ function HomeLayout(): JSX.Element {
       />
       <div>
         <Header />
-        <div className="py-16">
+        <div className="pt-16">
           <Outlet />
         </div>
       </div>

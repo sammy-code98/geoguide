@@ -1,7 +1,6 @@
-
 export default function CardLoader(): JSX.Element {
   return (
-    <div className="w-80 py-4 rounded-lg bg-white shadow">
+    <div className="w-80 rounded-lg bg-white dark:bg-bgDark shadow">
       <div className="animate-pulse">
         <div>
           <div className="h-40 w-full bg-textWhite rounded-t-lg"></div>
@@ -18,5 +17,5 @@ export default function CardLoader(): JSX.Element {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 export default function DetailLoader() {
   return (
-    <div className="px-4 sm:px-12 py-8">
+    <div className="px-4 sm:px-12 py-8 dark:bg-bgDark h-screen">
       <div className="py-4 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-40 justify-items-center">
           <div className="w-full">
