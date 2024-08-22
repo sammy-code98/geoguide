@@ -33,7 +33,7 @@ export default function DetailsPage() {
     const lang = country?.languages;
 
     return (
-      <div className="px-4 sm:px-12 py-8 dark:bg-bgDark h-screen">
+      <div className="px-4 sm:px-12 py-8 dark:bg-bgDark h-full">
         <div>
           <Link to={AppRoutes.home}>
             <button className="py-2 px-4 bg-white dark:bg-bgDark rounded shadow-sm flex justify-center items-center text-sm font-bold text-black dark:text-textWhite">
