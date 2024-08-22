@@ -117,7 +117,7 @@ export default function Index(): JSX.Element {
               <img
                 src="/src/assets/darkBg.png"
                 alt=""
-                className="w-[90rem] flex-none max-w-none hidden dark:block"
+                className="w-[90rem] flex-none max-w-none z-50 hidden dark:block"
                 decoding="async"
               />
             </picture>
