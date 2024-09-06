@@ -101,7 +101,7 @@ export default function HomePage(): JSX.Element {
 
       <div className="py-12 md:py-16 lg:py-20 xl:py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 md:gap-8 lg:gap-12 xl:gap-16 justify-items-center">
         {isLoading ? (
-          Array(10).fill(<CardLoader />)
+          new Array(10).fill(null).map((_, index) => <CardLoader key={index} />)
         ) : (
           <>
             {filteredCountries?.map((country: CountryI) => (
