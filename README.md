@@ -33,9 +33,6 @@ yarn dev
 yarn build
 ```
 
-## Screenshot
-![GeoGuide Screenshot](https://drive.google.com/file/d/1WCHJHsaDlDZODmiNllTVjoGyfr-ME06i/view?usp=drive_link)
-
 
 ## Live Demo Url
 
