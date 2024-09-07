@@ -4,17 +4,6 @@ import api from "../utils/axios";
 const gptKey = import.meta.env.VITE_GPT_API_KEY;
 const gptUrl = import.meta.env.VITE_GPT_URL;
 
-// type ChatGptAgent = "user" | "system"
-// interface ChatGptMessage {
-//   role:ChatGptAgent;
-//   content:string;
-// }
-// interface gptRequestPayload {
-//   model:string;
-//   message: ChatGptMessage;
-//   temperature:number;
-//   max_tokens: number
-// }
 export const getAllCountries = async () => {
   const { data } = await api.get("/all");
   return data;
@@ -43,5 +32,3 @@ export const getChatGptResponse = async (countryName: string) => {
   );
   return response.data;
 };
-
-// response.data.choices[0].text.trim()

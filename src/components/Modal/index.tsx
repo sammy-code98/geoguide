@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { IoMdClose } from "react-icons/io";
 
 interface ModalProps {
@@ -7,6 +7,7 @@ interface ModalProps {
   country: string;
   children: ReactNode;
 }
+
 export default function Modal({
   onClose,
   open,
@@ -22,15 +23,14 @@ export default function Modal({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        // max-w-md w-full
         className={`
-          bg-white  dark:bg-bgDark rounded-xl shadow pt-20 px-2 transition-all max-w-5xl w-full  h-[80vh] overflow-auto
+          bg-white  dark:bg-bgDark rounded-xl shadow pt-20 px-2 transition-all max-w-5xl w-full h-full overflow-y-auto
           ${open ? "scale-100 opacity-100" : "scale-125 opacity-0"}
         `}
       >
-        <div className="flex justify-end absolute right-0 top-2 p-2">
+        <div className="float-right">
           <button
-            className="p-2 rounded-full bg-primary text-white shadow-sm hover:opacity-50"
+            className="p-2 rounded-full  text-primary shadow-sm hover:opacity-50"
             onClick={onClose}
           >
             <IoMdClose />
@@ -41,7 +41,25 @@ export default function Modal({
             Facts you need to know about {country}
           </h2>
         </div>
-        <div className="py-4 px-3 md:px-12">{children}</div>
+        <div className="py-4 px-3 md:px-12 h-[80vh] overflow-y-auto">
+          {children}
+        </div>
+        <div className="absolute bottom-0 left-0 w-full text-center">
+          <div className="py-2">
+            <p className="text-lg text-black dark:text-textWhite font-semibold">
+              Powered by{" "}
+              <span className="text-lg bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
+                <a
+                  href="https://cohere.com/"
+                  target="_blank"
+                  className="font-bold underline decoration-primary"
+                >
+                  Cohere AI
+                </a>
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

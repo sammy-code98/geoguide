@@ -4,14 +4,13 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import DetailLoader from "./detailLoader";
 import { MdArrowBackIos } from "react-icons/md";
-import { getChatGptResponse, getSpecificCountry } from "../../api/index.api";
+import { getSpecificCountry } from "../../api/index.api";
 import { AppRoutes } from "../../types/routes";
 import { NumComma } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 import Modal from "../../components/Modal";
 import { CohereClient } from "cohere-ai";
 import { GiSpinningBlades } from "react-icons/gi";
-
 
 export default function DetailsPage() {
   const { code } = useParams();
@@ -37,25 +36,6 @@ export default function DetailsPage() {
     country = data[0];
   }
 
-  //   (async () => {
-  //     const chat = await cohere.chat({
-  //         model: "command",
-  //         message: `Tell me about ${country?.name.common}`,
-  //     });
-
-  //     console.log(chat);
-  // })();
-  // if (open && country?.name.common) {
-  //   (async () => {
-  //     const chat = await cohere.chat({
-  //       model: "command",
-  //       message: `Tell me about ${country?.name.common}`,
-  //     });
-  //     setCohereResponse(chat.text);
-
-  //     console.log(chat);
-  //   })();
-  // }
   useEffect(() => {
     if (open && country?.name.common) {
       setIsAiLoading(true);
@@ -63,7 +43,7 @@ export default function DetailsPage() {
       (async () => {
         const chat = await cohere.chat({
           model: "command",
-          message: `What are the top tourist attractions in  ${country?.name.common} ?`,
+          message: `Get to know the essence of ${country?.name.common}! What are the key cultural customs, historical moments, and local experiences that give this country its unique character?`,
         });
         setCohereResponse(chat.text);
         setIsAiLoading(false);
@@ -73,18 +53,6 @@ export default function DetailsPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, country]);
-
-  // const { data: gptData, isLoading: gptIsLoading } = useQuery({
-  //   queryKey: [QueryKey.chatGpt, country?.name.common],
-  //   queryFn: async () => {
-  //     if (!country) return null;
-  //     const gptResponseData = await getChatGptResponse(country?.name.common);
-  //     return gptResponseData;
-  //   },
-  //   enabled: open,
-  // });
-
-  // console.log({ gptData });
 
   if (isLoading)
     return (
@@ -309,16 +277,15 @@ export default function DetailsPage() {
         >
           {isAiLoading ? (
             <div className="py-6 flex justify-center items-center h-[50vh]">
-              <GiSpinningBlades className="text-4xl text-primary animate-spin"/>
+              <GiSpinningBlades className="text-6xl text-primary animate-spin" />
             </div>
-          ) :  cohereResponse ?  (
+          ) : cohereResponse ? (
             <div>
-               <p className="font-normal text-black dark:text-textWhite">
-              {cohereResponse}
-            </p>
+              <p className="font-normal text-black dark:text-textWhite">
+                {cohereResponse}
+              </p>
             </div>
-          ): null}
-         
+          ) : null}
         </Modal>
       </>
     );
