@@ -20,19 +20,21 @@ Run the following after cloning:
 - Install Dependencies
 
 ```bash
-yarn 
+yarn
 ```
 
 - Run the project
+
 ```bash
 yarn dev
 ```
 
 - To build
+
 ```bash
 yarn build
 ```
 
-
 ## Live Demo Url
 
+[GeoGuide](https://geoguide-five.vercel.app/)
