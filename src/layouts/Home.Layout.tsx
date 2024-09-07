@@ -24,7 +24,7 @@ function HomeLayout(): JSX.Element {
               <a
                 href="https://github.com/sammy-code98"
                 target="_blank"
-                className="underline font-medium text-primary"
+                className="underline font-medium bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent"
               >
                 sammy-code98
               </a>

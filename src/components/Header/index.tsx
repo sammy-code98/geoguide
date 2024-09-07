@@ -76,7 +76,7 @@ export default function Index(): JSX.Element {
             <div>
               <Link
                 to={AppRoutes.home}
-                className="text-primary text-2xl font-bold italic"
+                className="bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent text-2xl font-bold italic"
               >
                 GeoGuide
               </Link>
