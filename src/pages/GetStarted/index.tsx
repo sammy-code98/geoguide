@@ -7,7 +7,7 @@ export default function index(): JSX.Element {
       <div className='mt-12 2xl:mt-24 text-center'>
         <div className='space-y-6 lg:space-y-20'>
           <h3 className='text-textGray text-4xl lg:text-5xl font-bold'>Welcome to </h3>
-          <h1 className='text-primary text-5xl lg:text-9xl font-bold antialiased italic'>GeoGuide</h1>
+          <h1 className='bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent text-5xl lg:text-9xl font-bold antialiased italic'>GeoGuide</h1>
         </div>
         <div className='lg:px-12 mt-4'>
           <p className='text-lg text-center text-textGray'>Looking for the right information about your next tourist destination? Look no further, GeoGuide got you covered.</p>
