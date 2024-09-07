@@ -33,8 +33,6 @@ yarn dev
 yarn build
 ```
 
-## Screenshot
-
 
 ## Live Demo Url
 
