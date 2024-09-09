@@ -83,9 +83,9 @@ export default function Index(): JSX.Element {
             </div>
             <div className="flex justify-between items-center gap-8">
               <div>
-                <button className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary">
+                <a href="https://github.com/sammy-code98/geoguide" target="_blank" className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary">
                   <FaGithub />
-                </button>
+                </a>
               </div>
               <div className="bg-textWhite  rounded-md px-2">
                 {iconSet.map((icon) => (
