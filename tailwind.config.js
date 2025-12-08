@@ -14,6 +14,7 @@ export default {
         bgDark: "#0F172A",
         textWhite: "#E2E8F0",
         textGray: "#949DAB",
+
       },
     },
   },

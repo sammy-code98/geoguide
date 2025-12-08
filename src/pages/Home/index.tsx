@@ -1,10 +1,15 @@
-import { Link } from 'react-router-dom'
-import { AppRoutes } from '../../types/routes'
+// import { Link } from 'react-router-dom'
+// import { AppRoutes } from '../../types/routes'
+import Hero from '../../components/Home/Hero'
 
 export default function index(): JSX.Element {
   return (
-    <div className='w-full lg:py-12 dark:bg-bgDark h-full'>
-      <div className='mt-12- 2xl:mt-24- text-center'>
+    <div
+      className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800"
+    >
+
+      <Hero />
+      {/* <div className='mt-12- 2xl:mt-24- text-center'>
         <div className='space-y-6 lg:space-y-20'>
           <h3 className='text-textGray text-4xl lg:text-5xl font-bold'>Welcome to </h3>
           <h1 className='bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent text-5xl lg:text-9xl font-bold antialiased italic'>GeoGuide</h1>
@@ -23,7 +28,7 @@ export default function index(): JSX.Element {
         <p className="text-textGray text-sm md:text-base">
           All rights reserved, GeoGuide {new Date().getFullYear()}
         </p>
-      </div>
+      </div> */}
     </div>
   )
 }
