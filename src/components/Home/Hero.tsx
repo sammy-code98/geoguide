@@ -5,6 +5,7 @@ import { IoBedOutline, IoFastFood } from "react-icons/io5";
 import { GiModernCity } from 'react-icons/gi';
 import { TbBeach } from 'react-icons/tb';
 import { MdSportsKabaddi } from 'react-icons/md';
+import bgImg from "../../assets/bgImg.jpg";
 
 
 export default function Hero() {
@@ -69,7 +70,7 @@ export default function Hero() {
               <div className="relative rounded-3xl p-8">
                 <img className="w-full h-[400px] lg:h-[500px] object-cover rounded-2xl"
                   alt='hero-image'
-                  src='/src/assets/bgImg.jpg'
+                  src={bgImg}
 
                 />
 
