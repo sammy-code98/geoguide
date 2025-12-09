@@ -43,6 +43,10 @@ export default function Hero() {
               </p>
             </div>
 
+            <div>
+              <button className='w-1/2 bg-gradient-to-r from-teal-400 to-blue-500  text-white font-semibold py-3 rounded-xl hover:shadow-xl'>Start Exploring </button>
+            </div>
+
             <div className="flex flex-wrap gap-6 pt-4">
               <div className="flex items-center gap-2 text-sm text-textGray dark:text-grayish">
                 <BsGlobeAsiaAustralia className="text-primary" />
