@@ -1,3 +1,7 @@
+import { AiTwotoneAlert } from "react-icons/ai";
+import { LiaMoneyCheckAltSolid } from "react-icons/lia";
+import { TbHomeSearch } from "react-icons/tb";
+
 export enum HomepageTabs {
   "Country" = "Country",
   "City" = "City",
@@ -44,3 +48,24 @@ export const getHeroSectionContent = (activeTab: HomepageTabs) => {
   };
   return contentMap[activeTab];
 };
+
+export const discoverTravelFeaturesData = [
+  {
+    Icon: AiTwotoneAlert,
+    title: "Country Alerts",
+    description:
+      "Get notified when new countries or travel insights are added, so you always stay updated.",
+  },
+  {
+    Icon: LiaMoneyCheckAltSolid,
+    title: "Travel Costs",
+    description:
+      "Explore estimated travel costs, currency details, and budget insights for each country.",
+  },
+  {
+    Icon: TbHomeSearch,
+    title: "Planning a Trip?",
+    description:
+      "Find essential information—visa requirements, climate, attractions, and more—to help plan your journey.",
+  },
+];

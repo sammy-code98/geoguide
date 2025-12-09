@@ -77,15 +77,15 @@ export default function Hero() {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
                       <IoBedOutline className="text-primary text-lg" />
-                      <span className="text-sm font-medium">Hotels</span>
+                      <span className="text-sm font-medium text-textGray dark:text-grayish">Hotels</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <IoFastFood className="text-primary text-lg" />
-                      <span className="text-sm font-medium">Food</span>
+                      <span className="text-sm font-medium text-textGray dark:text-grayish">Food</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <MdSportsKabaddi className="text-primary text-lg" />
-                      <span className="text-sm font-medium">Sports</span>
+                      <span className="text-sm font-medium text-textGray dark:text-grayish">Sports</span>
                     </div>
                   </div>
                   <div className="mt-2">

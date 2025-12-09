@@ -69,7 +69,7 @@ export default function Index() {
     <header className="fixed bg-transparent top-0 left-0  w-full z-20">
       <div className="px-4 py-2 sm:px-12 pb-4">
         <nav>
-          <div className="flex items-center justify-between mx-auto  px-8  py-4 max-w-screen-xl rounded-full shadow-md  bg-white dark:bg-bgDark">
+          <div className="flex items-center justify-between mx-auto px-8 py-4 max-w-screen-xl rounded-full shadow-md bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
             <div>
               <Link
                 to={AppRoutes.home}

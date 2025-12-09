@@ -1,5 +1,6 @@
 // import { Link } from 'react-router-dom'
 // import { AppRoutes } from '../../types/routes'
+import Discover from '../../components/Home/Discover'
 import Hero from '../../components/Home/Hero'
 
 export default function index(): JSX.Element {
@@ -9,6 +10,10 @@ export default function index(): JSX.Element {
     >
 
       <Hero />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 py-16">
+        <Discover />
+      </div>
       {/* <div className='mt-12- 2xl:mt-24- text-center'>
         <div className='space-y-6 lg:space-y-20'>
           <h3 className='text-textGray text-4xl lg:text-5xl font-bold'>Welcome to </h3>
