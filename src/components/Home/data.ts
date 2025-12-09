@@ -1,6 +1,10 @@
 import { AiTwotoneAlert } from "react-icons/ai";
 import { LiaMoneyCheckAltSolid } from "react-icons/lia";
 import { TbHomeSearch } from "react-icons/tb";
+import paris from "../../assets/places/paris.jpg";
+import london from "../../assets/places/london.jpg";
+import lagos from "../../assets/places/lagos.jpg";
+import rome from "../../assets/places/rome.jpg";
 
 export enum HomepageTabs {
   "Country" = "Country",
@@ -67,5 +71,32 @@ export const discoverTravelFeaturesData = [
     title: "Planning a Trip?",
     description:
       "Find essential information—visa requirements, climate, attractions, and more—to help plan your journey.",
+  },
+];
+
+export const placesData = [
+  {
+    title: "Lagos, Nigeria",
+    description:
+      "A vibrant coastal city known for its lively markets, stunning beaches, dynamic nightlife, and rich cultural heritage. Lagos blends modern urban energy with traditional Nigerian charm, making it one of Africa’s most exciting destinations.",
+    imageUrl: lagos,
+  },
+  {
+    title: "Paris, France",
+    description:
+      "The romantic capital of France, famous for its iconic landmarks like the Eiffel Tower and Louvre Museum. Paris offers world-class cuisine, historic architecture, charming cafés, and timeless artistic influence, attracting millions of visitors every year.",
+    imageUrl: paris,
+  },
+  {
+    title: "London, United Kingdom",
+    description:
+      "A vibrant metropolis rich in history, culture, and modern innovation. London is home to Buckingham Palace, Big Ben, the British Museum, and diverse neighborhoods offering global cuisine, entertainment, and unforgettable experiences.",
+    imageUrl: london,
+  },
+  {
+    title: "Rome, Italy",
+    description:
+      "A captivating city where ancient history meets modern Italian lifestyle. Rome features iconic sites such as the Colosseum, the Roman Forum, and Vatican City, alongside charming streets, authentic cuisine, and a warm Mediterranean atmosphere.",
+    imageUrl: rome,
   },
 ];

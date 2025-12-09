@@ -1,5 +1,6 @@
 // import { Link } from 'react-router-dom'
 // import { AppRoutes } from '../../types/routes'
+import Advice from '../../components/Home/Advice'
 import Discover from '../../components/Home/Discover'
 import Hero from '../../components/Home/Hero'
 
@@ -13,6 +14,7 @@ export default function index(): JSX.Element {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 py-16">
         <Discover />
+        <Advice />
       </div>
       {/* <div className='mt-12- 2xl:mt-24- text-center'>
         <div className='space-y-6 lg:space-y-20'>

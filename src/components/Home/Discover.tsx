@@ -1,4 +1,4 @@
-import DicoveryCard from '../DiscoveryCard'
+import DicoveryCard from '../HomeCards/DiscoveryCard'
 import { discoverTravelFeaturesData } from './data'
 
 export default function Discover() {
