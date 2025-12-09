@@ -21,7 +21,6 @@ export default function Discover() {
             <div key={index}
               className="animate-in slide-in-from-bottom-4 duration-500"
               style={{ animationDelay: `${index * 100}ms` }}
-            
           >
             <DicoveryCard {...data}/>
           </div>
