@@ -61,7 +61,7 @@ export default function Advice() {
         <button
           className="group relative px-10 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold text-lg rounded-xl transition-all duration-300  transform hover:-translate-y-1 hover:scale-105"
         >
-          <span className="relative z-10 flex items-center gap-3">
+          <span className="relative z-10 flex items-center gap-3 text-sm md:text-base">
             Explore All Travel Destinations
             <svg
               className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
