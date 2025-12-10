@@ -3,6 +3,7 @@
 import About from '../../components/Home/About'
 import Advice from '../../components/Home/Advice'
 import Discover from '../../components/Home/Discover'
+import Experts from '../../components/Home/Experts'
 import Hero from '../../components/Home/Hero'
 
 export default function index(): JSX.Element {
@@ -15,6 +16,7 @@ export default function index(): JSX.Element {
         <Discover />
         <Advice />
         <About />
+        <Experts />
       </div>
       {/* <div className='mt-12- 2xl:mt-24- text-center'>
         <div className='space-y-6 lg:space-y-20'>
