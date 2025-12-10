@@ -8,7 +8,7 @@ export default function Discover() {
         <div className="text-center space-y-8 mb-12">
           <div className="space-y-4">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black dark:text-white">
-              Discover All Things <span className='bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent  font-bold '>Geography</span> 
+              Discover All Things <span className='bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent  font-bold'>Geography</span> 
             </h2>
             <p className="text-lg text-textGray dark:text-grayish max-w-3xl mx-auto">
               Explore our comprehensive travel guides designed to help you discover countries, learn key details, and plan your trips with confidence
