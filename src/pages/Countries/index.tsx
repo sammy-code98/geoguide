@@ -14,7 +14,6 @@ interface CountryI {
   region: string;
   capital: string;
   flags: { png: string; alt: string };
-  cca3: string;
 }
 export default function CountriesPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -26,8 +25,6 @@ export default function CountriesPage(): JSX.Element {
   });
 
   let filteredCountries = data;
-  console.log({ filteredCountries });
-
 
   if (searchQuery) {
     filteredCountries = filteredCountries?.filter((country: CountryI) => {
@@ -103,7 +100,6 @@ export default function CountriesPage(): JSX.Element {
         />
       </div>
 
-        {/* <div className="py-12 md:py-16 lg:py-20 xl:py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 md:gap-8 lg:gap-12 xl:gap-16 justify-items-center"> */}
         <div className="py-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full">
         {isLoading ? (
             new Array(9).fill(null).map((_, index) => <CardLoader key={index} />)
@@ -118,7 +114,6 @@ export default function CountriesPage(): JSX.Element {
                 capital={country.capital || "____"}
                 img={country.flags.png}
                 alt={country.flags.alt || `${country.name.common}'s flag`}
-                // code={country.cca3}
               />
             ))}
           </>

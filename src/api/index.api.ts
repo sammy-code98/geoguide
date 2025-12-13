@@ -7,7 +7,7 @@ export const getAllCountries = async () => {
   return data;
 };
 
-export const getSpecificCountry = async (code: string) => {
-  const { data } = await api.get(`/alpha/${code}`);
+export const getSpecificCountry = async (name: string) => {
+  const { data } = await api.get(`/name/${name}`);
   return data;
 };

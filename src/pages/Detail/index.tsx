@@ -13,7 +13,7 @@ import { CohereClient } from "cohere-ai";
 import { GiSpinningBlades } from "react-icons/gi";
 
 export default function DetailsPage() {
-  const { code } = useParams();
+  const { name } = useParams();
   const [open, setOpen] = useState<boolean>(false);
   const [cohereResponse, setCohereResponse] = useState<any | null>(null);
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
@@ -25,7 +25,7 @@ export default function DetailsPage() {
   const { isLoading, data } = useQuery({
     queryKey: [QueryKey.getACountry],
     queryFn: async () => {
-      const fetchedData = await getSpecificCountry(code as string);
+      const fetchedData = await getSpecificCountry(name as string);
       return fetchedData;
     },
   });
@@ -56,21 +56,26 @@ export default function DetailsPage() {
 
   if (isLoading)
     return (
-      <>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-24 md:py-36">
         <DetailLoader />
-      </>
+        </div>
+      </div>
     );
 
-  if (Array.isArray(data) && data.length === 1) {
+  if (Array.isArray(data) && data.length >= 1) {
     const country = data[0];
     const currency = Object.values(country?.currencies);
     const lang = country?.languages;
 
     return (
       <>
-        <div className="px-4 sm:px-12 py-8 dark:bg-bgDark h-full">
+        {/* <div className="px-4 sm:px-12 py-8 dark:bg-bgDark h-full"> */}
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-24 md:py-36">
+
           <div>
-            <Link to={AppRoutes.home}>
+              <Link to={AppRoutes.countries}>
               <button className="py-2 px-4 bg-white dark:bg-bgDark rounded shadow-sm flex justify-center items-center text-sm font-bold text-black dark:text-textWhite">
                 <MdArrowBackIos />
                 Back
@@ -79,7 +84,7 @@ export default function DetailsPage() {
           </div>
 
           <div className="py-4 md:py-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-40 justify-items-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-20 justify-items-center">
               <div className="w-full">
                 <img
                   className="rounded-lg  w-full h-fit shadow-md"
@@ -201,7 +206,7 @@ export default function DetailsPage() {
                 </div>
                 <div className="py-2">
                   <div className="flex justify-between  gap-4  md:gap-10">
-                    <p className="font-normal text-black dark:text-textWhite">
+                      <p className="font-normal text-black dark:text-textWhite whitespace-nowrap">
                       Phone Suffixes :
                     </p>
                     <div>
@@ -268,6 +273,8 @@ export default function DetailsPage() {
             </button>
           </div>
         </div>
+        </div>
+
 
         {/* modal */}
         <Modal
