@@ -84,13 +84,16 @@ export default function DetailsPage() {
 
           <div className="py-4 md:py-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-20 justify-items-center">
-              <div className="w-full">
-                <img
-                  className="rounded-lg  w-full h-fit shadow-md"
-                  src={country?.flags.png}
-                />
-              </div>
-
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-orange-600/20 rounded-3xl blur-3xl"></div>
+                  <div className="relative h-[400px]  lg:h-[500px] bg-white/10 dark:bg-gray-800/10 backdrop-blur-sm rounded-3xl p-8">
+                    <img
+                      alt="country-flag"
+                      src={country?.flags.png}
+                      className="w-full h-[400px]- h-full object-cover rounded-2xl"
+                    />
+                  </div>
+                </div>
               <div>
                 <h5 className="mb-2 text-3xl font-bold tracking-light text-black dark:text-textWhite">
                   {country?.name.common}
