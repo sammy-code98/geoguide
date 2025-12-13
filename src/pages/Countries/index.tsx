@@ -16,7 +16,7 @@ interface CountryI {
   flags: { png: string; alt: string };
   cca3: string;
 }
-export default function HomePage(): JSX.Element {
+export default function CountriesPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");
 
@@ -90,7 +90,9 @@ export default function HomePage(): JSX.Element {
   }
 
   return (
-    <div className="px-4 sm:px-12 py-4 dark:bg-bgDark h-full">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-16 md:py-36">
       <div className="flex justify-between items-center flex-wrap gap-4">
         <Search value={searchQuery} onChange={handleSearchChange} />
         <Filter
@@ -99,9 +101,10 @@ export default function HomePage(): JSX.Element {
         />
       </div>
 
-      <div className="py-12 md:py-16 lg:py-20 xl:py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 md:gap-8 lg:gap-12 xl:gap-16 justify-items-center">
+        {/* <div className="py-12 md:py-16 lg:py-20 xl:py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 md:gap-8 lg:gap-12 xl:gap-16 justify-items-center"> */}
+        <div className="py-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full">
         {isLoading ? (
-          new Array(10).fill(null).map((_, index) => <CardLoader key={index} />)
+            new Array(9).fill(null).map((_, index) => <CardLoader key={index} />)
         ) : (
           <>
             {filteredCountries?.map((country: CountryI) => (
@@ -127,6 +130,7 @@ export default function HomePage(): JSX.Element {
           </p>
         </div>
       )}
+    </div>
     </div>
   );
 }
