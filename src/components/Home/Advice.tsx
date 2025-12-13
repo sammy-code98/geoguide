@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom'
 import PlaceCard from '../HomeCards/PlaceCard'
 import { placesData } from './data'
+import { AppRoutes } from '../../types/routes'
 
 export default function Advice() {
+  const navigate = useNavigate()
   return (
     <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden rounded-2xl">
       <div className="absolute inset-0 overflow-hidden">
@@ -59,9 +62,10 @@ export default function Advice() {
 
       <div className='mt-20 flex justify-center items-center'>
         <button
+          onClick={() => navigate(AppRoutes.countries)}
           className="group relative px-10 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold text-lg rounded-xl transition-all duration-300  transform hover:-translate-y-1 hover:scale-105"
         >
-          <span className="relative z-10 flex items-center gap-3">
+          <span className="relative z-10 flex items-center gap-3 text-sm md:text-base">
             Explore All Travel Destinations
             <svg
               className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"

@@ -25,7 +25,7 @@ export default function Index({ onRegionChange, value }: FilterI): JSX.Element {
   return (
     <div className="max-w-xl">
       <Select
-        className="p-2 text-sm md:text-md text-textGray shadow-md rounded bg-white"
+        className="p-2 text-sm md:text-md text-textGray shadow-md rounded bg-white/80 dark:bg-gray-800/80"
         placeholder="Filter by region..."
         options={filterOptions}
         value={selectedOption}

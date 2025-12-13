@@ -72,7 +72,7 @@ export default function Index() {
           <div className="flex items-center justify-between mx-auto px-8 py-4 max-w-screen-xl rounded-full shadow-md bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
             <div>
               <Link
-                to={AppRoutes.home}
+                to={AppRoutes.getStarted}
                 className="bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent text-2xl font-bold italic"
               >
                 GeoGuide
