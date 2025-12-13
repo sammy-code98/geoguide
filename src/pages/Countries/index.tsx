@@ -26,6 +26,8 @@ export default function CountriesPage(): JSX.Element {
   });
 
   let filteredCountries = data;
+  console.log({ filteredCountries });
+
 
   if (searchQuery) {
     filteredCountries = filteredCountries?.filter((country: CountryI) => {
@@ -92,7 +94,7 @@ export default function CountriesPage(): JSX.Element {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-16 md:py-36">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-24 md:py-36">
       <div className="flex justify-between items-center flex-wrap gap-4">
         <Search value={searchQuery} onChange={handleSearchChange} />
         <Filter
@@ -116,7 +118,7 @@ export default function CountriesPage(): JSX.Element {
                 capital={country.capital || "____"}
                 img={country.flags.png}
                 alt={country.flags.alt || `${country.name.common}'s flag`}
-                code={country.cca3}
+                // code={country.cca3}
               />
             ))}
           </>
