@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom'
 import DicoveryCard from '../HomeCards/DiscoveryCard'
 import { discoverTravelFeaturesData } from './data'
+import { AppRoutes } from '../../types/routes'
 
 export default function Discover() {
+  const navigate = useNavigate()
   return (
     <section className="py-16">
       <div className="max-w-7xl mx-auto">
@@ -28,7 +31,9 @@ export default function Discover() {
         </div>
 
         <div className='flex justify-center items-center pt-12'>
-          <button className='w-full md:w-2/6 bg-gradient-to-r from-teal-400 to-blue-500  text-white font-semibold py-3 rounded-xl hover:shadow-xl'>Discover Now</button>
+          <button
+            onClick={() => navigate(AppRoutes.countries)}
+            className='w-full md:w-2/6 bg-gradient-to-r from-teal-400 to-blue-500  text-white font-semibold py-3 rounded-xl hover:shadow-xl'>Discover Now</button>
         </div>
       </div>
       </section>

@@ -6,11 +6,14 @@ import { GiModernCity } from 'react-icons/gi';
 import { TbBeach } from 'react-icons/tb';
 import { MdSportsKabaddi } from 'react-icons/md';
 import bgImg from "../../assets/bgImg.jpg";
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '../../types/routes';
 
 
 export default function Hero() {
   const [currentTab, setCurrentTab] = useState<HomepageTabs>(HomepageTabs.Country);
   const { title, description } = getHeroSectionContent(currentTab);
+  const navigate = useNavigate()
 
   return (
     <section className="relative overflow-hidden py-12">
@@ -45,7 +48,9 @@ export default function Hero() {
             </div>
 
             <div>
-              <button className='w-1/2 bg-gradient-to-r from-teal-400 to-blue-500  text-white font-semibold py-3 rounded-xl hover:shadow-xl'>Start Exploring </button>
+              <button
+                onClick={() => navigate(AppRoutes.countries)}
+                className='w-1/2 bg-gradient-to-r from-teal-400 to-blue-500  text-white font-semibold py-3 rounded-xl hover:shadow-xl'>Start Exploring </button>
             </div>
 
             <div className="flex flex-wrap gap-6 pt-4">

@@ -1,6 +1,6 @@
 export const AppRoutes = {
   getStarted: "/",
-  home: "/home",
+  countries: "/countries",
   detail: "/detail/:code",
 } as const;
 

@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
         element: <GetStartedPage />
       },
       {
-        path: AppRoutes.home,
+        path: AppRoutes.countries,
         element: <HomePage />
       },
       {
