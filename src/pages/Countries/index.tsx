@@ -15,6 +15,7 @@ interface CountryI {
   capital: string;
   flags: { png: string; alt: string };
 }
+
 export default function CountriesPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");

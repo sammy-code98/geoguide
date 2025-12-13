@@ -2,12 +2,11 @@ import { Link } from "react-router-dom"
 import { AppRoutes } from "../../types/routes"
 interface CountryCardI {
   name: string;
-  population?: number | string;
-  region?: string;
-  capital?: string;
+  population: number | string;
+  region: string;
+  capital: string;
   img: string;
   alt: string;
-  code?: string;
 }
 
 export default function Index({ name, population, region, capital, img, alt }: CountryCardI) {

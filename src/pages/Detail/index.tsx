@@ -70,7 +70,6 @@ export default function DetailsPage() {
 
     return (
       <>
-        {/* <div className="px-4 sm:px-12 py-8 dark:bg-bgDark h-full"> */}
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-24 md:py-36">
 
@@ -130,7 +129,7 @@ export default function DetailsPage() {
                       </span>
                     </p>
 
-                    <p className="font-normal text-black dark:text-textWhite">
+                      <p className="font-normal text-black dark:text-textWhite">
                       Start of Week :
                       <span className="text-primary ml-1 capitalize font-medium">
                         {country?.startOfWeek}
