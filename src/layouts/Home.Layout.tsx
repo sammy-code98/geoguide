@@ -10,7 +10,7 @@ function HomeLayout() {
         title="GeoGuide"
         description="GeoGuide"
       />
-      <div className="min-h-screen bg-gradient-to-br from-light-99 via-white to-light-95 dark:from-grey-bg dark:via-grey-20 dark:to-grey-10">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
         <Header />
         <main className="flex-1">
           <div className="relative">

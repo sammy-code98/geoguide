@@ -8,7 +8,4 @@ export default defineConfig({
     alias: [{ find: "@", replacement: path.resolve(__dirname, ".", "src") }],
   },
   plugins: [react()],
-  define: {
-    "process.env": process.env,
-  },
 });

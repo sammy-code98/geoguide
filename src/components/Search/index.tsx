@@ -4,7 +4,7 @@ interface SearchI {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-export default function index({ value, onChange }: SearchI): JSX.Element {
+export default function Search({ value, onChange }: SearchI): JSX.Element {
   return (
     <div className="w-full md:w-6/12">
       <div className="relative">

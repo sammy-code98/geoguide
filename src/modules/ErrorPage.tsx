@@ -1,9 +1,6 @@
-import { useRouteError, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 export default function ErrorPage():JSX.Element {
-    const error = useRouteError()
-    console.log(error);
-    
   return (
     <div className="h-screen flex flex-col justify-center items-center  text-center">
         <h1 className="mb-4 text-8xl font-semibold text-primary">404</h1>

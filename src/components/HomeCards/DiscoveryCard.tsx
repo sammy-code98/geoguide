@@ -1,17 +1,17 @@
 import React from 'react'
 import { IconType } from 'react-icons';
 
-type DicoveryCardT = {
+type DiscoveryCardT = {
   Icon: React.ElementType | IconType;
   title: string;
   description: string;
 };
 
-export default function DicoveryCard({ 
+export default function DiscoveryCard({ 
   Icon,
   title,
   description,
- }: DicoveryCardT) {
+ }: DiscoveryCardT) {
   return (
     <div className="group relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-2xl p-8 h-full transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:scale-105 hover:border-primary/30">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -9,7 +9,7 @@ interface CountryCardI {
   alt: string;
 }
 
-export default function Index({ name, population, region, capital, img, alt }: CountryCardI) {
+export default function CountryCard({ name, population, region, capital, img, alt }: CountryCardI) {
   const detailLink = `${AppRoutes.detail.replace(':name', name)}`
   return (
     <>

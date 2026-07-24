@@ -16,7 +16,7 @@ const customStyles = {
     border: "none",
   }),
 };
-export default function Index({ onRegionChange, value }: FilterI): JSX.Element {
+export default function Filter({ onRegionChange, value }: FilterI): JSX.Element {
   const handleRegionChange = (option: any) => {
     onRegionChange(option.value);
   };

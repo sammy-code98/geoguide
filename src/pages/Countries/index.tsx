@@ -76,7 +76,7 @@ export default function CountriesPage(): JSX.Element {
               Oops!
             </h1>
             <p className="text-center text-textGray dark:text-textWhite text-xl">
-              GeoGuide encounterd a{" "}
+              GeoGuide encountered a{" "}
               <span className="font-bold ">{error.message}</span> while fetching
               countries
             </p>

@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa";
 import { FiSun } from "react-icons/fi";
 import { AppRoutes } from "../../types/routes";
 
-export default function Index() {
+export default function Header() {
   const [theme, setTheme] = useState<string | null>(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "system"
   );

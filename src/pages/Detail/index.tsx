@@ -171,7 +171,7 @@ export default function DetailsPage() {
                     </p>
                     <div className="flex">
                       <p className="font-normal text-black dark:text-textWhite">
-                        Langauges :
+                        Languages :
                       </p>
                       <div className="ml-2">
                         <ul>
