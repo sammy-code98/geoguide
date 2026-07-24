@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FiSun } from "react-icons/fi";
+import { HiSparkles } from "react-icons/hi2";
 import { AppRoutes } from "../../types/routes";
 
 export default function Header() {
@@ -78,7 +79,18 @@ export default function Header() {
                 GeoGuide
               </Link>
             </div>
-            <div className="flex justify-between items-center gap-8">
+            <div className="flex justify-between items-center gap-6 md:gap-8">
+              <NavLink
+                to={AppRoutes.chat}
+                className={({ isActive }) =>
+                  `flex items-center gap-1 font-semibold ${
+                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  }`
+                }
+              >
+                <HiSparkles />
+                <span className="hidden sm:inline">AI Assistant</span>
+              </NavLink>
               <div>
                 <a href="https://github.com/sammy-code98/geoguide" target="_blank" className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary">
                   <FaGithub />

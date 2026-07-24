@@ -3,6 +3,11 @@ import { z } from "zod";
 import { asyncHandler } from "../lib/asyncHandler";
 import { validate } from "../middleware/validate";
 import { aiCountryService } from "../services/AiCountryService";
+import { geminiService, type GeminiChatMessage } from "../services/GeminiService";
+import { chatRequestSchema } from "../ai/schemas/chat.schema";
+import { buildChatSystemPrompt } from "../ai/prompts/chat.prompt";
+import { integrations } from "../config/env";
+import { ApiError } from "../lib/ApiError";
 
 const router = Router();
 
@@ -22,6 +27,48 @@ router.get(
   asyncHandler(async (req, res) => {
     const data = await aiCountryService.getInsights(String(req.params.code));
     res.json(data);
+  })
+);
+
+/**
+ * POST /api/ai/chat
+ * Streams a conversational travel-assistant reply as Server-Sent Events.
+ * Body: { messages: [{ role: "user" | "assistant", content: string }] }.
+ * Events: `data: {"text": "..."}` deltas, then `data: [DONE]`.
+ */
+router.post(
+  "/chat",
+  validate({ body: chatRequestSchema }),
+  asyncHandler(async (req, res) => {
+    // Fail fast with a clean JSON error before switching to the SSE stream.
+    if (!integrations.gemini) throw ApiError.notConfigured("Gemini");
+
+    const messages: GeminiChatMessage[] = req.body.messages.map(
+      (m: { role: "user" | "assistant"; content: string }) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        content: m.content,
+      })
+    );
+
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache, no-transform");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders?.();
+
+    try {
+      for await (const delta of geminiService.streamChat(messages, {
+        system: buildChatSystemPrompt(),
+        temperature: 0.7,
+      })) {
+        res.write(`data: ${JSON.stringify({ text: delta })}\n\n`);
+      }
+      res.write("data: [DONE]\n\n");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "The chat stream failed.";
+      res.write(`data: ${JSON.stringify({ error: message })}\n\n`);
+    } finally {
+      res.end();
+    }
   })
 );
 

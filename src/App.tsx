@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react"
 import { createBrowserRouter } from "react-router-dom"
 import HomeLayout from "./layouts/Home.Layout"
 import { AppRoutes } from "./types/routes"
@@ -7,6 +8,14 @@ import ErrorPage from "./modules/ErrorPage"
 import GetStartedPage from "./pages/Home"
 import CountriesPage from "./pages/Countries"
 import DetailPage from "./pages/Detail"
+
+// Chat pulls in the markdown pipeline — load it only when the route is visited.
+// eslint-disable-next-line react-refresh/only-export-components
+const ChatPage = lazy(() => import("./pages/Chat"))
+
+const routeFallback = (
+  <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800" />
+)
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +34,14 @@ export const router = createBrowserRouter([
       {
         path: AppRoutes.detail,
         element: <DetailPage />
+      },
+      {
+        path: AppRoutes.chat,
+        element: (
+          <Suspense fallback={routeFallback}>
+            <ChatPage />
+          </Suspense>
+        )
       }
     ]
   }
