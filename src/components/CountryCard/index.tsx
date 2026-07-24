@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { AppRoutes } from "../../types/routes"
 interface CountryCardI {
+  code: string;
   name: string;
   population: number | string;
   region: string;
@@ -9,8 +10,8 @@ interface CountryCardI {
   alt: string;
 }
 
-export default function CountryCard({ name, population, region, capital, img, alt }: CountryCardI) {
-  const detailLink = `${AppRoutes.detail.replace(':name', name)}`
+export default function CountryCard({ code, name, population, region, capital, img, alt }: CountryCardI) {
+  const detailLink = AppRoutes.detail.replace(':code', code)
   return (
     <>
       <Link to={detailLink} >

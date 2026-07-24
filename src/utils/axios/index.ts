@@ -1,8 +1,13 @@
 import axios from "axios";
 
+/**
+ * HTTP client for the internal backend API. The frontend talks only to our
+ * Express server (which holds all third-party keys). In dev, Vite proxies
+ * `/api` to the server; `VITE_API_URL` can override for non-proxied deploys.
+ */
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-  timeout: 5000,
+  baseURL: import.meta.env.VITE_API_URL || "/api",
+  timeout: 15000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -10,24 +15,16 @@ const api = axios.create({
   withCredentials: false,
 });
 
-api.interceptors.request.use(
-  (request) => {
-    return request;
-  },
-  function (error) {
-    return Promise.reject(error);
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Surface a clean message; UI layers render error/retry states themselves.
+    const message =
+      error?.response?.data?.error?.message ||
+      error?.message ||
+      "Request failed";
+    return Promise.reject(new Error(message));
   }
 );
 
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  function (error) {
-    if (error?.response?.status === 400 || error?.response?.status === 500) {
-      alert("An Error Occured");
-    }
-    return Promise.reject(error);
-  }
-);
 export default api;
