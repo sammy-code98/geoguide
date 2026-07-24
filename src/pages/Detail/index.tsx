@@ -9,6 +9,7 @@ import { AppRoutes } from "../../types/routes";
 import { NumComma } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 import CountryInsights from "../../components/CountryInsights";
+import PlaceDiscovery from "../../components/Places/PlaceDiscovery";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
 
 export default function DetailsPage() {
@@ -259,6 +260,11 @@ export default function DetailsPage() {
             </div>
           )}
         </section>
+
+        {/* Place discovery (Serpstack) */}
+        <PlaceDiscovery
+          country={{ name: country.name, capital: country.capital, cca2: country.cca2 }}
+        />
       </div>
     </div>
   );

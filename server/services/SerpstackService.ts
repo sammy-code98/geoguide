@@ -33,6 +33,8 @@ export interface SerpstackSearchParams {
 }
 
 // Raw Serpstack local-results shape (kept internal to this module).
+// Serpstack's local/related result. Several fields (image_url, url, price) come
+// back as empty objects `{}` on lower plans, so treat them defensively.
 interface RawLocalResult {
   position?: number;
   title?: string;
@@ -40,15 +42,14 @@ interface RawLocalResult {
   reviews?: number;
   address?: string;
   type?: string;
-  thumbnail?: string;
-  phone?: string;
-  hours?: string;
-  links?: { directions?: string; website?: string };
+  image_url?: unknown;
+  url?: unknown;
 }
 interface RawSerpstackResponse {
   success?: boolean;
   error?: { info?: string };
   local_results?: RawLocalResult[];
+  related_places?: RawLocalResult[];
 }
 
 /**
@@ -96,24 +97,54 @@ export class SerpstackService {
         throw ApiError.upstream(data.error?.info ?? "Serpstack request failed.");
       }
 
-      return (data.local_results ?? []).map((r, index) => this.normalize(r, index));
+      // Merge local results with related places for a fuller list, de-duped by title.
+      const raw = [...(data.local_results ?? []), ...(data.related_places ?? [])];
+      const seen = new Set<string>();
+      const results: NormalizedPlace[] = [];
+      raw.forEach((item, index) => {
+        const place = this.normalize(item, index);
+        const dedupeKey = place.title.toLowerCase();
+        if (seen.has(dedupeKey)) return;
+        seen.add(dedupeKey);
+        results.push(place);
+      });
+      return results;
     });
   }
 
   private normalize(raw: RawLocalResult, index: number): NormalizedPlace {
+    const title = raw.title ?? "Unknown place";
+    const address = raw.address ?? null;
     return {
-      id: `${raw.title ?? "place"}-${raw.position ?? index}`.toLowerCase().replace(/\s+/g, "-"),
-      title: raw.title ?? "Unknown place",
+      id: `${title}-${raw.position ?? index}`.toLowerCase().replace(/\s+/g, "-"),
+      title,
       rating: typeof raw.rating === "number" ? raw.rating : null,
       reviews: typeof raw.reviews === "number" ? raw.reviews : null,
-      address: raw.address ?? null,
+      address,
       category: raw.type ?? null,
-      thumbnail: raw.thumbnail ?? null,
-      phone: raw.phone ?? null,
-      hours: raw.hours ?? null,
-      mapsUrl: raw.links?.directions ?? null,
+      thumbnail: asUrl(raw.image_url),
+      phone: null,
+      hours: null,
+      // Prefer a provided link; otherwise build a Google Maps search link.
+      mapsUrl: asUrl(raw.url) ?? buildMapsUrl(title, address),
     };
   }
+}
+
+/** Serpstack returns URL-ish fields as strings or (often empty) objects. */
+function asUrl(value: unknown): string | null {
+  if (typeof value === "string" && value.trim() !== "") return value;
+  if (value && typeof value === "object") {
+    const obj = value as { link?: unknown; url?: unknown };
+    if (typeof obj.link === "string") return obj.link;
+    if (typeof obj.url === "string") return obj.url;
+  }
+  return null;
+}
+
+function buildMapsUrl(title: string, address: string | null): string {
+  const query = [title, address].filter(Boolean).join(" ");
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
 export const serpstackService = new SerpstackService();
