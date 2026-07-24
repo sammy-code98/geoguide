@@ -48,14 +48,8 @@ export default function Modal({
           <div className="py-2">
             <p className="text-lg text-black dark:text-textWhite font-semibold">
               Powered by{" "}
-              <span className="text-lg bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
-                <a
-                  href="https://cohere.com/"
-                  target="_blank"
-                  className="font-bold underline decoration-primary"
-                >
-                  Cohere AI
-                </a>
+              <span className="text-lg bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent font-bold">
+                GeoGuide AI
               </span>
             </p>
           </div>

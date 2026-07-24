@@ -37,9 +37,11 @@ export const env = {
       "GEMINI_BASE_URL",
       "https://generativelanguage.googleapis.com/v1beta"
     ),
-    // Flash for lightweight requests, Pro for reasoning-heavy ones (per PRD).
-    flashModel: withDefault("GEMINI_MODEL", "gemini-1.5-flash"),
-    proModel: withDefault("GEMINI_MODEL_PRO", "gemini-1.5-pro"),
+    // Flash for lightweight requests, Pro for reasoning-heavy ones. (PRD named
+    // gemini-1.5-*; those and the 2.x line are unavailable to new API keys —
+    // defaulting to the current 3.x generation.)
+    flashModel: withDefault("GEMINI_MODEL", "gemini-3.6-flash"),
+    proModel: withDefault("GEMINI_MODEL_PRO", "gemini-3.1-pro-preview"),
   },
 
   serpstack: {

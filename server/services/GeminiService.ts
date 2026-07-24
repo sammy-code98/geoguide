@@ -70,16 +70,32 @@ export class GeminiService {
     return text;
   }
 
-  /** Generate plain text from a prompt. */
+  /** Generate plain text from a prompt. Retries transient upstream failures. */
   async generateText(prompt: string, options: GeminiGenerateOptions = {}): Promise<string> {
     const apiKey = this.assertConfigured();
     const model = this.modelFor(options.tier);
-    const { data } = await this.http.post<GeminiResponse>(
-      `/models/${model}:generateContent`,
-      this.buildRequestBody(prompt, options),
-      { params: { key: apiKey } }
-    );
-    return this.extractText(data);
+    const body = this.buildRequestBody(prompt, options);
+
+    const maxAttempts = 3;
+    let lastError: unknown;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        const { data } = await this.http.post<GeminiResponse>(
+          `/models/${model}:generateContent`,
+          body,
+          { params: { key: apiKey } }
+        );
+        return this.extractText(data);
+      } catch (err) {
+        lastError = err;
+        // The Gemini endpoint intermittently returns transient errors; back off
+        // and retry. A genuinely bad request/model surfaces after the retries.
+        if (attempt < maxAttempts) {
+          await delay(300 * attempt);
+        }
+      }
+    }
+    throw lastError;
   }
 
   /** Generate and parse strict JSON of shape T. */
@@ -91,6 +107,10 @@ export class GeminiService {
       throw ApiError.upstream("Gemini returned malformed JSON.");
     }
   }
+}
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /** Gemini occasionally wraps JSON in ```json fences despite the mime hint. */
