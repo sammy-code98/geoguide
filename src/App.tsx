@@ -8,6 +8,7 @@ import ErrorPage from "./modules/ErrorPage"
 import GetStartedPage from "./pages/Home"
 import CountriesPage from "./pages/Countries"
 import DetailPage from "./pages/Detail"
+import CostEstimatorPage from "./pages/CostEstimator"
 
 // Chat pulls in the markdown pipeline — load it only when the route is visited.
 // eslint-disable-next-line react-refresh/only-export-components
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
             <ChatPage />
           </Suspense>
         )
+      },
+      {
+        path: AppRoutes.costEstimator,
+        element: <CostEstimatorPage />
       }
     ]
   }
