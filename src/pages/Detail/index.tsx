@@ -4,13 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import DetailLoader from "./detailLoader";
 import { MdArrowBackIos } from "react-icons/md";
 import { HiSparkles } from "react-icons/hi2";
-import { HiOutlineCalculator, HiOutlineMap } from "react-icons/hi";
+import { HiOutlineCalculator, HiOutlineMap, HiOutlineCurrencyDollar } from "react-icons/hi";
 import { getCountryByCode } from "../../api/index.api";
 import { AppRoutes } from "../../types/routes";
 import { NumComma } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 import CountryInsights from "../../components/CountryInsights";
 import WeatherWidget from "../../components/Weather/WeatherWidget";
+import CurrencyConverter from "../../components/Currency/CurrencyConverter";
 import PlaceDiscovery from "../../components/Places/PlaceDiscovery";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
 
@@ -238,6 +239,24 @@ export default function DetailsPage() {
 
         {/* Current weather (OpenWeather) */}
         {country.capital && <WeatherWidget city={country.capital} />}
+
+        {/* Currency (ExchangeRate) */}
+        <section className="pt-8">
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-black dark:text-textWhite flex items-center gap-2">
+              <HiOutlineCurrencyDollar className="text-primary" />
+              Currency
+            </h2>
+            <p className="text-textGray dark:text-grayish mt-1">
+              {country.currencies.length > 0
+                ? `Local currency: ${country.currencies[0].name} (${country.currencies[0].code}). Convert amounts below.`
+                : "Convert between world currencies."}
+            </p>
+            <div className="mt-4">
+              <CurrencyConverter defaultTo={country.currencies[0]?.code ?? "EUR"} />
+            </div>
+          </div>
+        </section>
 
         {/* AI Travel Insights (Gemini) */}
         <section className="pt-6">

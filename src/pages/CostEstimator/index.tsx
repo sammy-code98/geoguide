@@ -4,18 +4,13 @@ import { HiOutlineCalculator } from "react-icons/hi";
 import { GiSpinningBlades } from "react-icons/gi";
 import { useCostEstimate } from "../../hooks/useCostEstimate";
 import type { BudgetLevel } from "../../types/cost";
+import { CURRENCY_CODES } from "../../constants/currencies";
 import CostResult from "../../components/Cost/CostResult";
 
 const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
   { value: "budget", label: "Budget" },
   { value: "moderate", label: "Moderate" },
   { value: "luxury", label: "Luxury" },
-];
-
-// Common display currencies (estimates are computed in USD, converted server-side).
-const CURRENCIES = [
-  "USD", "EUR", "GBP", "NGN", "JPY", "CAD", "AUD", "CHF",
-  "CNY", "INR", "ZAR", "AED", "BRL", "KES", "GHS",
 ];
 
 const inputClass =
@@ -133,7 +128,7 @@ export default function CostEstimatorPage(): JSX.Element {
               value={displayCurrency}
               onChange={(e) => setDisplayCurrency(e.target.value)}
             >
-              {CURRENCIES.map((c) => (
+              {CURRENCY_CODES.map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>
