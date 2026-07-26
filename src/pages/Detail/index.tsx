@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import DetailLoader from "./detailLoader";
 import { MdArrowBackIos } from "react-icons/md";
 import { HiSparkles } from "react-icons/hi2";
-import { HiOutlineCalculator } from "react-icons/hi";
+import { HiOutlineCalculator, HiOutlineMap } from "react-icons/hi";
 import { getCountryByCode } from "../../api/index.api";
 import { AppRoutes } from "../../types/routes";
 import { NumComma } from "../../utils/custom";
@@ -64,14 +64,24 @@ export default function DetailsPage() {
               Back
             </button>
           </Link>
-          <Link
-            to={`${AppRoutes.costEstimator}?destination=${encodeURIComponent(country.name)}`}
-          >
-            <button className="py-2 px-4 rounded shadow-sm flex items-center gap-1 text-sm font-bold text-primary bg-white dark:bg-bgDark hover:opacity-90">
-              <HiOutlineCalculator />
-              Estimate trip cost
-            </button>
-          </Link>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Link
+              to={`${AppRoutes.itinerary}?destination=${encodeURIComponent(country.name)}`}
+            >
+              <button className="py-2 px-4 rounded shadow-sm flex items-center gap-1 text-sm font-bold text-primary bg-white dark:bg-bgDark hover:opacity-90">
+                <HiOutlineMap />
+                Plan an itinerary
+              </button>
+            </Link>
+            <Link
+              to={`${AppRoutes.costEstimator}?destination=${encodeURIComponent(country.name)}`}
+            >
+              <button className="py-2 px-4 rounded shadow-sm flex items-center gap-1 text-sm font-bold text-primary bg-white dark:bg-bgDark hover:opacity-90">
+                <HiOutlineCalculator />
+                Estimate trip cost
+              </button>
+            </Link>
+          </div>
         </div>
 
         <div className="py-4 md:py-12">
