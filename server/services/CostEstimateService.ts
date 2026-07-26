@@ -24,7 +24,18 @@ export class CostEstimateService {
   private readonly cache = new TtlCache(60 * 60 * 12); // 12 hours
 
   async estimate(input: TravelCostRequest): Promise<CostEstimate> {
-    const cacheKey = `cost:${JSON.stringify(input)}`;
+    // The base (USD) estimate is cached independently of the display currency,
+    // so switching currency just re-converts the same numbers (and avoids an
+    // extra Gemini call). Conversion is cheap — rates are cached separately.
+    const base = await this.getBaseEstimate(input);
+    return this.maybeConvert(base, input.displayCurrency);
+  }
+
+  private async getBaseEstimate(input: TravelCostRequest): Promise<CostEstimate> {
+    // Exclude displayCurrency from the cache key — it doesn't affect the estimate.
+    const { displayCurrency: _displayCurrency, ...rest } = input;
+    const cacheKey = `cost:${JSON.stringify(rest)}`;
+
     return this.cache.remember(cacheKey, 60 * 60 * 12, async () => {
       const { system, prompt } = buildCostEstimatePrompt(input);
       const raw = await geminiService.generateJson<unknown>(prompt, {
@@ -42,8 +53,7 @@ export class CostEstimateService {
         );
       }
 
-      const base: CostEstimate = { currency: "USD", converted: false, ...parsed.data };
-      return this.maybeConvert(base, input.displayCurrency);
+      return { currency: "USD", converted: false, ...parsed.data };
     });
   }
 

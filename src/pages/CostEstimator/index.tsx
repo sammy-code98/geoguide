@@ -12,6 +12,12 @@ const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
   { value: "luxury", label: "Luxury" },
 ];
 
+// Common display currencies (estimates are computed in USD, converted server-side).
+const CURRENCIES = [
+  "USD", "EUR", "GBP", "NGN", "JPY", "CAD", "AUD", "CHF",
+  "CNY", "INR", "ZAR", "AED", "BRL", "KES", "GHS",
+];
+
 const inputClass =
   "w-full px-4 py-3 rounded-xl bg-white dark:bg-bgDark text-black dark:text-textWhite shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40";
 const labelClass = "block text-sm font-semibold text-black dark:text-textWhite mb-1";
@@ -25,6 +31,7 @@ export default function CostEstimatorPage(): JSX.Element {
   const [durationDays, setDurationDays] = useState(7);
   const [travelers, setTravelers] = useState(1);
   const [budgetLevel, setBudgetLevel] = useState<BudgetLevel>("moderate");
+  const [displayCurrency, setDisplayCurrency] = useState("USD");
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -35,6 +42,7 @@ export default function CostEstimatorPage(): JSX.Element {
       durationDays,
       travelers,
       budgetLevel,
+      displayCurrency,
     });
   };
 
@@ -117,7 +125,22 @@ export default function CostEstimatorPage(): JSX.Element {
               ))}
             </select>
           </div>
-          <div className="flex items-end">
+          <div>
+            <label className={labelClass} htmlFor="currency">Show costs in</label>
+            <select
+              id="currency"
+              className={inputClass}
+              value={displayCurrency}
+              onChange={(e) => setDisplayCurrency(e.target.value)}
+            >
+              {CURRENCIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="md:col-span-2">
             <button
               type="submit"
               disabled={isPending}
