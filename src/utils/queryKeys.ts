@@ -3,4 +3,5 @@ export const QueryKey = {
   getACountry: "getACountry",
   countryInsights: "countryInsights",
   places: "places",
+  weather: "weather",
 } as const;

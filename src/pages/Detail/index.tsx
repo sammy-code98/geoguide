@@ -10,6 +10,7 @@ import { AppRoutes } from "../../types/routes";
 import { NumComma } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 import CountryInsights from "../../components/CountryInsights";
+import WeatherWidget from "../../components/Weather/WeatherWidget";
 import PlaceDiscovery from "../../components/Places/PlaceDiscovery";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
 
@@ -234,6 +235,9 @@ export default function DetailsPage() {
             </div>
           </div>
         </div>
+
+        {/* Current weather (OpenWeather) */}
+        {country.capital && <WeatherWidget city={country.capital} />}
 
         {/* AI Travel Insights (Gemini) */}
         <section className="pt-6">

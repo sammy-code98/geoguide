@@ -4,6 +4,7 @@ import countriesRoutes from "./countries.routes";
 import aiRoutes from "./ai.routes";
 import placesRoutes from "./places.routes";
 import travelCostRoutes from "./travelCost.routes";
+import weatherRoutes from "./weather.routes";
 import { aiRateLimiter } from "../middleware/rateLimit";
 
 /**
@@ -17,5 +18,6 @@ api.use("/countries", countriesRoutes);
 api.use("/ai", aiRateLimiter, aiRoutes);
 api.use("/places", placesRoutes);
 api.use("/travel-cost", aiRateLimiter, travelCostRoutes);
+api.use("/weather", weatherRoutes);
 
 export default api;

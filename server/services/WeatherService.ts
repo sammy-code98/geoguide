@@ -14,11 +14,35 @@ export interface NormalizedWeather {
   windSpeed: number;
 }
 
+export interface ForecastDay {
+  date: string; // YYYY-MM-DD
+  tempMin: number;
+  tempMax: number;
+  description: string;
+  icon: string | null;
+}
+
+export interface WeatherReport {
+  units: string;
+  current: NormalizedWeather;
+  forecast: ForecastDay[];
+  tip: string;
+}
+
 interface RawWeatherResponse {
   name?: string;
   main?: { temp?: number; feels_like?: number; humidity?: number };
   weather?: { description?: string; icon?: string }[];
   wind?: { speed?: number };
+}
+
+interface RawForecastItem {
+  dt_txt?: string;
+  main?: { temp?: number; temp_min?: number; temp_max?: number };
+  weather?: { description?: string; icon?: string }[];
+}
+interface RawForecastResponse {
+  list?: RawForecastItem[];
 }
 
 /** Wraps OpenWeather. Normalizes to a frontend-safe shape and caches briefly. */
@@ -48,6 +72,59 @@ export class WeatherService {
     });
   }
 
+  /** 5-day forecast for a city, aggregated from 3-hourly data into daily entries. */
+  async getForecastByCity(city: string, units = "metric"): Promise<ForecastDay[]> {
+    const apiKey = this.assertConfigured();
+    return this.cache.remember(`forecast:${city}:${units}`, 60 * 30, async () => {
+      const { data } = await this.http.get<RawForecastResponse>(`/forecast`, {
+        params: { q: city, units, appid: apiKey },
+      });
+      return this.aggregateForecast(data.list ?? []);
+    });
+  }
+
+  /** Current weather + forecast + a derived travel tip. */
+  async getReportByCity(city: string, units = "metric"): Promise<WeatherReport> {
+    const [current, forecast] = await Promise.all([
+      this.getCurrentByCity(city, units),
+      this.getForecastByCity(city, units),
+    ]);
+    return { units, current, forecast, tip: buildTravelTip(current, units) };
+  }
+
+  private aggregateForecast(list: RawForecastItem[]): ForecastDay[] {
+    const byDate = new Map<string, RawForecastItem[]>();
+    for (const item of list) {
+      const date = item.dt_txt?.slice(0, 10);
+      if (!date) continue;
+      const bucket = byDate.get(date) ?? [];
+      bucket.push(item);
+      byDate.set(date, bucket);
+    }
+
+    const days: ForecastDay[] = [];
+    for (const [date, items] of byDate) {
+      const temps = items
+        .map((i) => i.main?.temp)
+        .filter((t): t is number => typeof t === "number");
+      if (temps.length === 0) continue;
+
+      // Representative condition: the entry closest to midday.
+      const midday =
+        items.find((i) => i.dt_txt?.includes("12:00:00")) ?? items[Math.floor(items.length / 2)];
+      const w = midday.weather?.[0];
+
+      days.push({
+        date,
+        tempMin: Math.round(Math.min(...temps)),
+        tempMax: Math.round(Math.max(...temps)),
+        description: w?.description ?? "",
+        icon: w?.icon ?? null,
+      });
+    }
+    return days.slice(0, 5);
+  }
+
   private normalize(data: RawWeatherResponse): NormalizedWeather {
     const w = data.weather?.[0];
     if (data.main?.temp === undefined) {
@@ -63,6 +140,23 @@ export class WeatherService {
       windSpeed: data.wind?.speed ?? 0,
     };
   }
+}
+
+/** Derives a short, unit-aware travel recommendation from current conditions. */
+function buildTravelTip(current: NormalizedWeather, units: string): string {
+  const desc = current.description.toLowerCase();
+  if (/(rain|drizzle|thunder|storm)/.test(desc)) {
+    return "Rain is likely — pack an umbrella or a waterproof jacket.";
+  }
+  if (/snow/.test(desc)) return "Snowy conditions — bring warm, waterproof layers.";
+
+  // Normalize to Celsius for the temperature thresholds.
+  const tempC = units === "imperial" ? ((current.temperature - 32) * 5) / 9 : current.temperature;
+  if (tempC >= 32) return "Very hot — stay hydrated and plan indoor activities around midday.";
+  if (tempC >= 22) return "Pleasant and warm — great weather for sightseeing.";
+  if (tempC >= 12) return "Mild — a light jacket should be enough.";
+  if (tempC >= 2) return "Cold — pack warm layers.";
+  return "Freezing conditions — dress very warmly.";
 }
 
 export const weatherService = new WeatherService();
