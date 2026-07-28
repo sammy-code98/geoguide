@@ -12,6 +12,7 @@ export default function Experts() {
                 <img
                   alt="experts"
                   src={Expert}
+                  loading="lazy"
                   className="w-full h-[400px] lg:h-[500px] object-cover rounded-2xl"
                 />
 

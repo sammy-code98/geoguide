@@ -1,4 +1,4 @@
-import aboutUs from "../../assets/places/about.png"
+import aboutUs from "../../assets/places/about.jpg"
 
 export default function About() {
   return (
@@ -54,6 +54,7 @@ export default function About() {
                 <img
                   alt="About us image"
                   src={aboutUs}
+                  loading="lazy"
                   className="w-full lg:h-[500px] object-cover rounded-2xl"
                 />
                 <div className="absolute -top-6 right-6 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-white/20 dark:border-gray-700/20">

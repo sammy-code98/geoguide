@@ -1,3 +1,4 @@
+import { memo } from "react"
 import { Link } from "react-router-dom"
 import { AppRoutes } from "../../types/routes"
 interface CountryCardI {
@@ -10,14 +11,14 @@ interface CountryCardI {
   alt: string;
 }
 
-export default function CountryCard({ code, name, population, region, capital, img, alt }: CountryCardI) {
+const CountryCard = memo(function CountryCard({ code, name, population, region, capital, img, alt }: CountryCardI) {
   const detailLink = AppRoutes.detail.replace(':code', code)
   return (
     <>
       <Link to={detailLink} >
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-2xl  h-full transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:scale-105 hover:border-primary/30">
           <div>
-            <img className="h-40 w-full object-cover rounded-t-lg" src={img} alt={alt} />
+            <img className="h-40 w-full object-cover rounded-t-lg" src={img} alt={alt} loading="lazy" />
         </div>
           <hr />
           <div className="p-5 space-y-4">
@@ -36,4 +37,6 @@ export default function CountryCard({ code, name, population, region, capital, i
       </Link>
     </>
   )
-}
+})
+
+export default CountryCard

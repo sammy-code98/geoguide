@@ -1,31 +1,34 @@
-import { lazy, Suspense } from "react"
+/* eslint-disable react-refresh/only-export-components */
+import { lazy, Suspense, type ReactNode } from "react"
 import { createBrowserRouter } from "react-router-dom"
 import HomeLayout from "./layouts/Home.Layout"
 import { AppRoutes } from "./types/routes"
 
 import ErrorPage from "./modules/ErrorPage"
 
+// Entry routes are eager; feature pages are code-split so they don't weigh down
+// the initial load (Detail also pulls in Leaflet; Chat pulls in the markdown stack).
 import GetStartedPage from "./pages/Home"
 import CountriesPage from "./pages/Countries"
-import DetailPage from "./pages/Detail"
-import CostEstimatorPage from "./pages/CostEstimator"
-import ItineraryPage from "./pages/Itinerary"
-import RecommendationsPage from "./pages/Recommendations"
-import SavedTripsPage from "./pages/SavedTrips"
 
-// Chat pulls in the markdown pipeline — load it only when the route is visited.
-// eslint-disable-next-line react-refresh/only-export-components
+const DetailPage = lazy(() => import("./pages/Detail"))
 const ChatPage = lazy(() => import("./pages/Chat"))
+const CostEstimatorPage = lazy(() => import("./pages/CostEstimator"))
+const ItineraryPage = lazy(() => import("./pages/Itinerary"))
+const RecommendationsPage = lazy(() => import("./pages/Recommendations"))
+const SavedTripsPage = lazy(() => import("./pages/SavedTrips"))
 
 const routeFallback = (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800" />
 )
 
+const lazyRoute = (node: ReactNode) => <Suspense fallback={routeFallback}>{node}</Suspense>
+
 export const router = createBrowserRouter([
   {
     path: AppRoutes.getStarted,
     element: <HomeLayout />,
-    errorElement:<ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: AppRoutes.getStarted,
@@ -37,33 +40,28 @@ export const router = createBrowserRouter([
       },
       {
         path: AppRoutes.detail,
-        element: <DetailPage />
+        element: lazyRoute(<DetailPage />)
       },
       {
         path: AppRoutes.chat,
-        element: (
-          <Suspense fallback={routeFallback}>
-            <ChatPage />
-          </Suspense>
-        )
+        element: lazyRoute(<ChatPage />)
       },
       {
         path: AppRoutes.costEstimator,
-        element: <CostEstimatorPage />
+        element: lazyRoute(<CostEstimatorPage />)
       },
       {
         path: AppRoutes.itinerary,
-        element: <ItineraryPage />
+        element: lazyRoute(<ItineraryPage />)
       },
       {
         path: AppRoutes.recommendations,
-        element: <RecommendationsPage />
+        element: lazyRoute(<RecommendationsPage />)
       },
       {
         path: AppRoutes.savedTrips,
-        element: <SavedTripsPage />
+        element: lazyRoute(<SavedTripsPage />)
       }
     ]
   }
 ])
-
