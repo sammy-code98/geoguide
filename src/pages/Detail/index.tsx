@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import DetailLoader from "./detailLoader";
 import { MdArrowBackIos } from "react-icons/md";
 import { HiSparkles } from "react-icons/hi2";
-import { HiOutlineCalculator, HiOutlineMap, HiOutlineCurrencyDollar } from "react-icons/hi";
+import { HiOutlineCalculator, HiOutlineMap, HiOutlineCurrencyDollar, HiOutlineLocationMarker } from "react-icons/hi";
 import { getCountryByCode } from "../../api/index.api";
 import { AppRoutes } from "../../types/routes";
 import { NumComma } from "../../utils/custom";
@@ -14,6 +14,9 @@ import WeatherWidget from "../../components/Weather/WeatherWidget";
 import CurrencyConverter from "../../components/Currency/CurrencyConverter";
 import PlaceDiscovery from "../../components/Places/PlaceDiscovery";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
+
+// Leaflet is heavy — load the map only when a Detail page actually renders it.
+const CountryMap = lazy(() => import("../../components/Map/CountryMap"));
 
 export default function DetailsPage() {
   const { code } = useParams();
@@ -236,6 +239,32 @@ export default function DetailsPage() {
             </div>
           </div>
         </div>
+
+        {/* Map (Leaflet + OpenStreetMap) */}
+        {country.latlng && (
+          <section className="pt-8">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-black dark:text-textWhite flex items-center gap-2">
+                <HiOutlineLocationMarker className="text-primary" />
+                Map
+              </h2>
+              <div className="mt-4">
+                <Suspense
+                  fallback={
+                    <div className="h-[400px] rounded-2xl bg-gray-200 dark:bg-gray-700 animate-pulse" />
+                  }
+                >
+                  <CountryMap
+                    lat={country.latlng[0]}
+                    lng={country.latlng[1]}
+                    name={country.name}
+                    capital={country.capital}
+                  />
+                </Suspense>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Current weather (OpenWeather) */}
         {country.capital && <WeatherWidget city={country.capital} />}
