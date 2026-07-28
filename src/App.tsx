@@ -10,6 +10,7 @@ import CountriesPage from "./pages/Countries"
 import DetailPage from "./pages/Detail"
 import CostEstimatorPage from "./pages/CostEstimator"
 import ItineraryPage from "./pages/Itinerary"
+import RecommendationsPage from "./pages/Recommendations"
 
 // Chat pulls in the markdown pipeline — load it only when the route is visited.
 // eslint-disable-next-line react-refresh/only-export-components
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: AppRoutes.itinerary,
         element: <ItineraryPage />
+      },
+      {
+        path: AppRoutes.recommendations,
+        element: <RecommendationsPage />
       }
     ]
   }

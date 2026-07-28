@@ -5,14 +5,11 @@ import { GiSpinningBlades } from "react-icons/gi";
 import { useItinerary } from "../../hooks/useItinerary";
 import type { BudgetLevel } from "../../types/cost";
 import type { ItineraryInput, TravelStyle } from "../../types/itinerary";
+import { TRAVEL_INTERESTS } from "../../constants/interests";
 import ItineraryResult from "../../components/Itinerary/ItineraryResult";
 
 const BUDGET_LEVELS: BudgetLevel[] = ["budget", "moderate", "luxury"];
 const TRAVEL_STYLES: TravelStyle[] = ["relaxed", "balanced", "fast-paced"];
-const INTERESTS = [
-  "Food", "History", "Nature", "Nightlife", "Art", "Adventure",
-  "Beaches", "Shopping", "Museums", "Architecture", "Local culture", "Relaxation",
-];
 
 const inputClass =
   "w-full px-4 py-3 rounded-xl bg-white dark:bg-bgDark text-black dark:text-textWhite shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40";
@@ -129,7 +126,7 @@ export default function ItineraryPage(): JSX.Element {
           <div>
             <span className={labelClass}>Interests</span>
             <div className="flex flex-wrap gap-2">
-              {INTERESTS.map((interest) => {
+              {TRAVEL_INTERESTS.map((interest) => {
                 const active = interests.includes(interest);
                 return (
                   <button

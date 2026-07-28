@@ -5,8 +5,10 @@ import { validate } from "../middleware/validate";
 import { aiCountryService } from "../services/AiCountryService";
 import { geminiService, type GeminiChatMessage } from "../services/GeminiService";
 import { aiItineraryService } from "../services/AiItineraryService";
+import { aiRecommendationsService } from "../services/AiRecommendationsService";
 import { chatRequestSchema } from "../ai/schemas/chat.schema";
 import { itineraryRequestSchema } from "../ai/schemas/itineraryRequest.schema";
+import { recommendationsRequestSchema } from "../ai/schemas/recommendationsRequest.schema";
 import { buildChatSystemPrompt } from "../ai/prompts/chat.prompt";
 import { integrations } from "../config/env";
 import { ApiError } from "../lib/ApiError";
@@ -85,6 +87,20 @@ router.post(
     if (!integrations.gemini) throw ApiError.notConfigured("Gemini");
     const itinerary = await aiItineraryService.generate(req.body);
     res.json(itinerary);
+  })
+);
+
+/**
+ * POST /api/ai/recommendations
+ * Personalized destination recommendations.
+ */
+router.post(
+  "/recommendations",
+  validate({ body: recommendationsRequestSchema }),
+  asyncHandler(async (req, res) => {
+    if (!integrations.gemini) throw ApiError.notConfigured("Gemini");
+    const recommendations = await aiRecommendationsService.generate(req.body);
+    res.json(recommendations);
   })
 );
 
