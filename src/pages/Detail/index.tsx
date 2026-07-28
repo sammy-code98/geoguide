@@ -13,6 +13,7 @@ import CountryInsights from "../../components/CountryInsights";
 import WeatherWidget from "../../components/Weather/WeatherWidget";
 import CurrencyConverter from "../../components/Currency/CurrencyConverter";
 import PlaceDiscovery from "../../components/Places/PlaceDiscovery";
+import SaveButton from "../../components/Saved/SaveButton";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
 
 // Leaflet is heavy — load the map only when a Detail page actually renders it.
@@ -86,6 +87,24 @@ export default function DetailsPage() {
                 Estimate trip cost
               </button>
             </Link>
+            <SaveButton
+              label
+              item={{
+                id: `country:${country.cca3}`,
+                type: "country",
+                title: country.name,
+                subtitle: country.region,
+                href: AppRoutes.detail.replace(":code", country.cca3),
+                data: {
+                  code: country.cca3,
+                  name: country.name,
+                  population: country.population,
+                  region: country.region,
+                  capital: country.capital,
+                  flagPng: country.flagPng,
+                },
+              }}
+            />
           </div>
         </div>
 

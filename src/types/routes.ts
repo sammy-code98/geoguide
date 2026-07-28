@@ -6,6 +6,7 @@ export const AppRoutes = {
   costEstimator: "/cost-estimator",
   itinerary: "/itinerary",
   recommendations: "/recommendations",
+  savedTrips: "/saved-trips",
 } as const;
 
 export type AppRoutes = (typeof AppRoutes)[keyof typeof AppRoutes];

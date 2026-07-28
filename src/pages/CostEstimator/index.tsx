@@ -6,6 +6,7 @@ import { useCostEstimate } from "../../hooks/useCostEstimate";
 import type { BudgetLevel } from "../../types/cost";
 import { CURRENCY_CODES } from "../../constants/currencies";
 import CostResult from "../../components/Cost/CostResult";
+import SaveButton from "../../components/Saved/SaveButton";
 
 const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
   { value: "budget", label: "Budget" },
@@ -160,7 +161,23 @@ export default function CostEstimatorPage(): JSX.Element {
           </p>
         )}
 
-        {data && !isPending && <CostResult estimate={data} />}
+        {data && !isPending && (
+          <div className="space-y-4">
+            <div className="flex justify-end">
+              <SaveButton
+                label
+                item={{
+                  id: `cost:${destination.trim()}:${durationDays}:${travelers}:${budgetLevel}`,
+                  type: "costEstimate",
+                  title: `${origin.trim() || "Trip"} → ${destination.trim()}`,
+                  subtitle: `${durationDays} days · ${travelers} traveler(s) · ${budgetLevel}`,
+                  data,
+                }}
+              />
+            </div>
+            <CostResult estimate={data} />
+          </div>
+        )}
       </div>
     </div>
   );

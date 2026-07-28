@@ -4,10 +4,12 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FiSun } from "react-icons/fi";
 import { HiSparkles } from "react-icons/hi2";
-import { HiOutlineCalculator, HiOutlineMap, HiOutlineLightBulb } from "react-icons/hi";
+import { HiOutlineCalculator, HiOutlineMap, HiOutlineLightBulb, HiOutlineBookmark } from "react-icons/hi";
 import { AppRoutes } from "../../types/routes";
+import { useSavedStore } from "../../store/savedStore";
 
 export default function Header() {
+  const savedCount = useSavedStore((s) => s.items.length);
   const [theme, setTheme] = useState<string | null>(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "system"
   );
@@ -124,6 +126,22 @@ export default function Header() {
               >
                 <HiSparkles />
                 <span className="hidden lg:inline">AI Assistant</span>
+              </NavLink>
+              <NavLink
+                to={AppRoutes.savedTrips}
+                aria-label="Saved trips"
+                className={({ isActive }) =>
+                  `relative text-2xl ${
+                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  }`
+                }
+              >
+                <HiOutlineBookmark />
+                {savedCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center">
+                    {savedCount}
+                  </span>
+                )}
               </NavLink>
               <div>
                 <a href="https://github.com/sammy-code98/geoguide" target="_blank" className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary">

@@ -1,6 +1,7 @@
 import { IoStar } from "react-icons/io5";
 import { HiOutlineLocationMarker, HiOutlineMap } from "react-icons/hi";
 import type { Place } from "../../types/place";
+import SaveButton from "../Saved/SaveButton";
 
 interface PlaceCardProps {
   place: Place;
@@ -8,7 +9,20 @@ interface PlaceCardProps {
 
 export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
   return (
-    <div className="flex flex-col bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30">
+    <div className="relative flex flex-col bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30">
+      <div className="absolute top-2 right-2 z-[1]">
+        <SaveButton
+          compact
+          item={{
+            id: `place:${place.id}`,
+            type: "place",
+            title: place.title,
+            subtitle: place.address ?? undefined,
+            href: place.mapsUrl ?? undefined,
+            data: place,
+          }}
+        />
+      </div>
       {/* Image (with graceful fallback when none is available) */}
       {place.thumbnail ? (
         <img

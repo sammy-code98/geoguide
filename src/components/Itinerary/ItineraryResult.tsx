@@ -3,12 +3,14 @@ import { MdContentCopy, MdCheck, MdRefresh } from "react-icons/md";
 import { HiOutlineWallet } from "react-icons/hi2";
 import type { Itinerary } from "../../types/itinerary";
 import { itineraryToText } from "../../utils/itinerary";
+import SaveButton from "../Saved/SaveButton";
 import DayCard from "./DayCard";
 
 interface ItineraryResultProps {
   itinerary: Itinerary;
-  onRegenerate: () => void;
-  isRegenerating: boolean;
+  /** Omit to hide the Regenerate button (e.g. on the Saved Trips page). */
+  onRegenerate?: () => void;
+  isRegenerating?: boolean;
 }
 
 export default function ItineraryResult({
@@ -48,14 +50,26 @@ export default function ItineraryResult({
             {copied ? <MdCheck className="text-green-500" /> : <MdContentCopy />}
             {copied ? "Copied" : "Copy"}
           </button>
-          <button
-            onClick={onRegenerate}
-            disabled={isRegenerating}
-            className="inline-flex items-center gap-1.5 py-2 px-4 rounded-lg bg-primary text-white font-semibold hover:opacity-90 disabled:opacity-50"
-          >
-            <MdRefresh className={isRegenerating ? "animate-spin" : ""} />
-            {isRegenerating ? "Regenerating…" : "Regenerate"}
-          </button>
+          <SaveButton
+            label
+            item={{
+              id: `itinerary:${itinerary.destination}:${itinerary.days.length}`,
+              type: "itinerary",
+              title: `${itinerary.destination} — ${itinerary.days.length}-day itinerary`,
+              subtitle: itinerary.summary,
+              data: itinerary,
+            }}
+          />
+          {onRegenerate && (
+            <button
+              onClick={onRegenerate}
+              disabled={isRegenerating}
+              className="inline-flex items-center gap-1.5 py-2 px-4 rounded-lg bg-primary text-white font-semibold hover:opacity-90 disabled:opacity-50"
+            >
+              <MdRefresh className={isRegenerating ? "animate-spin" : ""} />
+              {isRegenerating ? "Regenerating…" : "Regenerate"}
+            </button>
+          )}
         </div>
       </div>
 
