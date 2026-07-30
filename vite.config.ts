@@ -1,9 +1,18 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.ts",
+    css: false,
+    // Only unit/component tests under src — never the Express server.
+    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+  },
   resolve: {
     alias: [{ find: "@", replacement: path.resolve(__dirname, ".", "src") }],
   },

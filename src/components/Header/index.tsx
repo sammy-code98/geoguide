@@ -47,15 +47,18 @@ export default function Header() {
     }
   }, [element.classList, onWindowMatch, theme]);
 
-  darkQuery.addEventListener("change", (e) => {
-    if (!("theme" in localStorage)) {
-      if (e.matches) {
-        element.classList.add("dark");
-      } else {
-        element.classList.remove("dark");
+  // Follow the OS theme while the user hasn't picked one explicitly.
+  // Registered once with proper teardown so listeners don't accumulate.
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme:dark)");
+    const handler = (e: MediaQueryListEvent) => {
+      if (!("theme" in localStorage)) {
+        document.documentElement.classList.toggle("dark", e.matches);
       }
-    }
-  });
+    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   const toggleTheme = () => {
     if (theme === "dark") {

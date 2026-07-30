@@ -12,7 +12,7 @@ export default function About() {
                 About GeoGuide
               </div>
 
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-grey dark:text-white leading-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black dark:text-white leading-tight">
                 Your gateway to exploring the world’s countries, cultures, and attractions.
               </h2>
 

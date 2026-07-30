@@ -7,6 +7,7 @@ import type { BudgetLevel } from "../../types/cost";
 import type { Climate, RecommendationsInput } from "../../types/recommendations";
 import { TRAVEL_INTERESTS } from "../../constants/interests";
 import RecommendationCard from "../../components/Recommendations/RecommendationCard";
+import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: BudgetLevel[] = ["budget", "moderate", "luxury"];
 const CLIMATES: Climate[] = ["any", "warm", "temperate", "cold"];
@@ -15,9 +16,6 @@ const MONTHS = [
   "July", "August", "September", "October", "November", "December",
 ];
 
-const inputClass =
-  "w-full px-4 py-3 rounded-xl bg-white dark:bg-bgDark text-black dark:text-textWhite shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40";
-const labelClass = "block text-sm font-semibold text-black dark:text-textWhite mb-1";
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export default function RecommendationsPage(): JSX.Element {

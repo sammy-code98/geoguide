@@ -7,16 +7,13 @@ import type { BudgetLevel } from "../../types/cost";
 import { CURRENCY_CODES } from "../../constants/currencies";
 import CostResult from "../../components/Cost/CostResult";
 import SaveButton from "../../components/Saved/SaveButton";
+import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
   { value: "budget", label: "Budget" },
   { value: "moderate", label: "Moderate" },
   { value: "luxury", label: "Luxury" },
 ];
-
-const inputClass =
-  "w-full px-4 py-3 rounded-xl bg-white dark:bg-bgDark text-black dark:text-textWhite shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40";
-const labelClass = "block text-sm font-semibold text-black dark:text-textWhite mb-1";
 
 export default function CostEstimatorPage(): JSX.Element {
   const [searchParams] = useSearchParams();

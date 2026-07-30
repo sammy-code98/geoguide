@@ -7,13 +7,10 @@ import type { BudgetLevel } from "../../types/cost";
 import type { ItineraryInput, TravelStyle } from "../../types/itinerary";
 import { TRAVEL_INTERESTS } from "../../constants/interests";
 import ItineraryResult from "../../components/Itinerary/ItineraryResult";
+import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: BudgetLevel[] = ["budget", "moderate", "luxury"];
 const TRAVEL_STYLES: TravelStyle[] = ["relaxed", "balanced", "fast-paced"];
-
-const inputClass =
-  "w-full px-4 py-3 rounded-xl bg-white dark:bg-bgDark text-black dark:text-textWhite shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40";
-const labelClass = "block text-sm font-semibold text-black dark:text-textWhite mb-1";
 
 export default function ItineraryPage(): JSX.Element {
   const [searchParams] = useSearchParams();
