@@ -6,13 +6,17 @@ interface SearchI {
 }
 export default function Search({ value, onChange }: SearchI): JSX.Element {
   return (
-    <div className="w-full md:w-6/12">
+    <div className="w-full md:w-6/12" role="search">
+      <label htmlFor="country-search" className="sr-only">
+        Search for countries by name or capital
+      </label>
       <div className="relative">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-          <IoSearch className="cursor-pointer text-textGray text-sm md:text-xl" />
+          <IoSearch aria-hidden="true" className="text-textGray text-sm md:text-xl" />
         </div>
         <input
-          type="text"
+          id="country-search"
+          type="search"
           value={value}
           onChange={onChange}
           placeholder="Search for countries by name or capital..."

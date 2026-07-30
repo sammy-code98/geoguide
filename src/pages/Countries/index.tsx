@@ -86,6 +86,14 @@ export default function CountriesPage(): JSX.Element {
         />
       </div>
 
+      <p className="sr-only" role="status" aria-live="polite">
+        {isLoading
+          ? "Loading countries…"
+          : `${filteredCountries.length} ${
+              filteredCountries.length === 1 ? "country" : "countries"
+            } found`}
+      </p>
+
         <div className="py-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full">
         {isLoading ? (
             new Array(9).fill(null).map((_, index) => <CardLoader key={index} />)

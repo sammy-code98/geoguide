@@ -29,7 +29,7 @@ export default function ChatPage(): JSX.Element {
         <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-              <HiSparkles className="text-primary" />
+              <HiSparkles className="text-primary" aria-hidden="true" />
               AI Travel Assistant
             </h1>
             <p className="text-textGray dark:text-grayish text-sm mt-1">
@@ -38,17 +38,23 @@ export default function ChatPage(): JSX.Element {
           </div>
           {!isEmpty && (
             <button
+              type="button"
               onClick={clear}
               className="flex items-center gap-1 text-sm font-semibold text-textGray dark:text-grayish hover:text-secondary"
             >
-              <MdOutlineDeleteSweep className="text-lg" />
+              <MdOutlineDeleteSweep className="text-lg" aria-hidden="true" />
               Clear
             </button>
           )}
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto py-6 space-y-6">
+        <div
+          className="flex-1 overflow-y-auto py-6 space-y-6"
+          role="log"
+          aria-live="polite"
+          aria-label="Conversation with the travel assistant"
+        >
           {isEmpty ? (
             <div className="h-full flex flex-col items-center justify-center text-center gap-6">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-3xl">

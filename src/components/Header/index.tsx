@@ -72,7 +72,7 @@ export default function Header() {
   return (
     <header className="fixed bg-transparent top-0 left-0  w-full z-20">
       <div className="px-4 py-2 sm:px-12 pb-4">
-        <nav>
+        <nav aria-label="Primary">
           <div className="flex items-center justify-between mx-auto px-8 py-4 max-w-screen-xl rounded-full shadow-md bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
             <div>
               <Link
@@ -85,74 +85,89 @@ export default function Header() {
             <div className="flex justify-between items-center gap-6 md:gap-8">
               <NavLink
                 to={AppRoutes.recommendations}
+                aria-label="For You"
                 className={({ isActive }) =>
                   `flex items-center gap-1 font-semibold ${
                     isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
                   }`
                 }
               >
-                <HiOutlineLightBulb />
+                <HiOutlineLightBulb aria-hidden="true" />
                 <span className="hidden lg:inline">For You</span>
               </NavLink>
               <NavLink
                 to={AppRoutes.itinerary}
+                aria-label="Itinerary"
                 className={({ isActive }) =>
                   `flex items-center gap-1 font-semibold ${
                     isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
                   }`
                 }
               >
-                <HiOutlineMap />
+                <HiOutlineMap aria-hidden="true" />
                 <span className="hidden lg:inline">Itinerary</span>
               </NavLink>
               <NavLink
                 to={AppRoutes.costEstimator}
+                aria-label="Trip Cost"
                 className={({ isActive }) =>
                   `flex items-center gap-1 font-semibold ${
                     isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
                   }`
                 }
               >
-                <HiOutlineCalculator />
+                <HiOutlineCalculator aria-hidden="true" />
                 <span className="hidden lg:inline">Trip Cost</span>
               </NavLink>
               <NavLink
                 to={AppRoutes.chat}
+                aria-label="AI Assistant"
                 className={({ isActive }) =>
                   `flex items-center gap-1 font-semibold ${
                     isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
                   }`
                 }
               >
-                <HiSparkles />
+                <HiSparkles aria-hidden="true" />
                 <span className="hidden lg:inline">AI Assistant</span>
               </NavLink>
               <NavLink
                 to={AppRoutes.savedTrips}
-                aria-label="Saved trips"
+                aria-label={`Saved trips${savedCount > 0 ? ` (${savedCount} saved)` : ""}`}
                 className={({ isActive }) =>
                   `relative text-2xl ${
                     isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
                   }`
                 }
               >
-                <HiOutlineBookmark />
+                <HiOutlineBookmark aria-hidden="true" />
                 {savedCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center"
+                  >
                     {savedCount}
                   </span>
                 )}
               </NavLink>
               <div>
-                <a href="https://github.com/sammy-code98/geoguide" target="_blank" className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary">
-                  <FaGithub />
+                <a
+                  href="https://github.com/sammy-code98/geoguide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GeoGuide on GitHub (opens in a new tab)"
+                  className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary"
+                >
+                  <FaGithub aria-hidden="true" />
                 </a>
               </div>
               <button
+                type="button"
                 onClick={toggleTheme}
+                aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
                 className="w-8 h-8 text-2xl rounded-xl text-black dark:text-primary"
               >
-                {isDark ? <FiSun /> : <MdOutlineDarkMode />}
+                {isDark ? <FiSun aria-hidden="true" /> : <MdOutlineDarkMode aria-hidden="true" />}
               </button>
             </div>
           </div>

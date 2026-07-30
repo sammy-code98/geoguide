@@ -24,7 +24,12 @@ export default function Filter({ onRegionChange, value }: FilterI): JSX.Element 
 
   return (
     <div className="max-w-xl">
+      <label htmlFor="region-filter" className="sr-only">
+        Filter countries by region
+      </label>
       <Select
+        inputId="region-filter"
+        aria-label="Filter countries by region"
         className="p-2 text-sm md:text-md text-textGray shadow-md rounded bg-white/80 dark:bg-gray-800/80"
         placeholder="Filter by region..."
         options={filterOptions}

@@ -32,11 +32,18 @@ export default function WeatherWidget({ city }: WeatherWidgetProps): JSX.Element
             <HiOutlineCloud className="text-primary" />
             Weather in {city}
           </h2>
-          <div className="inline-flex rounded-full border border-gray-300 dark:border-gray-600 overflow-hidden text-sm font-semibold">
+          <div
+            role="group"
+            aria-label="Temperature units"
+            className="inline-flex rounded-full border border-gray-300 dark:border-gray-600 overflow-hidden text-sm font-semibold"
+          >
             {(["metric", "imperial"] as WeatherUnits[]).map((u) => (
               <button
                 key={u}
+                type="button"
                 onClick={() => setUnits(u)}
+                aria-pressed={units === u}
+                aria-label={u === "metric" ? "Celsius" : "Fahrenheit"}
                 className={`px-3 py-1.5 ${
                   units === u
                     ? "bg-primary text-white"
