@@ -73,6 +73,22 @@ export class SerpstackService {
     return env.serpstack.apiKey;
   }
 
+  /** Single Serpstack search call. `gl` is omitted when not provided. */
+  private async fetchSearch(
+    apiKey: string,
+    query: string,
+    gl: string | undefined
+  ): Promise<RawSerpstackResponse> {
+    const { data } = await this.http.get<RawSerpstackResponse>(`/search`, {
+      params: {
+        access_key: apiKey,
+        query,
+        ...(gl ? { gl } : {}),
+      },
+    });
+    return data;
+  }
+
   private buildQuery(params: SerpstackSearchParams): string {
     const parts = [params.category, params.query].filter(Boolean).join(" ").trim();
     return params.location ? `${parts} in ${params.location}` : parts || params.query;
@@ -85,13 +101,15 @@ export class SerpstackService {
     const cacheKey = `places:${query}:${params.gl ?? ""}`;
 
     return this.cache.remember(cacheKey, 60 * 60 * 6, async () => {
-      const { data } = await this.http.get<RawSerpstackResponse>(`/search`, {
-        params: {
-          access_key: apiKey,
-          query,
-          ...(params.gl ? { gl: params.gl } : {}),
-        },
-      });
+      let data = await this.fetchSearch(apiKey, query, params.gl);
+
+      // Serpstack's `gl` only accepts Google-recognized country codes; some
+      // valid ISO alpha-2 codes (e.g. `ax` for Åland Islands) trigger a generic
+      // "request_failed" (327) error. The location is already in the query text,
+      // so retry once without geo-targeting rather than failing the request.
+      if (data.success === false && params.gl) {
+        data = await this.fetchSearch(apiKey, query, undefined);
+      }
 
       if (data.success === false) {
         throw ApiError.upstream(data.error?.info ?? "Serpstack request failed.");
