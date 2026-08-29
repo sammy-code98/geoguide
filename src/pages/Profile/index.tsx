@@ -5,6 +5,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useAuth } from "../../auth/useAuth";
 import { useCurrentUser } from "../../auth/useCurrentUser";
 import { useSavedStore } from "../../store/savedStore";
+import { useChats } from "../../hooks/useChats";
 import Avatar from "../../components/Auth/Avatar";
 import { AppRoutes } from "../../types/routes";
 
@@ -14,9 +15,8 @@ const formatDate = (ms: number | null) =>
 export default function ProfilePage(): JSX.Element {
   const user = useCurrentUser();
   const { signOut } = useAuth();
-  // Saved-trips count reflects the Firestore-synced store (19b).
-  // Conversations count is wired live in 19c.
   const savedCount = useSavedStore((s) => s.items.length);
+  const { chats } = useChats();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
@@ -58,7 +58,7 @@ export default function ProfilePage(): JSX.Element {
           >
             <HiSparkles className="text-3xl text-primary" aria-hidden="true" />
             <div>
-              <p className="text-2xl font-bold text-black dark:text-textWhite">—</p>
+              <p className="text-2xl font-bold text-black dark:text-textWhite">{chats.length}</p>
               <p className="text-sm text-textGray dark:text-grayish">AI conversations</p>
             </div>
           </Link>
