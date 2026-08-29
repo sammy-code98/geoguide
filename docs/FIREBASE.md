@@ -89,8 +89,8 @@ AuthProvider state updates  ──▶  useAuth() / useCurrentUser()  ──▶  
 
 - **Session restoration** is automatic: `onAuthStateChanged` (subscribed once in
   `AuthProvider`) rehydrates the user on every load.
-- **Route protection:** `RequireAuth` gates `/profile` and `/saved-trips`
-  (guests → `/login`, original destination preserved in `state.from`).
+- **Route protection:** `RequireAuth` gates `/profile`, `/saved-trips`, and
+  `/chat` (guests → `/login`, original destination preserved in `state.from`).
   `GuestOnly` is available for guest-only routes.
 
 ## 6. Synchronization strategy (19b/19c)

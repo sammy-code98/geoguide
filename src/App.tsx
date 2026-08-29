@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
       },
       {
         path: AppRoutes.chat,
-        element: lazyRoute(<ChatPage />)
+        element: <RequireAuth>{lazyRoute(<ChatPage />)}</RequireAuth>
       },
       {
         path: AppRoutes.costEstimator,

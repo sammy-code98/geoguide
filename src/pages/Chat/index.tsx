@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import { HiSparkles } from "react-icons/hi2";
 import { HiOutlinePlus } from "react-icons/hi";
 import { GiSpinningBlades } from "react-icons/gi";
@@ -8,7 +7,6 @@ import { useChats } from "../../hooks/useChats";
 import ChatMessage from "../../components/Chat/ChatMessage";
 import ChatInput from "../../components/Chat/ChatInput";
 import ConversationList from "../../components/Chat/ConversationList";
-import { AppRoutes } from "../../types/routes";
 
 const SUGGESTIONS = [
   "Can I travel to Switzerland with $2000?",
@@ -24,7 +22,6 @@ export default function ChatPage(): JSX.Element {
     isStreaming,
     error,
     loadingHistory,
-    isAuthed,
     send,
     stop,
     selectChat,
@@ -47,19 +44,17 @@ export default function ChatPage(): JSX.Element {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-6 flex gap-6 h-screen">
-        {/* Sidebar (signed-in, md+) */}
-        {isAuthed && (
-          <aside className="hidden md:flex w-72 shrink-0 flex-col border-r border-gray-200 dark:border-gray-700 pr-4">
-            <ConversationList
-              chats={chats}
-              activeId={activeChatId}
-              loading={isLoading}
-              onSelect={selectChat}
-              onNew={newChat}
-              onDelete={handleDelete}
-            />
-          </aside>
-        )}
+        {/* Sidebar (md+) */}
+        <aside className="hidden md:flex w-72 shrink-0 flex-col border-r border-gray-200 dark:border-gray-700 pr-4">
+          <ConversationList
+            chats={chats}
+            activeId={activeChatId}
+            loading={isLoading}
+            onSelect={selectChat}
+            onNew={newChat}
+            onDelete={handleDelete}
+          />
+        </aside>
 
         {/* Chat pane */}
         <div className="flex-1 flex flex-col min-w-0">
@@ -74,43 +69,32 @@ export default function ChatPage(): JSX.Element {
               </p>
             </div>
             {/* Mobile conversation controls */}
-            {isAuthed && (
-              <div className="flex md:hidden items-center gap-2 shrink-0">
-                {chats.length > 0 && (
-                  <select
-                    aria-label="Switch conversation"
-                    value={activeChatId ?? ""}
-                    onChange={(e) => e.target.value && selectChat(e.target.value)}
-                    className="max-w-[8rem] text-sm rounded-lg bg-white dark:bg-bgDark text-black dark:text-textWhite px-2 py-1.5 shadow-sm"
-                  >
-                    <option value="">New chat</option>
-                    {chats.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.title}
-                      </option>
-                    ))}
-                  </select>
-                )}
-                <button
-                  type="button"
-                  onClick={newChat}
-                  aria-label="New chat"
-                  className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
+            <div className="flex md:hidden items-center gap-2 shrink-0">
+              {chats.length > 0 && (
+                <select
+                  aria-label="Switch conversation"
+                  value={activeChatId ?? ""}
+                  onChange={(e) => e.target.value && selectChat(e.target.value)}
+                  className="max-w-[8rem] text-sm rounded-lg bg-white dark:bg-bgDark text-black dark:text-textWhite px-2 py-1.5 shadow-sm"
                 >
-                  <HiOutlinePlus aria-hidden="true" />
-                </button>
-              </div>
-            )}
+                  <option value="">New chat</option>
+                  {chats.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.title}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <button
+                type="button"
+                onClick={newChat}
+                aria-label="New chat"
+                className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
+              >
+                <HiOutlinePlus aria-hidden="true" />
+              </button>
+            </div>
           </div>
-
-          {!isAuthed && (
-            <p className="text-sm text-textGray dark:text-grayish bg-primary/5 border border-primary/20 rounded-xl px-4 py-2 mt-3">
-              <Link to={AppRoutes.login} className="text-primary font-semibold">
-                Sign in
-              </Link>{" "}
-              to save your conversations and access them on any device.
-            </p>
-          )}
 
           {/* Messages */}
           <div
