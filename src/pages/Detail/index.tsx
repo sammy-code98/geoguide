@@ -34,7 +34,7 @@ export default function DetailsPage() {
 
   if (isLoading)
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-24 md:py-36">
           <DetailLoader />
         </div>
@@ -43,7 +43,7 @@ export default function DetailsPage() {
 
   if (isError || !country) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center h-screen space-y-6">
           <h1 className="text-8xl font-bold text-primary italic text-center">Oops!</h1>
           <p className="text-center text-textGray dark:text-textWhite text-xl">
@@ -61,7 +61,7 @@ export default function DetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-24 md:py-36">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <Link to={AppRoutes.countries}>
@@ -111,7 +111,6 @@ export default function DetailsPage() {
         <div className="py-4 md:py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-20 justify-items-center">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-orange-600/20 rounded-3xl blur-3xl"></div>
               <div className="relative h-[400px]  lg:h-[500px] bg-white/10 dark:bg-gray-800/10 backdrop-blur-sm rounded-3xl p-8">
                 <img
                   alt={`${country.name}'s flag`}

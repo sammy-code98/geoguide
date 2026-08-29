@@ -22,7 +22,7 @@ const LoginPage = lazy(() => import("./pages/Login"))
 const ProfilePage = lazy(() => import("./pages/Profile"))
 
 const routeFallback = (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800" />
+  <div className="min-h-screen bg-bg" />
 )
 
 const lazyRoute = (node: ReactNode) => <Suspense fallback={routeFallback}>{node}</Suspense>

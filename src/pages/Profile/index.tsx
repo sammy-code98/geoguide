@@ -19,7 +19,7 @@ export default function ProfilePage(): JSX.Element {
   const { chats } = useChats();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-bg">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-8">
         {/* Identity */}
         <div className="bg-white/70 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-600 rounded-3xl p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">

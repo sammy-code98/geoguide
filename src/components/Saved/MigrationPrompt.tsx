@@ -4,6 +4,7 @@ import { HiOutlineBookmark } from "react-icons/hi";
 import { useAuth } from "../../auth/useAuth";
 import type { SavedItem } from "../../store/savedStore";
 import { importTrips, mergeSavedById } from "../../services/firebase/TripService";
+import { Button } from "../ui/button";
 
 const LEGACY_KEY = "geoguide.saved";
 const MIGRATED_KEY = "geoguide.migrated";
@@ -62,39 +63,29 @@ export default function MigrationPrompt(): JSX.Element | null {
       <div
         role="dialog"
         aria-label="Import saved trips"
-        className="bg-white dark:bg-gray-800 border border-primary/30 rounded-2xl shadow-xl p-4 flex items-center gap-3"
+        className="bg-surface border border-border rounded-lg shadow-md p-4 flex items-center gap-3"
       >
         <HiOutlineBookmark className="text-2xl text-primary shrink-0" aria-hidden="true" />
         <div className="flex-1 text-sm">
-          <p className="font-semibold text-black dark:text-textWhite">
+          <p className="font-medium text-fg">
             Import {legacy.length} saved {legacy.length === 1 ? "trip" : "trips"}?
           </p>
-          <p className="text-textGray dark:text-grayish">
+          <p className="text-muted">
             We found trips saved on this device. Add them to your account to sync everywhere.
           </p>
           {error && (
-            <p className="text-secondary mt-1" role="alert">
+            <p className="text-danger mt-1" role="alert">
               {error}
             </p>
           )}
         </div>
-        <div className="flex flex-col gap-1 shrink-0">
-          <button
-            type="button"
-            onClick={runImport}
-            disabled={busy}
-            className="py-1.5 px-4 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold hover:opacity-90 disabled:opacity-50"
-          >
+        <div className="flex flex-col gap-1.5 shrink-0">
+          <Button size="sm" onClick={runImport} disabled={busy}>
             {busy ? "Importing…" : "Import"}
-          </button>
-          <button
-            type="button"
-            onClick={() => setDismissed(true)}
-            disabled={busy}
-            className="py-1.5 px-4 rounded-lg text-textGray dark:text-grayish text-sm font-semibold hover:text-secondary"
-          >
+          </Button>
+          <Button variant="ghost" size="sm" onClick={() => setDismissed(true)} disabled={busy}>
             Not now
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -7,7 +7,6 @@ export default function Experts() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-orange-600/20 rounded-3xl blur-3xl"></div>
               <div className="relative bg-white/10 dark:bg-gray-800/10 backdrop-blur-sm rounded-3xl p-8">
                 <img
                   alt="experts"

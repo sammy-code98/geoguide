@@ -41,7 +41,7 @@ export default function SavedTripsPage(): JSX.Element {
   const costs = items.filter((i) => i.type === "costEstimate");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-10">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-textWhite flex items-center gap-2">

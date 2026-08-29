@@ -71,7 +71,6 @@ export default function Hero() {
 
           <div className="order-1 lg:order-2 relative">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-3xl blur-3xl"></div>
               <div className="relative rounded-3xl p-8">
                 <img className="w-full h-[400px] lg:h-[500px] object-cover rounded-2xl"
                   alt='hero-image'

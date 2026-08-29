@@ -42,7 +42,7 @@ export default function ChatPage(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-bg">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-6 flex gap-6 h-screen">
         {/* Sidebar (md+) */}
         <aside className="hidden md:flex w-72 shrink-0 flex-col border-r border-gray-200 dark:border-gray-700 pr-4">

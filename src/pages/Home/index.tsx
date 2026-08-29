@@ -7,7 +7,7 @@ import Hero from '../../components/Home/Hero'
 export default function HomePage(): JSX.Element {
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800"
+      className="min-h-screen bg-bg"
     >
       <Hero />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 py-16">

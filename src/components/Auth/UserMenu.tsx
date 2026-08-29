@@ -31,7 +31,7 @@ export default function UserMenu(): JSX.Element | null {
   if (!user) return null;
 
   const itemClass =
-    "flex items-center gap-2 w-full px-4 py-2.5 text-sm text-black dark:text-textWhite hover:bg-primary/10 text-left";
+    "flex items-center gap-2 w-full px-4 py-2.5 text-sm text-fg hover:bg-surface-2 text-left transition-colors";
 
   return (
     <div className="relative" ref={ref}>
@@ -49,14 +49,14 @@ export default function UserMenu(): JSX.Element | null {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 shadow-xl overflow-hidden z-30"
+          className="absolute right-0 mt-2 w-56 rounded-lg bg-surface border border-border shadow-md overflow-hidden z-30"
         >
-          <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
-            <p className="text-sm font-semibold text-black dark:text-textWhite truncate">
+          <div className="px-4 py-3 border-b border-border">
+            <p className="text-sm font-medium text-fg truncate">
               {user.displayName || "Traveler"}
             </p>
             {user.email && (
-              <p className="text-xs text-textGray dark:text-grayish truncate">{user.email}</p>
+              <p className="text-xs text-muted truncate">{user.email}</p>
             )}
           </div>
           <Link to={AppRoutes.profile} role="menuitem" className={itemClass} onClick={() => setOpen(false)}>

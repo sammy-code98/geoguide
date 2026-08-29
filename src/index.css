@@ -2,34 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  scroll-behavior: smooth;
-  border-style: none;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ── Design tokens (R G B channels for Tailwind alpha support) ── */
+:root {
+  --bg: 250 250 249; /* stone-50 */
+  --surface: 255 255 255; /* white */
+  --surface-2: 245 245 244; /* stone-100 */
+  --border: 231 229 228; /* stone-200 */
+  --fg: 28 25 23; /* stone-900 */
+  --muted: 120 113 108; /* stone-500 */
+  --primary: 15 118 110; /* teal-700 */
+  --primary-foreground: 255 255 255; /* white on teal-700 */
+  --primary-hover: 17 94 89; /* teal-800 */
+  --danger: 220 38 38; /* red-600 */
+  --success: 21 128 61; /* green-700 */
+  --warning: 180 83 9; /* amber-700 */
+  --ring: 15 118 110; /* teal-700 */
 }
 
-.image-container {
-  position: relative;
-  z-index: -1;
-  margin-top: -4rem;
-  top: 50%;
-  left: 0;
+.dark {
+  --bg: 12 10 9; /* stone-950 */
+  --surface: 28 25 23; /* stone-900 */
+  --surface-2: 41 37 36; /* stone-800 */
+  --border: 68 64 60; /* stone-700 */
+  --fg: 245 245 244; /* stone-100 */
+  --muted: 168 162 158; /* stone-400 */
+  --primary: 45 212 191; /* teal-400 */
+  --primary-foreground: 28 25 23; /* stone-900 on teal-400 */
+  --primary-hover: 94 234 212; /* teal-300 */
+  --danger: 248 113 113; /* red-400 */
+  --success: 74 222 128; /* green-400 */
+  --warning: 251 191 36; /* amber-400 */
+  --ring: 45 212 191; /* teal-400 */
 }
 
-.image-container img {
-  position: absolute;
-  top: 0;
-  pointer-events: none;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-synthesis: none;
+  }
+  body {
+    @apply bg-bg text-fg font-sans;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-serif;
+    line-height: 1.15;
+  }
 }
 
-@media (max-width: 768px) {
-  .image-container {
-    left: 200px;
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

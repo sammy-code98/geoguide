@@ -4,7 +4,7 @@ import { GiSpinningBlades } from "react-icons/gi";
 export default function AuthLoading(): JSX.Element {
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800"
+      className="min-h-screen flex items-center justify-center bg-bg"
       role="status"
       aria-live="polite"
     >
