@@ -1,5 +1,8 @@
 export const QueryKey = {
   getCountries: "getCountries",
   getACountry: "getACountry",
-  chatGpt: "chatGpt",
+  countryInsights: "countryInsights",
+  places: "places",
+  weather: "weather",
+  exchangeRates: "exchangeRates",
 } as const;

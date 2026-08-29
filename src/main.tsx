@@ -7,7 +7,16 @@ import { RouterProvider } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 
 const helmetContext = {};
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 min — most data (countries, rates) changes slowly
+      gcTime: 1000 * 60 * 30,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+})
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

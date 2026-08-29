@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FiSun } from "react-icons/fi";
+import { HiSparkles } from "react-icons/hi2";
+import { HiOutlineCalculator, HiOutlineMap, HiOutlineLightBulb, HiOutlineBookmark } from "react-icons/hi";
 import { AppRoutes } from "../../types/routes";
+import { useSavedStore } from "../../store/savedStore";
 
-export default function Index() {
+export default function Header() {
+  const savedCount = useSavedStore((s) => s.items.length);
   const [theme, setTheme] = useState<string | null>(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "system"
   );
@@ -43,15 +47,18 @@ export default function Index() {
     }
   }, [element.classList, onWindowMatch, theme]);
 
-  darkQuery.addEventListener("change", (e) => {
-    if (!("theme" in localStorage)) {
-      if (e.matches) {
-        element.classList.add("dark");
-      } else {
-        element.classList.remove("dark");
+  // Follow the OS theme while the user hasn't picked one explicitly.
+  // Registered once with proper teardown so listeners don't accumulate.
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme:dark)");
+    const handler = (e: MediaQueryListEvent) => {
+      if (!("theme" in localStorage)) {
+        document.documentElement.classList.toggle("dark", e.matches);
       }
-    }
-  });
+    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   const toggleTheme = () => {
     if (theme === "dark") {
@@ -68,7 +75,7 @@ export default function Index() {
   return (
     <header className="fixed bg-transparent top-0 left-0  w-full z-20">
       <div className="px-4 py-2 sm:px-12 pb-4">
-        <nav>
+        <nav aria-label="Primary">
           <div className="flex items-center justify-between mx-auto px-8 py-4 max-w-screen-xl rounded-full shadow-md bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
             <div>
               <Link
@@ -78,17 +85,92 @@ export default function Index() {
                 GeoGuide
               </Link>
             </div>
-            <div className="flex justify-between items-center gap-8">
+            <div className="flex justify-between items-center gap-6 md:gap-8">
+              <NavLink
+                to={AppRoutes.recommendations}
+                aria-label="For You"
+                className={({ isActive }) =>
+                  `flex items-center gap-1 font-semibold ${
+                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  }`
+                }
+              >
+                <HiOutlineLightBulb aria-hidden="true" />
+                <span className="hidden lg:inline">For You</span>
+              </NavLink>
+              <NavLink
+                to={AppRoutes.itinerary}
+                aria-label="Itinerary"
+                className={({ isActive }) =>
+                  `flex items-center gap-1 font-semibold ${
+                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  }`
+                }
+              >
+                <HiOutlineMap aria-hidden="true" />
+                <span className="hidden lg:inline">Itinerary</span>
+              </NavLink>
+              <NavLink
+                to={AppRoutes.costEstimator}
+                aria-label="Trip Cost"
+                className={({ isActive }) =>
+                  `flex items-center gap-1 font-semibold ${
+                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  }`
+                }
+              >
+                <HiOutlineCalculator aria-hidden="true" />
+                <span className="hidden lg:inline">Trip Cost</span>
+              </NavLink>
+              <NavLink
+                to={AppRoutes.chat}
+                aria-label="AI Assistant"
+                className={({ isActive }) =>
+                  `flex items-center gap-1 font-semibold ${
+                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  }`
+                }
+              >
+                <HiSparkles aria-hidden="true" />
+                <span className="hidden lg:inline">AI Assistant</span>
+              </NavLink>
+              <NavLink
+                to={AppRoutes.savedTrips}
+                aria-label={`Saved trips${savedCount > 0 ? ` (${savedCount} saved)` : ""}`}
+                className={({ isActive }) =>
+                  `relative text-2xl ${
+                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  }`
+                }
+              >
+                <HiOutlineBookmark aria-hidden="true" />
+                {savedCount > 0 && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center"
+                  >
+                    {savedCount}
+                  </span>
+                )}
+              </NavLink>
               <div>
-                <a href="https://github.com/sammy-code98/geoguide" target="_blank" className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary">
-                  <FaGithub />
+                <a
+                  href="https://github.com/sammy-code98/geoguide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GeoGuide on GitHub (opens in a new tab)"
+                  className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary"
+                >
+                  <FaGithub aria-hidden="true" />
                 </a>
               </div>
               <button
+                type="button"
                 onClick={toggleTheme}
+                aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
                 className="w-8 h-8 text-2xl rounded-xl text-black dark:text-primary"
               >
-                {isDark ? <FiSun /> : <MdOutlineDarkMode />}
+                {isDark ? <FiSun aria-hidden="true" /> : <MdOutlineDarkMode aria-hidden="true" />}
               </button>
             </div>
           </div>

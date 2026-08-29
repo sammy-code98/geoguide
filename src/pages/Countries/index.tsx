@@ -1,6 +1,7 @@
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCountries } from "../../api/index.api";
+import { getCountries } from "../../api/index.api";
+import type { Country } from "../../types/country";
 import Search from "../../components/Search";
 import Filter from "../../components/Filter";
 import CardLoader from "../../components/CountryCard/cardLoader";
@@ -8,56 +9,40 @@ import CountryCard from "../../components/CountryCard";
 import { NumComma, shortenString } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 
-interface CountryI {
-  name: { common: string };
-  population: number;
-  region: string;
-  capital: string;
-  flags: { png: string; alt: string };
-}
-
 export default function CountriesPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [QueryKey.getCountries],
-    queryFn: getAllCountries,
+    queryFn: getCountries,
   });
 
-  let filteredCountries = data;
+  const filteredCountries = useMemo(() => {
+    let result: Country[] = data ?? [];
 
-  if (searchQuery) {
-    filteredCountries = filteredCountries?.filter((country: CountryI) => {
-      const name = country.name.common.toLowerCase();
-      const capital =
-        country.capital && country.capital[0]
-          ? country.capital[0].toLowerCase()
-          : "";
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter((country) => {
+        const name = country.name.toLowerCase();
+        const capital = country.capital?.toLowerCase() ?? "";
+        return name.includes(q) || capital.includes(q);
+      });
+    }
 
-      const searchQueryLower = searchQuery.toLowerCase();
-      return (
-        name.includes(searchQueryLower) || capital.includes(searchQueryLower)
-      );
-    });
-  }
+    if (selectedRegion) {
+      result = result.filter((country) => country.region === selectedRegion);
+    }
+
+    return result;
+  }, [data, searchQuery, selectedRegion]);
 
   const handleSearchChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      if (event) {
-        setSearchQuery(event.target.value);
-      } else {
-        setSearchQuery("");
-      }
+      setSearchQuery(event?.target?.value ?? "");
     },
     []
   );
-
-  if (selectedRegion) {
-    filteredCountries = filteredCountries?.filter((country: CountryI) => {
-      return country.region === selectedRegion;
-    });
-  }
 
   const handleRegionChange = (region: string) => {
     if (region === "All") {
@@ -76,7 +61,7 @@ export default function CountriesPage(): JSX.Element {
               Oops!
             </h1>
             <p className="text-center text-textGray dark:text-textWhite text-xl">
-              GeoGuide encounterd a{" "}
+              GeoGuide encountered a{" "}
               <span className="font-bold ">{error.message}</span> while fetching
               countries
             </p>
@@ -101,26 +86,35 @@ export default function CountriesPage(): JSX.Element {
         />
       </div>
 
+      <p className="sr-only" role="status" aria-live="polite">
+        {isLoading
+          ? "Loading countries…"
+          : `${filteredCountries.length} ${
+              filteredCountries.length === 1 ? "country" : "countries"
+            } found`}
+      </p>
+
         <div className="py-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full">
         {isLoading ? (
             new Array(9).fill(null).map((_, index) => <CardLoader key={index} />)
         ) : (
           <>
-            {filteredCountries?.map((country: CountryI) => (
+            {filteredCountries.map((country) => (
               <CountryCard
-                key={country.name.common}
-                name={shortenString(country.name.common) || "____"}
+                key={country.cca3 || country.name}
+                code={country.cca3}
+                name={shortenString(country.name) || "____"}
                 population={NumComma(country.population) || 0}
                 region={country.region || "____"}
                 capital={country.capital || "____"}
-                img={country.flags.png}
-                alt={country.flags.alt || `${country.name.common}'s flag`}
+                img={country.flagPng}
+                alt={`${country.name}'s flag`}
               />
             ))}
           </>
         )}
       </div>
-      {filteredCountries?.length === 0 && (
+      {filteredCountries.length === 0 && !isLoading && (
         <div className="flex justify-center items-center">
           <p className="text-center text-textGray text-xl">
             No countries found matching your search query. Try searching for a

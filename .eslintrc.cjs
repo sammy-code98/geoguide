@@ -15,4 +15,17 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  overrides: [
+    {
+      files: ['server/**/*.ts'],
+      env: { node: true, browser: false },
+      rules: {
+        'react-refresh/only-export-components': 'off',
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+        ],
+      },
+    },
+  ],
 }

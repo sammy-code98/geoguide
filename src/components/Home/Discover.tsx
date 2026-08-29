@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import DicoveryCard from '../HomeCards/DiscoveryCard'
+import DiscoveryCard from '../HomeCards/DiscoveryCard'
 import { discoverTravelFeaturesData } from './data'
 import { AppRoutes } from '../../types/routes'
 
@@ -25,7 +25,7 @@ export default function Discover() {
               className="animate-in slide-in-from-bottom-4 duration-500"
               style={{ animationDelay: `${index * 100}ms` }}
           >
-            <DicoveryCard {...data}/>
+            <DiscoveryCard {...data}/>
           </div>
           ))}
         </div>
