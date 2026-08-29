@@ -78,6 +78,9 @@ export async function getDb(): Promise<Firestore> {
         await import("firebase/firestore");
       return initializeFirestore(app, {
         localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+        // Saved items carry optional fields (subtitle/href) — skip undefined
+        // rather than throwing when they're absent.
+        ignoreUndefinedProperties: true,
       });
     })();
   }

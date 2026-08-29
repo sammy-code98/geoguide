@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { HiOutlineBookmark } from "react-icons/hi";
 import { AppRoutes } from "../../types/routes";
 import { useSavedStore, type SavedItem, type SavedInput } from "../../store/savedStore";
+import { useSavedTripsActions } from "../../hooks/useSavedTrips";
 import { NumComma, shortenString } from "../../utils/custom";
 import CountryCard from "../../components/CountryCard";
 import PlaceCard from "../../components/Places/PlaceCard";
@@ -32,7 +33,7 @@ const toInput = (it: SavedItem): SavedInput => ({
 
 export default function SavedTripsPage(): JSX.Element {
   const items = useSavedStore((s) => s.items);
-  const clear = useSavedStore((s) => s.clear);
+  const { clear } = useSavedTripsActions();
 
   const countries = items.filter((i) => i.type === "country");
   const places = items.filter((i) => i.type === "place");

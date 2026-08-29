@@ -14,8 +14,8 @@ const formatDate = (ms: number | null) =>
 export default function ProfilePage(): JSX.Element {
   const user = useCurrentUser();
   const { signOut } = useAuth();
-  // NOTE: saved-trips count comes from the local store for now; it becomes
-  // Firestore-backed in sub-phase 19b, and conversations count in 19c.
+  // Saved-trips count reflects the Firestore-synced store (19b).
+  // Conversations count is wired live in 19c.
   const savedCount = useSavedStore((s) => s.items.length);
 
   return (
