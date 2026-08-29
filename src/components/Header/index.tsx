@@ -4,12 +4,14 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FiSun } from "react-icons/fi";
 import { HiSparkles } from "react-icons/hi2";
-import { HiOutlineCalculator, HiOutlineMap, HiOutlineLightBulb, HiOutlineBookmark } from "react-icons/hi";
+import { HiOutlineCalculator, HiOutlineMap, HiOutlineLightBulb } from "react-icons/hi";
 import { AppRoutes } from "../../types/routes";
-import { useSavedStore } from "../../store/savedStore";
+import { useAuth } from "../../auth/useAuth";
+import UserMenu from "../Auth/UserMenu";
+import SignInButton from "../Auth/SignInButton";
 
 export default function Header() {
-  const savedCount = useSavedStore((s) => s.items.length);
+  const { user, loading } = useAuth();
   const [theme, setTheme] = useState<string | null>(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "system"
   );
@@ -134,25 +136,6 @@ export default function Header() {
                 <HiSparkles aria-hidden="true" />
                 <span className="hidden lg:inline">AI Assistant</span>
               </NavLink>
-              <NavLink
-                to={AppRoutes.savedTrips}
-                aria-label={`Saved trips${savedCount > 0 ? ` (${savedCount} saved)` : ""}`}
-                className={({ isActive }) =>
-                  `relative text-2xl ${
-                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
-                  }`
-                }
-              >
-                <HiOutlineBookmark aria-hidden="true" />
-                {savedCount > 0 && (
-                  <span
-                    aria-hidden="true"
-                    className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center"
-                  >
-                    {savedCount}
-                  </span>
-                )}
-              </NavLink>
               <div>
                 <a
                   href="https://github.com/sammy-code98/geoguide"
@@ -172,6 +155,8 @@ export default function Header() {
               >
                 {isDark ? <FiSun aria-hidden="true" /> : <MdOutlineDarkMode aria-hidden="true" />}
               </button>
+              {/* Auth: guests get a Sign In CTA, users get an avatar menu. */}
+              {loading ? null : user ? <UserMenu /> : <SignInButton />}
             </div>
           </div>
         </nav>

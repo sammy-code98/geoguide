@@ -3,6 +3,7 @@ import { lazy, Suspense, type ReactNode } from "react"
 import { createBrowserRouter } from "react-router-dom"
 import HomeLayout from "./layouts/Home.Layout"
 import { AppRoutes } from "./types/routes"
+import RequireAuth from "./auth/RequireAuth"
 
 import ErrorPage from "./modules/ErrorPage"
 
@@ -17,6 +18,8 @@ const CostEstimatorPage = lazy(() => import("./pages/CostEstimator"))
 const ItineraryPage = lazy(() => import("./pages/Itinerary"))
 const RecommendationsPage = lazy(() => import("./pages/Recommendations"))
 const SavedTripsPage = lazy(() => import("./pages/SavedTrips"))
+const LoginPage = lazy(() => import("./pages/Login"))
+const ProfilePage = lazy(() => import("./pages/Profile"))
 
 const routeFallback = (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800" />
@@ -60,7 +63,15 @@ export const router = createBrowserRouter([
       },
       {
         path: AppRoutes.savedTrips,
-        element: lazyRoute(<SavedTripsPage />)
+        element: <RequireAuth>{lazyRoute(<SavedTripsPage />)}</RequireAuth>
+      },
+      {
+        path: AppRoutes.login,
+        element: lazyRoute(<LoginPage />)
+      },
+      {
+        path: AppRoutes.profile,
+        element: <RequireAuth>{lazyRoute(<ProfilePage />)}</RequireAuth>
       }
     ]
   }

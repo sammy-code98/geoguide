@@ -7,6 +7,8 @@ export const AppRoutes = {
   itinerary: "/itinerary",
   recommendations: "/recommendations",
   savedTrips: "/saved-trips",
+  login: "/login",
+  profile: "/profile",
 } as const;
 
 export type AppRoutes = (typeof AppRoutes)[keyof typeof AppRoutes];
