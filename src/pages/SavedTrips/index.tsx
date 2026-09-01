@@ -11,6 +11,7 @@ import CostResult from "../../components/Cost/CostResult";
 import SaveButton from "../../components/Saved/SaveButton";
 import { button } from "../../components/ui/button";
 import { EmptyState } from "../../components/ui/empty-state";
+import { BackToTop } from "../../components/ui/back-to-top";
 import type { Place } from "../../types/place";
 import type { Itinerary } from "../../types/itinerary";
 import type { CostEstimate } from "../../types/cost";
@@ -139,6 +140,7 @@ export default function SavedTripsPage(): JSX.Element {
           </section>
         )}
       </div>
+      <BackToTop />
     </div>
   );
 }

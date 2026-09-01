@@ -7,6 +7,7 @@ import { CURRENCY_CODES } from "../../constants/currencies";
 import CostResult from "../../components/Cost/CostResult";
 import SaveButton from "../../components/Saved/SaveButton";
 import { Button } from "../../components/ui/button";
+import { BackToTop } from "../../components/ui/back-to-top";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
@@ -176,6 +177,7 @@ export default function CostEstimatorPage(): JSX.Element {
           </div>
         )}
       </div>
+      <BackToTop />
     </div>
   );
 }

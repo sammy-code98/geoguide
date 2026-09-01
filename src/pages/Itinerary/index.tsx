@@ -7,6 +7,7 @@ import type { ItineraryInput, TravelStyle } from "../../types/itinerary";
 import { TRAVEL_INTERESTS } from "../../constants/interests";
 import ItineraryResult from "../../components/Itinerary/ItineraryResult";
 import { Button } from "../../components/ui/button";
+import { BackToTop } from "../../components/ui/back-to-top";
 import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
@@ -172,6 +173,7 @@ export default function ItineraryPage(): JSX.Element {
           />
         )}
       </div>
+      <BackToTop />
     </div>
   );
 }

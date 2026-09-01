@@ -7,6 +7,7 @@ import type { Climate, RecommendationsInput } from "../../types/recommendations"
 import { TRAVEL_INTERESTS } from "../../constants/interests";
 import RecommendationCard from "../../components/Recommendations/RecommendationCard";
 import { Button } from "../../components/ui/button";
+import { BackToTop } from "../../components/ui/back-to-top";
 import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
@@ -173,6 +174,7 @@ export default function RecommendationsPage(): JSX.Element {
           </div>
         )}
       </div>
+      <BackToTop />
     </div>
   );
 }

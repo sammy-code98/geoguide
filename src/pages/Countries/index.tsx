@@ -8,6 +8,7 @@ import Filter from "../../components/Filter";
 import CardLoader from "../../components/CountryCard/cardLoader";
 import CountryCard from "../../components/CountryCard";
 import { EmptyState } from "../../components/ui/empty-state";
+import { BackToTop } from "../../components/ui/back-to-top";
 import { NumComma, shortenString } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 
@@ -118,6 +119,7 @@ export default function CountriesPage(): JSX.Element {
         />
       )}
     </div>
+      <BackToTop />
     </div>
   );
 }
