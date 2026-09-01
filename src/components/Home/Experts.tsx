@@ -1,131 +1,44 @@
+import { HiOutlineCheckCircle } from "react-icons/hi2"
 import Expert from "../../assets/places/expert.jpg"
+import { Badge } from "../ui/badge"
+
+const FEATURES = ["Travel experts", "Local expertise", "24/7 support", "Best deals"]
 
 export default function Experts() {
   return (
-    <section className="py-16">
+    <section>
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-            <div className="relative">
-              <div className="relative bg-white/10 dark:bg-gray-800/10 backdrop-blur-sm rounded-3xl p-8">
-                <img
-                  alt="experts"
-                  src={Expert}
-                  loading="lazy"
-                  className="w-full h-[400px] lg:h-[500px] object-cover rounded-2xl"
-                />
-
-                <div className="absolute bottom-6 right-6 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-white/20 dark:border-gray-700/20">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-secondary">
-                      500+
-                    </div>
-                    <div className="text-xs text-textGray dark:text-grayish">
-                      Trusted Experts
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="order-1">
+            <img
+              alt="A local travel expert"
+              src={Expert}
+              loading="lazy"
+              className="w-full h-[400px] lg:h-[500px] object-cover rounded-xl border border-border"
+            />
           </div>
-          <div className="space-y-8">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm font-medium">
-                <span className="w-2 h-2 bg-secondary rounded-full animate-ping"></span>
-                Destination Experts
-              </div>
+          <div className="order-2 space-y-8">
+            <div className="space-y-5">
+              <Badge variant="primary">Destination experts</Badge>
 
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black dark:text-white leading-tight">
-                Connect with reliable Travel Experts wherever you go
+              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-fg leading-tight">
+                Connect with reliable travel experts wherever you go
               </h2>
 
-              <div className="space-y-4 text-lg text-textGray dark:text-grayish leading-relaxed">
-                <p>
-                  Discover your next adventure on GeoGuide. Explore a world of destinations, must-see landmarks, hidden gems, and cultural guides. For expert recommendations and on-the-ground insights, connect with our trusted Local Experts.
-                </p>
-              </div>
+              <p className="text-lg text-muted leading-relaxed">
+                Explore a world of destinations, must-see landmarks, hidden gems, and
+                cultural guides. For expert recommendations and on-the-ground insight,
+                connect with our trusted local experts.
+              </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-4 h-4 text-secondary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {FEATURES.map((feature) => (
+                <div key={feature} className="flex items-center gap-2.5">
+                  <HiOutlineCheckCircle className="text-primary text-xl shrink-0" aria-hidden="true" />
+                  <span className="text-sm text-muted">{feature}</span>
                 </div>
-                <span className="text-sm text-textGray dark:text-grayish">
-                  Travel Experts
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-4 h-4 text-secondary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-                <span className="text-sm text-textGray dark:text-grayish">
-                  Local Expertise
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-4 h-4 text-secondary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-                <span className="text-sm text-textGray dark:text-grayish">
-                  24/7 Support
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-4 h-4 text-secondary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-                <span className="text-sm text-textGray dark:text-grayish">
-                  Best Deals
-                </span>
-              </div>
+              ))}
             </div>
           </div>
         </div>

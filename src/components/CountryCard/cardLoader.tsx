@@ -1,20 +1,14 @@
+import { Skeleton } from "../ui/skeleton";
+
 export default function CardLoader(): JSX.Element {
   return (
-    <div className="w-full rounded-lg shadow-md bg-bg">
-      <div className="animate-pulse">
-        <div>
-          <div className="h-40 w-full bg-textWhite rounded-t-lg"></div>
-        </div>
-        <hr />
-        <div className="p-5 space-y-4 w-full">
-          <div className="h-2 w-full rounded bg-textWhite"></div>
-          <div className="h-2 w-full rounded bg-textWhite"></div>
-          <div className="h-2 w-full rounded bg-textWhite"></div>
-          <div className="h-2 w-full rounded bg-textWhite"></div>
-          <div className="h-2 w-full rounded bg-textWhite"></div>
-          <div className="h-2 w-full rounded bg-textWhite"></div>
-          <div className="h-2 w-full rounded bg-textWhite"></div>
-        </div>
+    <div className="bg-surface border border-border rounded-lg overflow-hidden">
+      <Skeleton className="h-40 w-full rounded-none" />
+      <div className="p-5 space-y-3">
+        <Skeleton className="h-5 w-2/3" />
+        <Skeleton className="h-3 w-full" />
+        <Skeleton className="h-3 w-5/6" />
+        <Skeleton className="h-3 w-1/2" />
       </div>
     </div>
   );

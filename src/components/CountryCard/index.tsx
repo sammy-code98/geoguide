@@ -14,28 +14,36 @@ interface CountryCardI {
 const CountryCard = memo(function CountryCard({ code, name, population, region, capital, img, alt }: CountryCardI) {
   const detailLink = AppRoutes.detail.replace(':code', code)
   return (
-    <>
-      <Link to={detailLink} >
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-2xl  h-full transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:scale-105 hover:border-primary/30">
-          <div>
-            <img className="h-40 w-full object-cover rounded-t-lg" src={img} alt={alt} loading="lazy" />
-        </div>
-          <hr />
-          <div className="p-5 space-y-4">
-            <h5 className="text-lg font-bold tracking-light text-black dark:text-textWhite">{name}</h5>
-            <p className="font-normal text-black dark:text-textWhite">Population :
-              <span className="text-primary ml-1 font-medium">{population}</span>
-          </p>
-            <p className="font-normal text-black dark:text-textWhite">Region :
-              <span className="text-primary ml-1 font-medium">{region}</span>
-          </p>
-            <p className="font-normal text-black dark:text-textWhite">Capital :
-              <span className="text-primary ml-1 font-medium">{capital}</span>
-          </p>
-        </div>
+    <Link
+      to={detailLink}
+      className="group block h-full bg-surface border border-border rounded-lg overflow-hidden transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <img
+        className="h-40 w-full object-cover border-b border-border"
+        src={img}
+        alt={alt}
+        loading="lazy"
+      />
+      <div className="p-5 space-y-3">
+        <h3 className="text-lg font-semibold text-fg group-hover:text-primary transition-colors">
+          {name}
+        </h3>
+        <dl className="space-y-1.5 text-sm">
+          <div className="flex gap-1.5">
+            <dt className="text-muted">Population</dt>
+            <dd className="text-fg font-medium">{population}</dd>
+          </div>
+          <div className="flex gap-1.5">
+            <dt className="text-muted">Region</dt>
+            <dd className="text-fg font-medium">{region}</dd>
+          </div>
+          <div className="flex gap-1.5">
+            <dt className="text-muted">Capital</dt>
+            <dd className="text-fg font-medium">{capital}</dd>
+          </div>
+        </dl>
       </div>
-      </Link>
-    </>
+    </Link>
   )
 })
 
