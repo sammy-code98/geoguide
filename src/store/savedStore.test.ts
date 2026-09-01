@@ -1,74 +1,55 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { act, renderHook } from "@testing-library/react";
-import { useSavedStore, useIsSaved, type SavedInput } from "./savedStore";
+import { useSavedStore, useIsSaved, type SavedItem } from "./savedStore";
+import { mergeSavedById } from "../services/firebase/TripService";
 
-const country: SavedInput = {
-  id: "country:NGA",
+const item = (id: string, savedAt: number): SavedItem => ({
+  id,
   type: "country",
-  title: "Nigeria",
-  href: "/detail/NGA",
-};
-
-const place: SavedInput = {
-  id: "place:lagos",
-  type: "place",
-  title: "Lagos",
-};
+  title: id,
+  savedAt,
+});
 
 beforeEach(() => {
-  // The store persists to localStorage (cleared in setup) — also reset the
-  // in-memory copy so each test starts empty regardless of import order.
   useSavedStore.setState({ items: [] });
 });
 
-describe("savedStore", () => {
-  it("toggling an item adds it, toggling again removes it", () => {
-    const { toggle } = useSavedStore.getState();
-
-    act(() => toggle(country));
-    expect(useSavedStore.getState().items).toHaveLength(1);
-    expect(useSavedStore.getState().items[0].id).toBe("country:NGA");
-
-    act(() => toggle(country));
-    expect(useSavedStore.getState().items).toHaveLength(0);
-  });
-
-  it("stamps savedAt when adding", () => {
-    act(() => useSavedStore.getState().toggle(country));
-    expect(typeof useSavedStore.getState().items[0].savedAt).toBe("number");
-  });
-
-  it("prepends newly saved items (most recent first)", () => {
-    act(() => useSavedStore.getState().toggle(country));
-    act(() => useSavedStore.getState().toggle(place));
-    expect(useSavedStore.getState().items.map((i) => i.id)).toEqual([
-      "place:lagos",
-      "country:NGA",
-    ]);
-  });
-
-  it("remove deletes only the matching id", () => {
-    act(() => useSavedStore.getState().toggle(country));
-    act(() => useSavedStore.getState().toggle(place));
-    act(() => useSavedStore.getState().remove("country:NGA"));
-    expect(useSavedStore.getState().items.map((i) => i.id)).toEqual(["place:lagos"]);
-  });
-
-  it("clear empties the store", () => {
-    act(() => useSavedStore.getState().toggle(country));
-    act(() => useSavedStore.getState().toggle(place));
-    act(() => useSavedStore.getState().clear());
-    expect(useSavedStore.getState().items).toHaveLength(0);
-  });
-
-  it("useIsSaved reacts to toggles", () => {
+describe("savedStore (UI cache)", () => {
+  it("setItems replaces the mirror and useIsSaved reflects it", () => {
     const { result } = renderHook(() => useIsSaved("country:NGA"));
     expect(result.current).toBe(false);
 
-    act(() => useSavedStore.getState().toggle(country));
+    act(() => useSavedStore.getState().setItems([item("country:NGA", 1)]));
     expect(result.current).toBe(true);
 
-    act(() => useSavedStore.getState().toggle(country));
+    act(() => useSavedStore.getState().setItems([]));
     expect(result.current).toBe(false);
+  });
+
+  it("setItems ignores a no-op replace with the same array reference", () => {
+    const arr = [item("a", 1)];
+    act(() => useSavedStore.getState().setItems(arr));
+    const first = useSavedStore.getState().items;
+    act(() => useSavedStore.getState().setItems(arr));
+    expect(useSavedStore.getState().items).toBe(first); // unchanged reference
+  });
+});
+
+describe("mergeSavedById", () => {
+  it("unions two lists by id", () => {
+    const merged = mergeSavedById([item("a", 1)], [item("b", 2)]);
+    expect(merged.map((i) => i.id).sort()).toEqual(["a", "b"]);
+  });
+
+  it("keeps the most recently saved copy of a duplicate id", () => {
+    const merged = mergeSavedById([item("a", 10)], [{ ...item("a", 20), title: "newer" }]);
+    expect(merged).toHaveLength(1);
+    expect(merged[0].savedAt).toBe(20);
+    expect(merged[0].title).toBe("newer");
+  });
+
+  it("sorts results newest first", () => {
+    const merged = mergeSavedById([item("old", 1)], [item("new", 5)]);
+    expect(merged.map((i) => i.id)).toEqual(["new", "old"]);
   });
 });

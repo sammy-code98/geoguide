@@ -27,7 +27,7 @@ export const getHeroSectionContent = (activeTab: HomepageTabs) => {
     [HomepageTabs.Country]: {
       title: "Discover Countries Around the World with GeoGuide",
       description:
-        "Explore essential details about countries, including culture, languages, currency, and must-visit destinations.",
+        "Explore essential details about countries, including culture, languages, currency, and must visit destinations.",
     },
     [HomepageTabs.City]: {
       title: "Find the Best Cities to Visit with GeoGuide",
@@ -37,7 +37,7 @@ export const getHeroSectionContent = (activeTab: HomepageTabs) => {
     [HomepageTabs.Travel]: {
       title: "Plan Your Next Adventure with GeoGuide",
       description:
-        "Get helpful travel insights—visa info, weather, attractions, and more—to make your trip smooth and enjoyable.",
+        "Get helpful travel insights, visa info, weather, attractions, and more, to make your trip smooth and enjoyable.",
     },
     [HomepageTabs.History]: {
       title: "Learn the History of Any Country with GeoGuide",
@@ -70,7 +70,7 @@ export const discoverTravelFeaturesData = [
     Icon: TbHomeSearch,
     title: "Planning a Trip?",
     description:
-      "Find essential information—visa requirements, climate, attractions, and more—to help plan your journey.",
+      "Find essential information, visa requirements, climate, attractions, and more, to help plan your journey.",
   },
 ];
 

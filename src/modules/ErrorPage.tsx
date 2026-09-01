@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom"
 export default function ErrorPage():JSX.Element {
   return (
     <div className="h-screen flex flex-col justify-center items-center  text-center">
-        <h1 className="mb-4 text-8xl font-semibold text-primary">404</h1>
-        <p className="mb-4 text-xl text-textGray">Oops! Looks like you're lost.</p>
+        <h1 className="mb-4 font-serif text-8xl font-semibold text-primary">404</h1>
+        <p className="mb-4 text-xl text-muted">Oops! Looks like you're lost.</p>
         <div className="animate-bounce">
         <svg
           className="mx-auto h-16 w-16 text-primary"
@@ -20,7 +20,7 @@ export default function ErrorPage():JSX.Element {
           ></path>
         </svg>
         </div>
-        <p className="mt-4 text-textGray">
+        <p className="mt-4 text-muted">
         Let's get you back {" "}
         <NavLink to="/" className="text-primary font-semibold">
           home

@@ -9,5 +9,10 @@ afterEach(() => {
 });
 
 beforeEach(() => {
-  localStorage.clear();
+  // Guard: some environments expose no working localStorage.
+  try {
+    localStorage?.clear();
+  } catch {
+    /* no localStorage available — nothing to reset */
+  }
 });

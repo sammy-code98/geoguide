@@ -3,13 +3,15 @@ import { Link, NavLink } from "react-router-dom";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FiSun } from "react-icons/fi";
-import { HiSparkles } from "react-icons/hi2";
-import { HiOutlineCalculator, HiOutlineMap, HiOutlineLightBulb, HiOutlineBookmark } from "react-icons/hi";
+import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
+import { HiOutlineCalculator, HiOutlineMap, HiOutlineLightBulb } from "react-icons/hi";
 import { AppRoutes } from "../../types/routes";
-import { useSavedStore } from "../../store/savedStore";
+import { useAuth } from "../../auth/useAuth";
+import UserMenu from "../Auth/UserMenu";
+import SignInButton from "../Auth/SignInButton";
 
 export default function Header() {
-  const savedCount = useSavedStore((s) => s.items.length);
+  const { user, loading } = useAuth();
   const [theme, setTheme] = useState<string | null>(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "system"
   );
@@ -76,11 +78,11 @@ export default function Header() {
     <header className="fixed bg-transparent top-0 left-0  w-full z-20">
       <div className="px-4 py-2 sm:px-12 pb-4">
         <nav aria-label="Primary">
-          <div className="flex items-center justify-between mx-auto px-8 py-4 max-w-screen-xl rounded-full shadow-md bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
+          <div className="flex items-center justify-between mx-auto px-6 py-3 max-w-screen-xl rounded-xl border border-border bg-surface/80 backdrop-blur-md">
             <div>
               <Link
                 to={AppRoutes.getStarted}
-                className="bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent text-2xl font-bold italic"
+                className="font-serif text-2xl font-semibold tracking-tight text-primary"
               >
                 GeoGuide
               </Link>
@@ -90,8 +92,8 @@ export default function Header() {
                 to={AppRoutes.recommendations}
                 aria-label="For You"
                 className={({ isActive }) =>
-                  `flex items-center gap-1 font-semibold ${
-                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  `flex items-center gap-1 font-medium ${
+                    isActive ? "text-primary" : "text-muted hover:text-fg"
                   }`
                 }
               >
@@ -102,8 +104,8 @@ export default function Header() {
                 to={AppRoutes.itinerary}
                 aria-label="Itinerary"
                 className={({ isActive }) =>
-                  `flex items-center gap-1 font-semibold ${
-                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  `flex items-center gap-1 font-medium ${
+                    isActive ? "text-primary" : "text-muted hover:text-fg"
                   }`
                 }
               >
@@ -114,8 +116,8 @@ export default function Header() {
                 to={AppRoutes.costEstimator}
                 aria-label="Trip Cost"
                 className={({ isActive }) =>
-                  `flex items-center gap-1 font-semibold ${
-                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  `flex items-center gap-1 font-medium ${
+                    isActive ? "text-primary" : "text-muted hover:text-fg"
                   }`
                 }
               >
@@ -126,32 +128,13 @@ export default function Header() {
                 to={AppRoutes.chat}
                 aria-label="AI Assistant"
                 className={({ isActive }) =>
-                  `flex items-center gap-1 font-semibold ${
-                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
+                  `flex items-center gap-1 font-medium ${
+                    isActive ? "text-primary" : "text-muted hover:text-fg"
                   }`
                 }
               >
-                <HiSparkles aria-hidden="true" />
+                <HiOutlineChatBubbleLeftRight aria-hidden="true" />
                 <span className="hidden lg:inline">AI Assistant</span>
-              </NavLink>
-              <NavLink
-                to={AppRoutes.savedTrips}
-                aria-label={`Saved trips${savedCount > 0 ? ` (${savedCount} saved)` : ""}`}
-                className={({ isActive }) =>
-                  `relative text-2xl ${
-                    isActive ? "text-primary" : "text-black dark:text-textWhite hover:text-primary"
-                  }`
-                }
-              >
-                <HiOutlineBookmark aria-hidden="true" />
-                {savedCount > 0 && (
-                  <span
-                    aria-hidden="true"
-                    className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center"
-                  >
-                    {savedCount}
-                  </span>
-                )}
               </NavLink>
               <div>
                 <a
@@ -159,7 +142,7 @@ export default function Header() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GeoGuide on GitHub (opens in a new tab)"
-                  className="w-8 h-8 leading-9 text-2xl rounded-xl text-black dark:text-primary"
+                  className="w-8 h-8 leading-9 text-2xl rounded-xl text-muted hover:text-fg transition-colors"
                 >
                   <FaGithub aria-hidden="true" />
                 </a>
@@ -168,10 +151,12 @@ export default function Header() {
                 type="button"
                 onClick={toggleTheme}
                 aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-                className="w-8 h-8 text-2xl rounded-xl text-black dark:text-primary"
+                className="w-8 h-8 text-2xl rounded-xl text-muted hover:text-fg transition-colors"
               >
                 {isDark ? <FiSun aria-hidden="true" /> : <MdOutlineDarkMode aria-hidden="true" />}
               </button>
+              {/* Auth: guests get a Sign In CTA, users get an avatar menu. */}
+              {loading ? null : user ? <UserMenu /> : <SignInButton />}
             </div>
           </div>
         </nav>

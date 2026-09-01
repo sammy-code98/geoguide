@@ -1,12 +1,14 @@
 import { FormEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { HiOutlineMap } from "react-icons/hi";
-import { GiSpinningBlades } from "react-icons/gi";
 import { useItinerary } from "../../hooks/useItinerary";
 import type { BudgetLevel } from "../../types/cost";
 import type { ItineraryInput, TravelStyle } from "../../types/itinerary";
 import { TRAVEL_INTERESTS } from "../../constants/interests";
 import ItineraryResult from "../../components/Itinerary/ItineraryResult";
+import { Button } from "../../components/ui/button";
+import { BackToTop } from "../../components/ui/back-to-top";
+import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: BudgetLevel[] = ["budget", "moderate", "luxury"];
@@ -45,22 +47,22 @@ export default function ItineraryPage(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-bg">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-8">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-            <HiOutlineMap className="text-primary" />
-            AI Itinerary Generator
+          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg flex items-center gap-2">
+            <HiOutlineMap className="text-primary" aria-hidden="true" />
+            Itinerary planner
           </h1>
-          <p className="text-textGray dark:text-grayish mt-2">
-            Get a personalized day-by-day travel plan. Powered by Gemini.
+          <p className="text-muted mt-2">
+            A personalized day-by-day travel plan, tailored to your interests.
           </p>
         </div>
 
         {/* Form */}
         <form
           onSubmit={onSubmit}
-          className="bg-white/70 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 space-y-4"
+          className="bg-surface border border-border rounded-xl p-6 space-y-4"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
@@ -130,11 +132,13 @@ export default function ItineraryPage(): JSX.Element {
                     key={interest}
                     type="button"
                     onClick={() => toggleInterest(interest)}
-                    className={`py-1.5 px-3 rounded-full text-sm font-semibold border transition-colors ${
+                    aria-pressed={active}
+                    className={cn(
+                      "py-1.5 px-3.5 rounded-full text-sm font-medium border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       active
-                        ? "bg-primary text-white border-primary"
-                        : "bg-white/80 dark:bg-gray-800/80 text-black dark:text-textWhite border-gray-200 dark:border-gray-600 hover:border-primary/50"
-                    }`}
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-surface text-fg border-border hover:border-primary/40"
+                    )}
                   >
                     {interest}
                   </button>
@@ -143,25 +147,20 @@ export default function ItineraryPage(): JSX.Element {
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={isPending}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:opacity-90 disabled:opacity-50"
-          >
+          <Button type="submit" size="lg" disabled={isPending} className="w-full">
             {isPending ? "Generating…" : "Generate itinerary"}
-          </button>
+          </Button>
         </form>
 
         {/* States */}
         {isPending && (
-          <div className="flex flex-col items-center justify-center gap-3 py-12">
-            <GiSpinningBlades className="text-5xl text-primary animate-spin" />
-            <p className="text-textGray dark:text-grayish">Planning your trip…</p>
-          </div>
+          <p className="text-center text-muted py-12" role="status">
+            Planning your trip…
+          </p>
         )}
 
         {isError && !isPending && (
-          <p className="text-center text-secondary" role="alert">
+          <p className="text-center text-danger" role="alert">
             {(error as Error)?.message || "Couldn't generate an itinerary. Please try again."}
           </p>
         )}
@@ -174,6 +173,7 @@ export default function ItineraryPage(): JSX.Element {
           />
         )}
       </div>
+      <BackToTop />
     </div>
   );
 }

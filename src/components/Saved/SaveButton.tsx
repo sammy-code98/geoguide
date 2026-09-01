@@ -1,5 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { HiBookmark, HiOutlineBookmark } from "react-icons/hi";
-import { useIsSaved, useSavedStore, type SavedInput } from "../../store/savedStore";
+import { useIsSaved, type SavedInput } from "../../store/savedStore";
+import { useSavedTripsActions } from "../../hooks/useSavedTrips";
+import { useAuth } from "../../auth/useAuth";
+import { AppRoutes } from "../../types/routes";
 
 interface SaveButtonProps {
   item: SavedInput;
@@ -10,21 +14,35 @@ interface SaveButtonProps {
 }
 
 export default function SaveButton({ item, label, compact }: SaveButtonProps): JSX.Element {
-  const saved = useIsSaved(item.id);
-  const toggle = useSavedStore((s) => s.toggle);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { toggle } = useSavedTripsActions();
+  const savedWhenAuthed = useIsSaved(item.id);
+  const saved = Boolean(user) && savedWhenAuthed;
 
   const Icon = saved ? HiBookmark : HiOutlineBookmark;
+
+  // Guests can't save — send them to sign in first.
+  const handle = () => {
+    if (!user) {
+      navigate(AppRoutes.login);
+      return;
+    }
+    toggle(item);
+  };
+
+  const ariaLabel = !user ? "Sign in to save" : saved ? "Remove from saved" : "Save";
 
   if (compact) {
     return (
       <button
         onClick={(e) => {
           e.preventDefault();
-          toggle(item);
+          handle();
         }}
         aria-pressed={saved}
-        aria-label={saved ? "Remove from saved" : "Save"}
-        className="w-9 h-9 rounded-full bg-white/90 dark:bg-gray-900/80 text-primary flex items-center justify-center shadow hover:scale-105 transition-transform"
+        aria-label={ariaLabel}
+        className="w-9 h-9 rounded-full bg-surface/90 border border-border text-primary flex items-center justify-center hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <Icon className="text-lg" />
       </button>
@@ -33,9 +51,13 @@ export default function SaveButton({ item, label, compact }: SaveButtonProps): J
 
   return (
     <button
-      onClick={() => toggle(item)}
+      onClick={(e) => {
+        e.preventDefault();
+        handle();
+      }}
       aria-pressed={saved}
-      className="py-2 px-4 rounded shadow-sm flex items-center gap-1 text-sm font-bold text-primary bg-white dark:bg-bgDark hover:opacity-90"
+      aria-label={ariaLabel}
+      className="py-2 px-4 rounded-md border border-border flex items-center gap-1.5 text-sm font-medium text-primary bg-surface hover:bg-surface-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <Icon />
       {label && (saved ? "Saved" : "Save")}

@@ -1,9 +1,8 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import DetailLoader from "./detailLoader";
-import { MdArrowBackIos } from "react-icons/md";
-import { HiSparkles } from "react-icons/hi2";
+import { MdArrowBackIos, MdOutlineTravelExplore } from "react-icons/md";
 import { HiOutlineCalculator, HiOutlineMap, HiOutlineCurrencyDollar, HiOutlineLocationMarker } from "react-icons/hi";
 import { getCountryByCode } from "../../api/index.api";
 import { AppRoutes } from "../../types/routes";
@@ -14,10 +13,43 @@ import WeatherWidget from "../../components/Weather/WeatherWidget";
 import CurrencyConverter from "../../components/Currency/CurrencyConverter";
 import PlaceDiscovery from "../../components/Places/PlaceDiscovery";
 import SaveButton from "../../components/Saved/SaveButton";
+import { Button, button } from "../../components/ui/button";
+import { EmptyState } from "../../components/ui/empty-state";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
 
 // Leaflet is heavy — load the map only when a Detail page actually renders it.
 const CountryMap = lazy(() => import("../../components/Map/CountryMap"));
+
+/** One label/value pair in the country fact grid. */
+function Fact({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="py-2.5 border-b border-border">
+      <dt className="text-xs uppercase tracking-wide text-muted">{label}</dt>
+      <dd className="mt-0.5 text-fg font-medium">{children}</dd>
+    </div>
+  );
+}
+
+/** An editorial section with a serif heading and a divider. */
+function Section({ icon, title, subtitle, action, children }: {
+  icon: ReactNode; title: string; subtitle?: string; action?: ReactNode; children: ReactNode;
+}) {
+  return (
+    <section className="pt-10 mt-10 border-t border-border">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-fg flex items-center gap-2">
+            <span className="text-primary" aria-hidden="true">{icon}</span>
+            {title}
+          </h2>
+          {subtitle && <p className="text-muted mt-1">{subtitle}</p>}
+        </div>
+        {action}
+      </div>
+      <div className="mt-6">{children}</div>
+    </section>
+  );
+}
 
 export default function DetailsPage() {
   const { code } = useParams();
@@ -34,8 +66,8 @@ export default function DetailsPage() {
 
   if (isLoading)
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-24 md:py-36">
+      <div className="min-h-screen bg-bg">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <DetailLoader />
         </div>
       </div>
@@ -43,49 +75,41 @@ export default function DetailsPage() {
 
   if (isError || !country) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center h-screen space-y-6">
-          <h1 className="text-8xl font-bold text-primary italic text-center">Oops!</h1>
-          <p className="text-center text-textGray dark:text-textWhite text-xl">
-            We couldn't find details for this country.
-          </p>
-          <Link to={AppRoutes.countries}>
-            <button className="py-2 px-4 bg-white dark:bg-bgDark rounded shadow-sm flex justify-center items-center text-sm font-bold text-black dark:text-textWhite">
-              <MdArrowBackIos />
-              Back to countries
-            </button>
-          </Link>
-        </div>
+      <div className="min-h-screen bg-bg flex items-center justify-center px-4">
+        <EmptyState
+          icon={<HiOutlineLocationMarker />}
+          title="Country not found"
+          description="We couldn't find details for this country."
+          action={
+            <Link to={AppRoutes.countries} className={button({ variant: "outline", size: "sm" })}>
+              <MdArrowBackIos className="text-xs" /> Back to countries
+            </Link>
+          }
+        />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50  dark:from-gray-900 dark:to-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 py-24 md:py-36">
+    <div className="min-h-screen bg-bg">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+        {/* Toolbar */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
-          <Link to={AppRoutes.countries}>
-            <button className="py-2 px-4 bg-white dark:bg-bgDark rounded shadow-sm flex justify-center items-center text-sm font-bold text-black dark:text-textWhite">
-              <MdArrowBackIos />
-              Back
-            </button>
+          <Link to={AppRoutes.countries} className={button({ variant: "ghost", size: "sm" })}>
+            <MdArrowBackIos className="text-xs" /> Back
           </Link>
           <div className="flex items-center gap-2 flex-wrap">
             <Link
               to={`${AppRoutes.itinerary}?destination=${encodeURIComponent(country.name)}`}
+              className={button({ variant: "outline", size: "sm" })}
             >
-              <button className="py-2 px-4 rounded shadow-sm flex items-center gap-1 text-sm font-bold text-primary bg-white dark:bg-bgDark hover:opacity-90">
-                <HiOutlineMap />
-                Plan an itinerary
-              </button>
+              <HiOutlineMap /> Plan an itinerary
             </Link>
             <Link
               to={`${AppRoutes.costEstimator}?destination=${encodeURIComponent(country.name)}`}
+              className={button({ variant: "outline", size: "sm" })}
             >
-              <button className="py-2 px-4 rounded shadow-sm flex items-center gap-1 text-sm font-bold text-primary bg-white dark:bg-bgDark hover:opacity-90">
-                <HiOutlineCalculator />
-                Estimate trip cost
-              </button>
+              <HiOutlineCalculator /> Estimate trip cost
             </Link>
             <SaveButton
               label
@@ -108,248 +132,112 @@ export default function DetailsPage() {
           </div>
         </div>
 
-        <div className="py-4 md:py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-20 justify-items-center">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-orange-600/20 rounded-3xl blur-3xl"></div>
-              <div className="relative h-[400px]  lg:h-[500px] bg-white/10 dark:bg-gray-800/10 backdrop-blur-sm rounded-3xl p-8">
-                <img
-                  alt={`${country.name}'s flag`}
-                  src={country.flagPng}
-                  className="w-full h-[400px]- h-full object-cover rounded-2xl"
-                />
-              </div>
-            </div>
-            <div>
-              <h5 className="mb-2 text-3xl font-bold tracking-light text-black dark:text-textWhite">
-                {country.name}
-              </h5>
+        {/* Destination hero */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <img
+            alt={`${country.name}'s flag`}
+            src={country.flagPng}
+            className="w-full h-[280px] lg:h-[360px] object-cover rounded-xl border border-border"
+          />
+          <div>
+            <p className="text-sm text-muted">{country.region}{country.subregion ? ` · ${country.subregion}` : ""}</p>
+            <h1 className="font-serif text-4xl md:text-5xl font-semibold text-fg mt-1">
+              {country.name}
+            </h1>
+            {country.nativeName && (
+              <p className="text-muted mt-1">{country.nativeName}</p>
+            )}
 
-              <div className="py-2 md:py-4 flex justify-between flex-wrap">
-                <div className="space-y-4">
-                  {country.nativeName && (
-                    <p className="font-normal text-black dark:text-textWhite">
-                      Native Name :
-                      <span className="text-primary ml-1 font-medium">
-                        {country.nativeName}
-                      </span>
-                    </p>
-                  )}
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Capital :
-                    <span className="text-primary ml-1 font-medium">
-                      {country.capital ?? "—"}
-                    </span>
-                  </p>
-                  <p className="font-normal text-black dark:text-textWhite ">
-                    Population :
-                    <span className="text-primary ml-1 font-medium">
-                      {NumComma(country.population)}
-                    </span>
-                  </p>
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Region :
-                    <span className="text-primary ml-1 font-medium">
-                      {country.region}
-                    </span>
-                  </p>
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Sub Region :
-                    <span className="text-primary ml-1 font-medium">
-                      {country.subregion ?? "—"}
-                    </span>
-                  </p>
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Independent :
-                    <span className="text-primary ml-1 font-medium">
-                      {country.independent ? "Yes" : "No"}
-                    </span>
-                  </p>
-                </div>
+            <dl className="mt-6 grid grid-cols-2 gap-x-8">
+              <Fact label="Capital">{country.capital ?? "—"}</Fact>
+              <Fact label="Population">{NumComma(country.population)}</Fact>
+              <Fact label="Currency">
+                {country.currencies.map((c) => `${c.name}${c.symbol ? ` (${c.symbol})` : ""}`).join(", ") || "—"}
+              </Fact>
+              <Fact label="Languages">{country.languages.join(", ") || "—"}</Fact>
+              <Fact label="Calling code">
+                {country.callingCodes.map((c) => `+${c}`).join(", ") || "—"}
+              </Fact>
+              <Fact label="Independent">{country.independent ? "Yes" : "No"}</Fact>
+            </dl>
 
-                <div className="space-y-4">
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Top Level Domain :
-                    <span className="text-primary ml-1 font-medium">
-                      {country.topLevelDomains.join(", ") || "—"}
+            {country.timezones.length > 0 && (
+              <div className="mt-5">
+                <p className="text-xs uppercase tracking-wide text-muted mb-2">Time zones</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {country.timezones.map((tz) => (
+                    <span key={tz} className="text-xs text-fg bg-surface-2 border border-border rounded-md px-2 py-1">
+                      {tz}
                     </span>
-                  </p>
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Currency Name :
-                    {country.currencies.map((curr) => (
-                      <span
-                        key={curr.code || curr.name}
-                        className="text-primary ml-1 capitalize font-medium"
-                      >
-                        {curr.name}
-                      </span>
-                    ))}
-                  </p>
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Currency Symbol :
-                    {country.currencies.map((curr) => (
-                      <span
-                        key={curr.code || curr.symbol}
-                        className="text-primary ml-1 font-medium"
-                      >
-                        {curr.symbol}
-                      </span>
-                    ))}
-                  </p>
-                  <div className="flex">
-                    <p className="font-normal text-black dark:text-textWhite">
-                      Languages :
-                    </p>
-                    <div className="ml-2">
-                      <ul>
-                        {country.languages.map((language) => (
-                          <li key={language} className="text-primary font-medium">
-                            {language}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Calling Code :
-                    <span className="text-primary ml-1 font-medium">
-                      {country.callingCodes.map((c) => `+${c}`).join(", ") || "—"}
-                    </span>
-                  </p>
+                  ))}
                 </div>
               </div>
-
-              <div className="py-2">
-                <div className="flex  items-center gap-4">
-                  <p className="font-normal text-black dark:text-textWhite">
-                    Time Zone :
-                  </p>
-                  <div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      {country.timezones.map((time) => (
-                        <div
-                          key={time}
-                          className="py-1 px-2 text-primary font-medium border border-grayLight ml-2 rounded-md text-sm text-center"
-                        >
-                          {time}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {country.altSpellings.length > 0 && (
-                <div className="py-4">
-                  <div className="flex">
-                    <p className="font-normal text-black dark:text-textWhite">
-                      Alternative Spellings :{" "}
-                    </p>
-                    <div className="ml-2">
-                      {country.altSpellings.map((alt) => (
-                        <div key={alt} className="text-primary font-medium">
-                          {alt}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
 
         {/* Map (Leaflet + OpenStreetMap) */}
         {country.latlng && (
-          <section className="pt-8">
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-                <HiOutlineLocationMarker className="text-primary" />
-                Map
-              </h2>
-              <div className="mt-4">
-                <Suspense
-                  fallback={
-                    <div className="h-[400px] rounded-2xl bg-gray-200 dark:bg-gray-700 animate-pulse" />
-                  }
-                >
-                  <CountryMap
-                    lat={country.latlng[0]}
-                    lng={country.latlng[1]}
-                    name={country.name}
-                    capital={country.capital}
-                  />
-                </Suspense>
-              </div>
-            </div>
-          </section>
+          <Section icon={<HiOutlineLocationMarker />} title="Map">
+            <Suspense fallback={<div className="h-[400px] rounded-xl bg-surface-2 animate-pulse" />}>
+              <CountryMap
+                lat={country.latlng[0]}
+                lng={country.latlng[1]}
+                name={country.name}
+                capital={country.capital}
+              />
+            </Suspense>
+          </Section>
         )}
 
         {/* Current weather (OpenWeather) */}
         {country.capital && <WeatherWidget city={country.capital} />}
 
         {/* Currency (ExchangeRate) */}
-        <section className="pt-8">
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-              <HiOutlineCurrencyDollar className="text-primary" />
-              Currency
-            </h2>
-            <p className="text-textGray dark:text-grayish mt-1">
-              {country.currencies.length > 0
-                ? `Local currency: ${country.currencies[0].name} (${country.currencies[0].code}). Convert amounts below.`
-                : "Convert between world currencies."}
-            </p>
-            <div className="mt-4">
-              <CurrencyConverter defaultTo={country.currencies[0]?.code ?? "EUR"} />
-            </div>
-          </div>
-        </section>
+        <Section
+          icon={<HiOutlineCurrencyDollar />}
+          title="Currency"
+          subtitle={
+            country.currencies.length > 0
+              ? `Local currency: ${country.currencies[0].name} (${country.currencies[0].code}).`
+              : "Convert between world currencies."
+          }
+        >
+          <CurrencyConverter defaultTo={country.currencies[0]?.code ?? "EUR"} />
+        </Section>
 
-        {/* AI Travel Insights (Gemini) */}
-        <section className="pt-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-t border-gray-200 dark:border-gray-700 pt-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-                <HiSparkles className="text-primary" />
-                AI Travel Insights
-              </h2>
-              <p className="text-textGray dark:text-grayish mt-1">
-                Explore {country.name} with AI-generated travel guidance.
-                <span className="ml-1 text-sm">Powered by Gemini.</span>
-              </p>
-            </div>
-            {showInsights ? (
-              <button
-                onClick={() => insights.refetch()}
-                disabled={insights.isFetching}
-                className="self-start md:self-auto py-2.5 px-5 rounded-lg border border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-colors disabled:opacity-50"
-              >
+        {/* Travel insights (Gemini) */}
+        <Section
+          icon={<MdOutlineTravelExplore />}
+          title="Travel insights"
+          subtitle={`A practical guide to visiting ${country.name}.`}
+          action={
+            showInsights ? (
+              <Button variant="outline" size="sm" onClick={() => insights.refetch()} disabled={insights.isFetching}>
                 {insights.isFetching ? "Regenerating…" : "Regenerate"}
-              </button>
+              </Button>
             ) : (
-              <button
-                onClick={() => setShowInsights(true)}
-                className="self-start md:self-auto inline-flex items-center gap-2 py-2.5 px-6 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:opacity-90 transition-opacity"
-              >
-                <HiSparkles />
-                Find out more about {country.name}
-              </button>
-            )}
-          </div>
-
-          {showInsights && (
-            <div className="pt-8">
-              <CountryInsights
-                data={insights.data}
-                isLoading={insights.isLoading}
-                isError={insights.isError}
-                error={insights.error as Error | null}
-                onRetry={() => insights.refetch()}
-              />
-            </div>
+              <Button onClick={() => setShowInsights(true)}>
+                Show travel guide
+              </Button>
+            )
+          }
+        >
+          {showInsights ? (
+            <CountryInsights
+              data={insights.data}
+              isLoading={insights.isLoading}
+              isError={insights.isError}
+              error={insights.error as Error | null}
+              onRetry={() => insights.refetch()}
+            />
+          ) : (
+            <p className="text-muted">
+              Get a practical overview of culture, cuisine, getting around, safety, and the
+              best time to visit.
+            </p>
           )}
-        </section>
+        </Section>
 
         {/* Place discovery (Serpstack) */}
         <PlaceDiscovery

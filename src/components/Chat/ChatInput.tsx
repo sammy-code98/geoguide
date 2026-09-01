@@ -33,14 +33,14 @@ export default function ChatInput({ onSend, onStop, isStreaming }: ChatInputProp
         rows={1}
         placeholder="Ask about destinations, budgets, visas, safety…"
         aria-label="Message the travel assistant"
-        className="flex-1 resize-none max-h-40 px-4 py-3 rounded-2xl bg-white dark:bg-bgDark text-black dark:text-textWhite shadow-md focus:outline-none focus:ring-2 focus:ring-primary/40"
+        className="flex-1 resize-none max-h-40 px-4 py-3 rounded-xl bg-surface text-fg placeholder:text-muted border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-primary"
       />
       {isStreaming ? (
         <button
           type="button"
           onClick={onStop}
           aria-label="Stop generating"
-          className="shrink-0 w-12 h-12 rounded-2xl bg-secondary text-white flex items-center justify-center hover:opacity-90"
+          className="shrink-0 w-12 h-12 rounded-xl bg-surface-2 text-fg flex items-center justify-center hover:bg-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <IoStop />
         </button>
@@ -49,7 +49,7 @@ export default function ChatInput({ onSend, onStop, isStreaming }: ChatInputProp
           type="submit"
           disabled={!value.trim()}
           aria-label="Send message"
-          className="shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white flex items-center justify-center hover:opacity-90 disabled:opacity-40"
+          className="shrink-0 w-12 h-12 rounded-xl bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary-hover disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
         >
           <IoSend />
         </button>

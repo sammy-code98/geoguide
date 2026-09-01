@@ -6,6 +6,7 @@ import {
   MdOutlineDirectionsBus,
 } from "react-icons/md";
 import type { ItineraryDay } from "../../types/itinerary";
+import { Badge } from "../ui/badge";
 
 interface DayCardProps {
   day: ItineraryDay;
@@ -22,10 +23,10 @@ function Slot({
 }) {
   return (
     <div className="flex gap-3">
-      <Icon className="text-primary text-xl shrink-0 mt-0.5" />
+      <Icon className="text-primary text-xl shrink-0 mt-0.5" aria-hidden="true" />
       <div>
-        <p className="font-semibold text-black dark:text-textWhite">{label}</p>
-        <p className="text-textGray dark:text-textWhite leading-relaxed">{text}</p>
+        <p className="font-medium text-fg">{label}</p>
+        <p className="text-fg/90 leading-relaxed">{text}</p>
       </div>
     </div>
   );
@@ -33,44 +34,48 @@ function Slot({
 
 export default function DayCard({ day }: DayCardProps): JSX.Element {
   return (
-    <div className="bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-600 rounded-2xl p-5">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="shrink-0 w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 text-white flex flex-col items-center justify-center leading-none">
-          <span className="text-[10px] uppercase">Day</span>
-          <span className="font-bold">{day.day}</span>
+    <div className="relative pl-6 pb-8 last:pb-0">
+      {/* Timeline marker (line is drawn by the parent's left border) */}
+      <span
+        className="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-primary ring-4 ring-bg"
+        aria-hidden="true"
+      />
+
+      <div>
+        <div className="flex items-baseline gap-3 mb-4">
+          <span className="text-xs font-medium uppercase tracking-wide text-muted">
+            Day {day.day}
+          </span>
+          <h3 className="font-serif text-xl font-semibold text-fg">{day.title}</h3>
         </div>
-        <h3 className="text-lg font-bold text-black dark:text-textWhite">{day.title}</h3>
-      </div>
 
-      <div className="space-y-3">
-        <Slot Icon={MdOutlineWbTwilight} label="Morning" text={day.morning} />
-        <Slot Icon={MdOutlineWbSunny} label="Afternoon" text={day.afternoon} />
-        <Slot Icon={MdOutlineNightlight} label="Evening" text={day.evening} />
+        <div className="space-y-3">
+          <Slot Icon={MdOutlineWbTwilight} label="Morning" text={day.morning} />
+          <Slot Icon={MdOutlineWbSunny} label="Afternoon" text={day.afternoon} />
+          <Slot Icon={MdOutlineNightlight} label="Evening" text={day.evening} />
 
-        {day.food.length > 0 && (
-          <div className="flex gap-3">
-            <MdOutlineRestaurant className="text-primary text-xl shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-black dark:text-textWhite">Food</p>
-              <div className="flex flex-wrap gap-2 mt-1">
-                {day.food.map((item) => (
-                  <span
-                    key={item}
-                    className="text-sm px-2 py-0.5 rounded-full bg-primary/10 text-primary"
-                  >
-                    {item}
-                  </span>
-                ))}
+          {day.food.length > 0 && (
+            <div className="flex gap-3">
+              <MdOutlineRestaurant className="text-primary text-xl shrink-0 mt-0.5" aria-hidden="true" />
+              <div>
+                <p className="font-medium text-fg">Food</p>
+                <div className="flex flex-wrap gap-2 mt-1.5">
+                  {day.food.map((item) => (
+                    <Badge key={item} variant="primary">
+                      {item}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <Slot
-          Icon={MdOutlineDirectionsBus}
-          label="Getting around"
-          text={day.transportation}
-        />
+          <Slot
+            Icon={MdOutlineDirectionsBus}
+            label="Getting around"
+            text={day.transportation}
+          />
+        </div>
       </div>
     </div>
   );
