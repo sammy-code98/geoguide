@@ -15,7 +15,7 @@ export default function Advice() {
           </h2>
           <p className="text-lg text-muted">
             Get grounded travel insight and cultural context for destinations around the
-            world — so every trip starts with confidence.
+            world; so every trip starts with confidence.
           </p>
         </div>
 

@@ -26,7 +26,7 @@ export default function Experts() {
               </h2>
 
               <p className="text-lg text-muted leading-relaxed">
-                Explore a world of destinations, must-see landmarks, hidden gems, and
+                Explore a world of destinations, must see landmarks, hidden gems, and
                 cultural guides. For expert recommendations and on-the-ground insight,
                 connect with our trusted local experts.
               </p>

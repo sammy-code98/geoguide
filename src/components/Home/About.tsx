@@ -20,7 +20,7 @@ export default function About() {
                   and learning about destinations across the globe.
                 </p>
                 <p>
-                  Every trip begins with exploration. Dive into maps, uncover must-visit
+                  Every trip begins with exploration. Dive into maps, uncover must visit
                   spots, and plan memorable adventures across countries and cultures.
                 </p>
               </div>

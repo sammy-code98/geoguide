@@ -24,7 +24,7 @@ export default function PlaceCard({ title, description, imageUrl }: PlaceCardT) 
 
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <h4 className="text-lg md:text-xl font-semibold text-white line-clamp-1">{title}</h4>
-        <p className="text-sm text-white/85 line-clamp-2 mt-1">{description}</p>
+        <p className="text-sm text-white/85  mt-1">{description}</p>
       </div>
     </div>
   )

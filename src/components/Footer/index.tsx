@@ -40,7 +40,7 @@ export default function Footer(): JSX.Element {
               GeoGuide
             </Link>
             <p className="mt-3 text-sm text-muted leading-relaxed">
-              Your calm companion for exploring the world — plan itineraries,
+              Your calm companion for exploring the world; plan itineraries,
               estimate costs, and discover places worth the trip.
             </p>
           </div>
