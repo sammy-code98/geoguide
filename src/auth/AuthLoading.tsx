@@ -1,5 +1,3 @@
-import { GiSpinningBlades } from "react-icons/gi";
-
 /** Full-screen loading state shown while auth is resolving. */
 export default function AuthLoading(): JSX.Element {
   return (
@@ -8,8 +6,7 @@ export default function AuthLoading(): JSX.Element {
       role="status"
       aria-live="polite"
     >
-      <GiSpinningBlades className="text-5xl text-primary animate-spin" aria-hidden="true" />
-      <span className="sr-only">Loading…</span>
+      <span className="text-muted">Loading…</span>
     </div>
   );
 }

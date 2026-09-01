@@ -9,6 +9,8 @@ import PlaceCard from "../../components/Places/PlaceCard";
 import ItineraryResult from "../../components/Itinerary/ItineraryResult";
 import CostResult from "../../components/Cost/CostResult";
 import SaveButton from "../../components/Saved/SaveButton";
+import { button } from "../../components/ui/button";
+import { EmptyState } from "../../components/ui/empty-state";
 import type { Place } from "../../types/place";
 import type { Itinerary } from "../../types/itinerary";
 import type { CostEstimate } from "../../types/cost";
@@ -44,14 +46,14 @@ export default function SavedTripsPage(): JSX.Element {
     <div className="min-h-screen bg-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-10">
         <div className="flex items-center justify-between gap-3 flex-wrap">
-          <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-            <HiOutlineBookmark className="text-primary" />
-            Saved Trips
+          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg flex items-center gap-2">
+            <HiOutlineBookmark className="text-primary" aria-hidden="true" />
+            Saved trips
           </h1>
           {items.length > 0 && (
             <button
               onClick={clear}
-              className="text-sm font-semibold text-textGray dark:text-grayish hover:text-secondary"
+              className="text-sm font-medium text-muted hover:text-danger transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
             >
               Clear all
             </button>
@@ -59,23 +61,21 @@ export default function SavedTripsPage(): JSX.Element {
         </div>
 
         {items.length === 0 && (
-          <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-            <HiOutlineBookmark className="text-6xl text-primary/40" />
-            <p className="text-textGray dark:text-grayish text-lg">
-              You haven't saved anything yet.
-            </p>
-            <Link
-              to={AppRoutes.countries}
-              className="py-2.5 px-6 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:opacity-90"
-            >
-              Explore countries
-            </Link>
-          </div>
+          <EmptyState
+            icon={<HiOutlineBookmark />}
+            title="Nothing saved yet"
+            description="Save countries, places, itineraries, and cost estimates to find them here later."
+            action={
+              <Link to={AppRoutes.countries} className={button()}>
+                Explore countries
+              </Link>
+            }
+          />
         )}
 
         {countries.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-xl font-bold text-black dark:text-textWhite">Countries</h2>
+            <h2 className="font-serif text-xl font-semibold text-fg">Countries</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
               {countries.map((it) => {
                 const d = it.data as SavedCountryData;
@@ -102,7 +102,7 @@ export default function SavedTripsPage(): JSX.Element {
 
         {places.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-xl font-bold text-black dark:text-textWhite">Places</h2>
+            <h2 className="font-serif text-xl font-semibold text-fg">Places</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {places.map((it) => (
                 <PlaceCard key={it.id} place={it.data as Place} />
@@ -113,7 +113,7 @@ export default function SavedTripsPage(): JSX.Element {
 
         {itineraries.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-xl font-bold text-black dark:text-textWhite">Itineraries</h2>
+            <h2 className="font-serif text-xl font-semibold text-fg">Itineraries</h2>
             <div className="space-y-8">
               {itineraries.map((it) => (
                 <ItineraryResult key={it.id} itinerary={it.data as Itinerary} />
@@ -124,12 +124,12 @@ export default function SavedTripsPage(): JSX.Element {
 
         {costs.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-xl font-bold text-black dark:text-textWhite">Travel Plans</h2>
+            <h2 className="font-serif text-xl font-semibold text-fg">Travel Plans</h2>
             <div className="space-y-8">
               {costs.map((it) => (
                 <div key={it.id} className="space-y-2">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-semibold text-black dark:text-textWhite">{it.title}</p>
+                    <p className="font-medium text-fg">{it.title}</p>
                     <SaveButton label item={toInput(it)} />
                   </div>
                   <CostResult estimate={it.data as CostEstimate} />

@@ -1,12 +1,13 @@
 import { FormEvent, useState } from "react";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { MdOutlineTipsAndUpdates } from "react-icons/md";
-import { GiSpinningBlades } from "react-icons/gi";
 import { useRecommendations } from "../../hooks/useRecommendations";
 import type { BudgetLevel } from "../../types/cost";
 import type { Climate, RecommendationsInput } from "../../types/recommendations";
 import { TRAVEL_INTERESTS } from "../../constants/interests";
 import RecommendationCard from "../../components/Recommendations/RecommendationCard";
+import { Button } from "../../components/ui/button";
+import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: BudgetLevel[] = ["budget", "moderate", "luxury"];
@@ -50,19 +51,19 @@ export default function RecommendationsPage(): JSX.Element {
     <div className="min-h-screen bg-bg">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-8">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-            <HiOutlineLightBulb className="text-primary" />
-            Personalized Recommendations
+          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg flex items-center gap-2">
+            <HiOutlineLightBulb className="text-primary" aria-hidden="true" />
+            Where to next?
           </h1>
-          <p className="text-textGray dark:text-grayish mt-2">
-            Not sure where to go? Get AI destination ideas tailored to you.
+          <p className="text-muted mt-2">
+            Not sure where to go? Get destination ideas tailored to you.
           </p>
         </div>
 
         {/* Form */}
         <form
           onSubmit={onSubmit}
-          className="bg-white/70 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 space-y-4"
+          className="bg-surface border border-border rounded-xl p-6 space-y-4"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -109,11 +110,13 @@ export default function RecommendationsPage(): JSX.Element {
                     key={interest}
                     type="button"
                     onClick={() => toggleInterest(interest)}
-                    className={`py-1.5 px-3 rounded-full text-sm font-semibold border transition-colors ${
+                    aria-pressed={active}
+                    className={cn(
+                      "py-1.5 px-3.5 rounded-full text-sm font-medium border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       active
-                        ? "bg-primary text-white border-primary"
-                        : "bg-white/80 dark:bg-gray-800/80 text-black dark:text-textWhite border-gray-200 dark:border-gray-600 hover:border-primary/50"
-                    }`}
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-surface text-fg border-border hover:border-primary/40"
+                    )}
                   >
                     {interest}
                   </button>
@@ -122,34 +125,29 @@ export default function RecommendationsPage(): JSX.Element {
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={isPending}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:opacity-90 disabled:opacity-50"
-          >
+          <Button type="submit" size="lg" disabled={isPending} className="w-full">
             {isPending ? "Finding destinations…" : "Get recommendations"}
-          </button>
+          </Button>
         </form>
 
         {/* States */}
         {isPending && (
-          <div className="flex flex-col items-center justify-center gap-3 py-12">
-            <GiSpinningBlades className="text-5xl text-primary animate-spin" />
-            <p className="text-textGray dark:text-grayish">Matching you with destinations…</p>
-          </div>
+          <p className="text-center text-muted py-12" role="status">
+            Matching you with destinations…
+          </p>
         )}
 
         {isError && !isPending && (
-          <p className="text-center text-secondary" role="alert">
+          <p className="text-center text-danger" role="alert">
             {(error as Error)?.message || "Couldn't get recommendations. Please try again."}
           </p>
         )}
 
         {data && !isPending && (
-          <div className="space-y-6">
-            <div className="bg-white/70 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-600 rounded-2xl p-5">
-              <p className="text-textGray dark:text-textWhite leading-relaxed">{data.summary}</p>
-            </div>
+          <div className="space-y-8">
+            <p className="text-lg text-fg/90 leading-relaxed border-l-2 border-primary/30 pl-4">
+              {data.summary}
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {data.countries.map((c) => (
@@ -158,14 +156,14 @@ export default function RecommendationsPage(): JSX.Element {
             </div>
 
             {data.tips.length > 0 && (
-              <div className="bg-white/70 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-600 rounded-2xl p-5">
-                <h3 className="flex items-center gap-2 text-lg font-bold text-black dark:text-textWhite mb-2">
-                  <MdOutlineTipsAndUpdates className="text-primary" />
-                  Travel Tips
+              <div className="bg-surface border border-border rounded-xl p-5">
+                <h3 className="flex items-center gap-2 font-serif text-xl font-semibold text-fg mb-2">
+                  <MdOutlineTipsAndUpdates className="text-primary" aria-hidden="true" />
+                  Travel tips
                 </h3>
-                <ul className="list-disc pl-5 space-y-1">
+                <ul className="list-disc pl-5 space-y-1.5">
                   {data.tips.map((tip) => (
-                    <li key={tip} className="text-textGray dark:text-textWhite leading-relaxed">
+                    <li key={tip} className="text-fg/90 leading-relaxed">
                       {tip}
                     </li>
                   ))}

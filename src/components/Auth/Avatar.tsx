@@ -28,7 +28,7 @@ export default function Avatar({ photoURL, name, email, className = "w-9 h-9" }:
   return (
     <span
       aria-hidden="true"
-      className={`${className} rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 text-white flex items-center justify-center font-bold`}
+      className={`${className} rounded-full bg-primary/10 text-primary flex items-center justify-center font-medium`}
     >
       {initials(name, email)}
     </span>

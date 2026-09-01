@@ -45,7 +45,7 @@ export default function About() {
               alt="Travelers exploring a destination"
               src={aboutUs}
               loading="lazy"
-              className="w-full lg:h-[500px] object-cover rounded-xl border border-border"
+              className="w-full lg:h-[500px] object-cover rounded-xl"
             />
           </div>
         </div>

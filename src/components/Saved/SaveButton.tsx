@@ -42,7 +42,7 @@ export default function SaveButton({ item, label, compact }: SaveButtonProps): J
         }}
         aria-pressed={saved}
         aria-label={ariaLabel}
-        className="w-9 h-9 rounded-full bg-white/90 dark:bg-gray-900/80 text-primary flex items-center justify-center shadow hover:scale-105 transition-transform"
+        className="w-9 h-9 rounded-full bg-surface/90 border border-border text-primary flex items-center justify-center hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <Icon className="text-lg" />
       </button>
@@ -57,7 +57,7 @@ export default function SaveButton({ item, label, compact }: SaveButtonProps): J
       }}
       aria-pressed={saved}
       aria-label={ariaLabel}
-      className="py-2 px-4 rounded shadow-sm flex items-center gap-1 text-sm font-bold text-primary bg-white dark:bg-bgDark hover:opacity-90"
+      className="py-2 px-4 rounded-md border border-border flex items-center gap-1.5 text-sm font-medium text-primary bg-surface hover:bg-surface-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <Icon />
       {label && (saved ? "Saved" : "Save")}

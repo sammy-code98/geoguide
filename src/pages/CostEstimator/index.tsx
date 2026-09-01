@@ -1,12 +1,12 @@
 import { FormEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { HiOutlineCalculator } from "react-icons/hi";
-import { GiSpinningBlades } from "react-icons/gi";
 import { useCostEstimate } from "../../hooks/useCostEstimate";
 import type { BudgetLevel } from "../../types/cost";
 import { CURRENCY_CODES } from "../../constants/currencies";
 import CostResult from "../../components/Cost/CostResult";
 import SaveButton from "../../components/Saved/SaveButton";
+import { Button } from "../../components/ui/button";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
@@ -43,19 +43,19 @@ export default function CostEstimatorPage(): JSX.Element {
     <div className="min-h-screen bg-bg">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-8">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-            <HiOutlineCalculator className="text-primary" />
-            Travel Cost Estimator
+          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg flex items-center gap-2">
+            <HiOutlineCalculator className="text-primary" aria-hidden="true" />
+            Travel cost estimator
           </h1>
-          <p className="text-textGray dark:text-grayish mt-2">
-            Estimate your trip budget with AI-powered guidance and alternatives.
+          <p className="text-muted mt-2">
+            Estimate your trip budget with guidance and alternatives.
           </p>
         </div>
 
         {/* Form */}
         <form
           onSubmit={onSubmit}
-          className="bg-white/70 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="bg-surface border border-border rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           <div>
             <label className={labelClass} htmlFor="origin">From</label>
@@ -134,26 +134,26 @@ export default function CostEstimatorPage(): JSX.Element {
             </select>
           </div>
           <div className="md:col-span-2">
-            <button
+            <Button
               type="submit"
+              size="lg"
               disabled={isPending}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:opacity-90 disabled:opacity-50"
+              className="w-full"
             >
               {isPending ? "Estimating…" : "Estimate cost"}
-            </button>
+            </Button>
           </div>
         </form>
 
         {/* Results / states */}
         {isPending && (
-          <div className="flex flex-col items-center justify-center gap-3 py-12">
-            <GiSpinningBlades className="text-5xl text-primary animate-spin" />
-            <p className="text-textGray dark:text-grayish">Crunching the numbers…</p>
-          </div>
+          <p className="text-center text-muted py-12" role="status">
+            Crunching the numbers…
+          </p>
         )}
 
         {isError && !isPending && (
-          <p className="text-center text-secondary" role="alert">
+          <p className="text-center text-danger" role="alert">
             {(error as Error)?.message || "Couldn't estimate the cost. Please try again."}
           </p>
         )}

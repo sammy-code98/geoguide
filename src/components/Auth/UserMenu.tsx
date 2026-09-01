@@ -67,7 +67,7 @@ export default function UserMenu(): JSX.Element | null {
             <HiOutlineBookmark aria-hidden="true" />
             Saved trips
             {savedCount > 0 && (
-              <span className="ml-auto text-xs font-bold text-primary">{savedCount}</span>
+              <span className="ml-auto text-xs font-medium text-primary">{savedCount}</span>
             )}
           </Link>
           <button
@@ -77,7 +77,7 @@ export default function UserMenu(): JSX.Element | null {
               setOpen(false);
               void signOut();
             }}
-            className={`${itemClass} text-secondary`}
+            className={`${itemClass} text-danger`}
           >
             <FiLogOut aria-hidden="true" />
             Sign out

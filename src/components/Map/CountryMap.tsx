@@ -23,7 +23,7 @@ export default function CountryMap({ lat, lng, name, capital }: CountryMapProps)
 
   return (
     <div className="space-y-3">
-      <div className="h-[400px] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-600">
+      <div className="h-[400px] rounded-xl overflow-hidden border border-border">
         <MapContainer
           center={[lat, lng]}
           zoom={5}

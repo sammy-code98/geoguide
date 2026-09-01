@@ -21,55 +21,56 @@ export default function CostResult({ estimate }: CostResultProps): JSX.Element {
     { label: "Flights", value: breakdown.flights, Icon: MdOutlineFlight },
     { label: "Accommodation", value: breakdown.accommodation, Icon: MdOutlineHotel },
     { label: "Food", value: breakdown.food, Icon: MdOutlineRestaurant },
-    { label: "Local Transport", value: breakdown.localTransport, Icon: MdOutlineDirectionsBus },
+    { label: "Local transport", value: breakdown.localTransport, Icon: MdOutlineDirectionsBus },
     { label: "Activities", value: breakdown.activities, Icon: MdOutlineAttractions },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Total */}
-      <div className="rounded-2xl p-6 bg-gradient-to-br from-cyan-500 to-blue-500 text-white">
-        <p className="text-sm opacity-90">Estimated total trip cost</p>
-        <p className="text-4xl md:text-5xl font-bold mt-1">
+      <div className="bg-surface border border-border rounded-xl p-6">
+        <p className="text-sm text-muted">Estimated total trip cost</p>
+        <p className="text-4xl md:text-5xl font-semibold text-fg mt-1">
           {formatCurrency(estimate.total, currency)}
         </p>
-        <p className="text-sm opacity-90 mt-2">
+        <p className="text-sm text-muted mt-2">
           ≈ {formatCurrency(estimate.perPersonPerDay, currency)} per person / day
         </p>
         {!estimate.converted && currency === "USD" && (
-          <p className="text-xs opacity-75 mt-1">Estimates in USD.</p>
+          <p className="text-xs text-muted mt-1">Estimates in USD.</p>
         )}
       </div>
 
-      {/* Breakdown */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      {/* Breakdown — scannable line items */}
+      <div className="bg-surface border border-border rounded-xl divide-y divide-border">
         {rows.map(({ label, value, Icon }) => (
-          <div
-            key={label}
-            className="bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-600 rounded-2xl p-4 text-center"
-          >
-            <Icon className="text-primary text-2xl mx-auto mb-2" />
-            <p className="text-xs text-textGray dark:text-grayish">{label}</p>
-            <p className="font-bold text-black dark:text-textWhite mt-1">
+          <div key={label} className="flex items-center gap-3 px-5 py-3.5">
+            <Icon className="text-primary text-xl shrink-0" aria-hidden="true" />
+            <span className="text-fg">{label}</span>
+            <span className="ml-auto font-medium text-fg tabular-nums">
               {formatCurrency(value, currency)}
-            </p>
+            </span>
           </div>
         ))}
+        <div className="flex items-center gap-3 px-5 py-3.5 bg-surface-2">
+          <span className="font-medium text-fg">Total</span>
+          <span className="ml-auto font-semibold text-fg tabular-nums">
+            {formatCurrency(estimate.total, currency)}
+          </span>
+        </div>
       </div>
 
       {/* Advice */}
-      <div className="bg-white/70 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-600 rounded-2xl p-5">
-        <h3 className="flex items-center gap-2 text-lg font-bold text-black dark:text-textWhite mb-2">
-          <MdOutlineTipsAndUpdates className="text-primary" />
-          Budget Advice
+      <div>
+        <h3 className="flex items-center gap-2 font-serif text-xl font-semibold text-fg mb-3">
+          <MdOutlineTipsAndUpdates className="text-primary" aria-hidden="true" />
+          Budget advice
         </h3>
-        <p className="text-textGray dark:text-textWhite leading-relaxed">
-          {estimate.budgetAdvice}
-        </p>
+        <p className="text-fg/90 leading-relaxed">{estimate.budgetAdvice}</p>
         {estimate.savingSuggestions.length > 0 && (
-          <ul className="list-disc pl-5 mt-3 space-y-1">
+          <ul className="list-disc pl-5 mt-3 space-y-1.5">
             {estimate.savingSuggestions.map((tip) => (
-              <li key={tip} className="text-textGray dark:text-textWhite leading-relaxed">
+              <li key={tip} className="text-fg/90 leading-relaxed">
                 {tip}
               </li>
             ))}
@@ -80,19 +81,19 @@ export default function CostResult({ estimate }: CostResultProps): JSX.Element {
       {/* Alternatives */}
       {estimate.alternativeDestinations.length > 0 && (
         <div>
-          <h3 className="flex items-center gap-2 text-lg font-bold text-black dark:text-textWhite mb-3">
-            <HiOutlineGlobeAlt className="text-primary" />
-            Alternative Destinations
+          <h3 className="flex items-center gap-2 font-serif text-xl font-semibold text-fg mb-3">
+            <HiOutlineGlobeAlt className="text-primary" aria-hidden="true" />
+            Alternative destinations
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {estimate.alternativeDestinations.map((alt) => (
               <div
                 key={alt.name}
-                className="bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-600 rounded-2xl p-4"
+                className="bg-surface border border-border rounded-lg p-4"
               >
-                <p className="font-bold text-primary">{alt.name}</p>
+                <p className="font-medium text-fg">{alt.name}</p>
                 {alt.reason && (
-                  <p className="text-sm text-textGray dark:text-grayish mt-1 leading-relaxed">
+                  <p className="text-sm text-muted mt-1 leading-relaxed">
                     {alt.reason}
                   </p>
                 )}

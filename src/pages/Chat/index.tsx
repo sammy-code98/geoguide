@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
-import { HiSparkles } from "react-icons/hi2";
+import { MdOutlineTravelExplore } from "react-icons/md";
 import { HiOutlinePlus } from "react-icons/hi";
-import { GiSpinningBlades } from "react-icons/gi";
 import { useChat } from "../../hooks/useChat";
 import { useChats } from "../../hooks/useChats";
 import ChatMessage from "../../components/Chat/ChatMessage";
@@ -9,9 +8,9 @@ import ChatInput from "../../components/Chat/ChatInput";
 import ConversationList from "../../components/Chat/ConversationList";
 
 const SUGGESTIONS = [
-  "Can I travel to Switzerland with $2000?",
-  "Which is cheaper: Japan or South Korea?",
-  "Suggest warm countries to visit in December.",
+  "Plan a weekend in Lagos.",
+  "Best places to visit in Japan.",
+  "Budget for 7 days in Thailand.",
   "Do I need a visa to visit Portugal?",
 ];
 
@@ -45,7 +44,7 @@ export default function ChatPage(): JSX.Element {
     <div className="min-h-screen bg-bg">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-6 flex gap-6 h-screen">
         {/* Sidebar (md+) */}
-        <aside className="hidden md:flex w-72 shrink-0 flex-col border-r border-gray-200 dark:border-gray-700 pr-4">
+        <aside className="hidden md:flex w-72 shrink-0 flex-col border-r border-border pr-4">
           <ConversationList
             chats={chats}
             activeId={activeChatId}
@@ -58,14 +57,14 @@ export default function ChatPage(): JSX.Element {
 
         {/* Chat pane */}
         <div className="flex-1 flex flex-col min-w-0">
-          <div className="flex items-center justify-between gap-3 pb-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between gap-3 pb-4 border-b border-border">
             <div className="min-w-0">
-              <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-                <HiSparkles className="text-primary" aria-hidden="true" />
-                AI Travel Assistant
+              <h1 className="font-serif text-2xl md:text-3xl font-semibold text-fg flex items-center gap-2">
+                <MdOutlineTravelExplore className="text-primary" aria-hidden="true" />
+                Travel assistant
               </h1>
-              <p className="text-textGray dark:text-grayish text-sm mt-1">
-                Ask anything about destinations, budgets, safety, or visas. Powered by Gemini.
+              <p className="text-muted text-sm mt-1">
+                Ask anything about destinations, budgets, safety, or visas.
               </p>
             </div>
             {/* Mobile conversation controls */}
@@ -75,7 +74,7 @@ export default function ChatPage(): JSX.Element {
                   aria-label="Switch conversation"
                   value={activeChatId ?? ""}
                   onChange={(e) => e.target.value && selectChat(e.target.value)}
-                  className="max-w-[8rem] text-sm rounded-lg bg-white dark:bg-bgDark text-black dark:text-textWhite px-2 py-1.5 shadow-sm"
+                  className="max-w-[8rem] text-sm rounded-md bg-surface text-fg border border-border px-2 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <option value="">New chat</option>
                   {chats.map((c) => (
@@ -89,7 +88,7 @@ export default function ChatPage(): JSX.Element {
                 type="button"
                 onClick={newChat}
                 aria-label="New chat"
-                className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
+                className="w-9 h-9 rounded-md bg-primary/10 text-primary flex items-center justify-center hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <HiOutlinePlus aria-hidden="true" />
               </button>
@@ -105,15 +104,14 @@ export default function ChatPage(): JSX.Element {
           >
             {loadingHistory ? (
               <div className="h-full flex items-center justify-center">
-                <GiSpinningBlades className="text-4xl text-primary animate-spin" aria-hidden="true" />
-                <span className="sr-only">Loading conversation…</span>
+                <p className="text-muted" role="status">Loading conversation…</p>
               </div>
             ) : isEmpty ? (
               <div className="h-full flex flex-col items-center justify-center text-center gap-6">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white text-3xl">
-                  <HiSparkles aria-hidden="true" />
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-3xl">
+                  <MdOutlineTravelExplore aria-hidden="true" />
                 </div>
-                <p className="text-textGray dark:text-grayish max-w-md">
+                <p className="text-muted max-w-md">
                   Your personal travel companion. Try one of these to get started:
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl">
@@ -121,7 +119,7 @@ export default function ChatPage(): JSX.Element {
                     <button
                       key={s}
                       onClick={() => send(s)}
-                      className="text-left p-4 rounded-2xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-600 text-black dark:text-textWhite hover:border-primary/40 hover:shadow-md transition-all"
+                      className="text-left p-4 rounded-lg bg-surface border border-border text-fg hover:border-primary/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {s}
                     </button>
@@ -139,7 +137,7 @@ export default function ChatPage(): JSX.Element {
             )}
 
             {error && (
-              <p className="text-center text-secondary text-sm" role="alert">
+              <p className="text-center text-danger text-sm" role="alert">
                 {error}
               </p>
             )}

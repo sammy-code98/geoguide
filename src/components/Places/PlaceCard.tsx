@@ -9,7 +9,7 @@ interface PlaceCardProps {
 
 export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
   return (
-    <div className="relative flex flex-col bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30">
+    <div className="group relative flex flex-col bg-surface border border-border rounded-lg overflow-hidden transition-colors hover:border-primary/40">
       <div className="absolute top-2 right-2 z-[1]">
         <SaveButton
           compact
@@ -23,35 +23,33 @@ export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
           }}
         />
       </div>
-      {/* Image (with graceful fallback when none is available) */}
+      {/* Image (with a calm fallback when none is available) */}
       {place.thumbnail ? (
         <img
           src={place.thumbnail}
           alt={place.title}
-          className="h-36 w-full object-cover"
+          className="h-40 w-full object-cover"
           loading="lazy"
         />
       ) : (
-        <div className="h-36 w-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center">
-          <span className="text-4xl font-bold text-primary/70">
+        <div className="h-40 w-full bg-surface-2 flex items-center justify-center">
+          <span className="font-serif text-4xl text-muted">
             {place.title.charAt(0).toUpperCase()}
           </span>
         </div>
       )}
 
       <div className="p-4 flex flex-col gap-2 flex-1">
-        <h4 className="font-bold text-black dark:text-textWhite leading-snug line-clamp-2">
+        <h4 className="font-medium text-fg leading-snug line-clamp-2">
           {place.title}
         </h4>
 
         {place.rating !== null && (
           <div className="flex items-center gap-1 text-sm">
-            <IoStar className="text-yellow-400" />
-            <span className="font-semibold text-black dark:text-textWhite">
-              {place.rating.toFixed(1)}
-            </span>
+            <IoStar className="text-amber-500" aria-hidden="true" />
+            <span className="font-medium text-fg">{place.rating.toFixed(1)}</span>
             {place.reviews !== null && (
-              <span className="text-textGray dark:text-grayish">
+              <span className="text-muted">
                 ({place.reviews} review{place.reviews === 1 ? "" : "s"})
               </span>
             )}
@@ -59,8 +57,8 @@ export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
         )}
 
         {place.address && (
-          <p className="flex items-start gap-1 text-sm text-textGray dark:text-grayish">
-            <HiOutlineLocationMarker className="mt-0.5 shrink-0" />
+          <p className="flex items-start gap-1.5 text-sm text-muted">
+            <HiOutlineLocationMarker className="mt-0.5 shrink-0" aria-hidden="true" />
             <span className="line-clamp-2">{place.address}</span>
           </p>
         )}
@@ -70,9 +68,9 @@ export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
             href={place.mapsUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+            className="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
           >
-            <HiOutlineMap />
+            <HiOutlineMap aria-hidden="true" />
             View on map
           </a>
         )}

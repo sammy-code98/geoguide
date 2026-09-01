@@ -13,6 +13,10 @@ import {
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import type { PlaceCategory } from "../../types/place";
 import { usePlaces } from "../../hooks/usePlaces";
+import { cn } from "../../lib/cn";
+import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
+import { EmptyState } from "../ui/empty-state";
 import PlaceCard from "./PlaceCard";
 
 interface PlaceDiscoveryProps {
@@ -50,91 +54,89 @@ export default function PlaceDiscovery({ country }: PlaceDiscoveryProps): JSX.El
   });
 
   return (
-    <section className="pt-8">
-      <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-black dark:text-textWhite flex items-center gap-2">
-          <HiOutlineLocationMarker className="text-primary" />
-          Discover Places
-        </h2>
-        <p className="text-textGray dark:text-grayish mt-1">
-          Explore popular spots near {location}. Pick a category to begin.
-        </p>
+    <section className="pt-10 mt-10 border-t border-border">
+      <h2 className="font-serif text-2xl md:text-3xl font-semibold text-fg flex items-center gap-2">
+        <HiOutlineLocationMarker className="text-primary" aria-hidden="true" />
+        Places to explore
+      </h2>
+      <p className="text-muted mt-1">
+        Popular spots near {location}. Pick a category to begin.
+      </p>
 
-        {/* Category chips */}
-        <div className="flex flex-wrap gap-2 mt-4">
-          {CATEGORIES.map(({ key, label, Icon }) => {
-            const active = key === category;
-            return (
-              <button
-                key={key}
-                onClick={() => setCategory(key)}
-                className={`inline-flex items-center gap-1.5 py-2 px-4 rounded-full text-sm font-semibold border transition-colors ${
-                  active
-                    ? "bg-primary text-white border-primary"
-                    : "bg-white/80 dark:bg-gray-800/80 text-black dark:text-textWhite border-gray-200 dark:border-gray-600 hover:border-primary/50"
-                }`}
+      {/* Category chips */}
+      <div className="flex flex-wrap gap-2 mt-5">
+        {CATEGORIES.map(({ key, label, Icon }) => {
+          const active = key === category;
+          return (
+            <button
+              key={key}
+              onClick={() => setCategory(key)}
+              aria-pressed={active}
+              className={cn(
+                "inline-flex items-center gap-1.5 py-1.5 px-3.5 rounded-full text-sm font-medium border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                active
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-surface text-fg border-border hover:border-primary/40"
+              )}
+            >
+              <Icon className="text-base" />
+              {label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Results */}
+      <div className="mt-6">
+        {!category && (
+          <EmptyState
+            icon={<HiOutlineLocationMarker />}
+            title="Choose a category"
+            description="Select one of the options above to discover places to eat, stay, and visit."
+          />
+        )}
+
+        {category && isLoading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {new Array(8).fill(null).map((_, i) => (
+              <div
+                key={i}
+                className="bg-surface border border-border rounded-lg overflow-hidden"
               >
-                <Icon className="text-base" />
-                {label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Results */}
-        <div className="mt-6">
-          {!category && (
-            <p className="text-center text-textGray dark:text-grayish py-10">
-              Select a category above to discover places.
-            </p>
-          )}
-
-          {category && isLoading && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {new Array(8).fill(null).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-600 rounded-2xl overflow-hidden animate-pulse"
-                >
-                  <div className="h-36 w-full bg-gray-200 dark:bg-gray-700" />
-                  <div className="p-4 space-y-2">
-                    <div className="h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded" />
-                    <div className="h-3 w-1/2 bg-gray-200 dark:bg-gray-700 rounded" />
-                    <div className="h-3 w-2/3 bg-gray-200 dark:bg-gray-700 rounded" />
-                  </div>
+                <Skeleton className="h-40 w-full rounded-none" />
+                <div className="p-4 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-2/3" />
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
+        )}
 
-          {category && isError && (
-            <div className="flex flex-col items-center gap-4 py-10 text-center">
-              <p className="text-textGray dark:text-textWhite">
-                {error?.message || "Couldn't load places right now."}
-              </p>
-              <button
-                onClick={() => refetch()}
-                className="py-2 px-5 bg-primary text-white rounded-lg font-semibold hover:opacity-90"
-              >
-                Try again
-              </button>
-            </div>
-          )}
+        {category && isError && (
+          <EmptyState
+            title="Couldn't load places"
+            description={error?.message || "Something went wrong. Please try again."}
+            action={<Button onClick={() => refetch()}>Try again</Button>}
+          />
+        )}
 
-          {category && !isLoading && !isError && data && data.length === 0 && (
-            <p className="text-center text-textGray dark:text-grayish py-10">
-              No places found for this category near {location}.
-            </p>
-          )}
+        {category && !isLoading && !isError && data && data.length === 0 && (
+          <EmptyState
+            icon={<HiOutlineLocationMarker />}
+            title="No places found"
+            description={`We couldn't find any ${category.replace("-", " ")} near ${location}.`}
+          />
+        )}
 
-          {category && !isLoading && !isError && data && data.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {data.map((place) => (
-                <PlaceCard key={place.id} place={place} />
-              ))}
-            </div>
-          )}
-        </div>
+        {category && !isLoading && !isError && data && data.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {data.map((place) => (
+              <PlaceCard key={place.id} place={place} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
