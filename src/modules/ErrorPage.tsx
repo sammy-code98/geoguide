@@ -5,7 +5,7 @@ export default function ErrorPage():JSX.Element {
     <div className="h-screen flex flex-col justify-center items-center  text-center">
         <h1 className="mb-4 font-serif text-8xl font-semibold text-primary">404</h1>
         <p className="mb-4 text-xl text-muted">Oops! Looks like you're lost.</p>
-        <div className="animate-bounce">
+        <div className="animate-float-soft">
         <svg
           className="mx-auto h-16 w-16 text-primary"
           fill="none"

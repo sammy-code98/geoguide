@@ -1,5 +1,6 @@
-import aboutUs from "../../assets/places/about.jpg"
+import aboutUs from "../../assets/bgImg.jpg"
 import { Badge } from "../ui/badge"
+import { CountUp } from "../ui/count-up"
 
 export default function About() {
   return (
@@ -11,7 +12,7 @@ export default function About() {
               <Badge variant="primary">About GeoGuide</Badge>
 
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-fg leading-tight">
-                Your gateway to exploring the world’s countries, cultures, and attractions.
+                Your gateway to exploring the <span className="text-accent">world’s</span> countries, cultures, and attractions.
               </h2>
 
               <div className="space-y-3 text-lg text-muted leading-relaxed">
@@ -33,7 +34,9 @@ export default function About() {
                 { stat: "1M+", label: "Travelers" },
               ].map((s) => (
                 <div key={s.label} className="space-y-1">
-                  <h3 className="font-serif text-3xl font-semibold text-primary">{s.stat}</h3>
+                  <h3 className="font-serif text-3xl font-semibold text-primary tabular-nums">
+                    <CountUp value={s.stat} />
+                  </h3>
                   <p className="text-sm text-muted">{s.label}</p>
                 </div>
               ))}

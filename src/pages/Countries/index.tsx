@@ -9,6 +9,7 @@ import CardLoader from "../../components/CountryCard/cardLoader";
 import CountryCard from "../../components/CountryCard";
 import { EmptyState } from "../../components/ui/empty-state";
 import { BackToTop } from "../../components/ui/back-to-top";
+import { PostcardHeader } from "../../components/ui/postcard";
 import { NumComma, shortenString } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 
@@ -69,12 +70,15 @@ export default function CountriesPage(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-bg">
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-      <div className="mb-8">
-        <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg">Explore countries</h1>
-        <p className="mt-2 text-muted">Browse destinations and dive into details, weather, and travel tips.</p>
-      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32">
+      <PostcardHeader
+        tone="sea"
+        title="Explore countries"
+        subtitle="Browse every destination on the map, then dive into details, weather, and travel tips."
+        icon={<HiOutlineGlobeAlt />}
+        stampLabel="World"
+        className="mb-8"
+      />
       <div className="flex justify-between items-center flex-wrap gap-4">
         <Search value={searchQuery} onChange={handleSearchChange} />
         <Filter

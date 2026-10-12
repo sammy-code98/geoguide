@@ -19,7 +19,7 @@ export default function Experts() {
           </div>
           <div className="order-2 space-y-8">
             <div className="space-y-5">
-              <Badge variant="primary">Destination experts</Badge>
+              <Badge variant="accent">Destination experts</Badge>
 
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-fg leading-tight">
                 Connect with reliable travel experts wherever you go

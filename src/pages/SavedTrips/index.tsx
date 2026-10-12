@@ -12,6 +12,7 @@ import SaveButton from "../../components/Saved/SaveButton";
 import { button } from "../../components/ui/button";
 import { EmptyState } from "../../components/ui/empty-state";
 import { BackToTop } from "../../components/ui/back-to-top";
+import { PostcardHeader } from "../../components/ui/postcard";
 import type { Place } from "../../types/place";
 import type { Itinerary } from "../../types/itinerary";
 import type { CostEstimate } from "../../types/cost";
@@ -45,21 +46,23 @@ export default function SavedTripsPage(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-bg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-10">
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg flex items-center gap-2">
-            <HiOutlineBookmark className="text-primary" aria-hidden="true" />
-            Saved trips
-          </h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32 space-y-10">
+        <PostcardHeader
+          tone="terracotta"
+          title="Saved trips"
+          subtitle="Your collection of places, plans, and budgets, kept for the journey ahead."
+          icon={<HiOutlineBookmark />}
+          stampLabel="Kept"
+        >
           {items.length > 0 && (
             <button
               onClick={clear}
-              className="text-sm font-medium text-muted hover:text-danger transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+              className="text-sm font-medium text-fg/75 underline underline-offset-4 hover:text-danger transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
             >
               Clear all
             </button>
           )}
-        </div>
+        </PostcardHeader>
 
         {items.length === 0 && (
           <EmptyState

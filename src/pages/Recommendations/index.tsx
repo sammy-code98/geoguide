@@ -8,6 +8,7 @@ import { TRAVEL_INTERESTS } from "../../constants/interests";
 import RecommendationCard from "../../components/Recommendations/RecommendationCard";
 import { Button } from "../../components/ui/button";
 import { BackToTop } from "../../components/ui/back-to-top";
+import { PostcardHeader } from "../../components/ui/postcard";
 import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
@@ -50,16 +51,14 @@ export default function RecommendationsPage(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-bg">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-8">
-        <div>
-          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg flex items-center gap-2">
-            <HiOutlineLightBulb className="text-primary" aria-hidden="true" />
-            Where to next?
-          </h1>
-          <p className="text-muted mt-2">
-            Not sure where to go? Get destination ideas tailored to you.
-          </p>
-        </div>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32 space-y-8">
+        <PostcardHeader
+          tone="sand"
+          title="Where to next?"
+          subtitle="Not sure where to go? Share what you love and get destination ideas made for you."
+          icon={<HiOutlineLightBulb />}
+          stampLabel="For you"
+        />
 
         {/* Form */}
         <form

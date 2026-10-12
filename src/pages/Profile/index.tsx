@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { HiOutlineBookmark } from "react-icons/hi";
-import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
+import { HiOutlineChatBubbleLeftRight, HiOutlineGlobeAlt } from "react-icons/hi2";
 import { FiLogOut } from "react-icons/fi";
 import { useAuth } from "../../auth/useAuth";
 import { useCurrentUser } from "../../auth/useCurrentUser";
@@ -8,6 +8,7 @@ import { useSavedStore } from "../../store/savedStore";
 import { useChats } from "../../hooks/useChats";
 import Avatar from "../../components/Auth/Avatar";
 import { Button } from "../../components/ui/button";
+import { Stamp } from "../../components/ui/postcard";
 import { AppRoutes } from "../../types/routes";
 
 const formatDate = (ms: number | null) =>
@@ -21,25 +22,31 @@ export default function ProfilePage(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-bg">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-8">
-        {/* Identity */}
-        <div className="bg-surface border border-border rounded-xl p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32 space-y-8">
+        {/* Identity — a postcard from the traveler */}
+        <header className="relative overflow-hidden rounded-2xl bg-olive-soft px-6 py-10 sm:px-10 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+          <Stamp
+            tone="olive"
+            icon={<HiOutlineGlobeAlt />}
+            label="Traveler"
+            className="absolute right-6 top-6 hidden sm:block"
+          />
           <Avatar
             photoURL={user.photoURL}
             name={user.displayName}
             email={user.email}
-            className="w-24 h-24 text-3xl"
+            className="w-24 h-24 text-3xl ring-4 ring-surface"
           />
-          <div className="space-y-1">
-            <h1 className="font-serif text-2xl md:text-3xl font-semibold text-fg">
+          <div className="space-y-1 sm:pr-24">
+            <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg">
               {user.displayName || "Traveler"}
             </h1>
-            {user.email && <p className="text-muted">{user.email}</p>}
-            <p className="text-sm text-muted">
+            {user.email && <p className="text-fg/75">{user.email}</p>}
+            <p className="text-sm text-fg/75">
               Member since {formatDate(user.createdAt)}
             </p>
           </div>
-        </div>
+        </header>
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import HelmentHeader from "../components/Helment";
 import Header from "../components/Header";
 import Footer from "../components/Footer"
@@ -33,6 +33,8 @@ function HomeLayout() {
         </main>
         <Footer />
       </div>
+      {/* New pages open at the top; back/forward restores the previous offset. */}
+      <ScrollRestoration />
     </>
   );
 }

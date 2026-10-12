@@ -4,7 +4,7 @@ export default function TypingDots(): JSX.Element {
       {[0, 150, 300].map((delay) => (
         <span
           key={delay}
-          className="w-2 h-2 rounded-full bg-primary animate-bounce"
+          className="w-2 h-2 rounded-full bg-primary animate-typing-dot"
           style={{ animationDelay: `${delay}ms` }}
         />
       ))}

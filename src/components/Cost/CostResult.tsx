@@ -28,16 +28,16 @@ export default function CostResult({ estimate }: CostResultProps): JSX.Element {
   return (
     <div className="space-y-8">
       {/* Total */}
-      <div className="bg-surface border border-border rounded-xl p-6">
-        <p className="text-sm text-muted">Estimated total trip cost</p>
-        <p className="text-4xl md:text-5xl font-semibold text-fg mt-1">
+      <div className="bg-terracotta-soft rounded-xl p-6">
+        <p className="text-sm text-fg/75">Estimated total trip cost</p>
+        <p className="font-serif text-4xl md:text-5xl font-semibold text-fg mt-1 tabular-nums">
           {formatCurrency(estimate.total, currency)}
         </p>
-        <p className="text-sm text-muted mt-2">
+        <p className="text-sm text-fg/75 mt-2">
           ≈ {formatCurrency(estimate.perPersonPerDay, currency)} per person / day
         </p>
         {!estimate.converted && currency === "USD" && (
-          <p className="text-xs text-muted mt-1">Estimates in USD.</p>
+          <p className="text-xs text-fg/75 mt-1">Estimates in USD.</p>
         )}
       </div>
 

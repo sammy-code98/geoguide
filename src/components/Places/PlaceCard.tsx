@@ -9,7 +9,7 @@ interface PlaceCardProps {
 
 export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
   return (
-    <div className="group relative flex flex-col bg-surface border border-border rounded-lg overflow-hidden transition-colors hover:border-primary/40">
+    <div className="group relative flex flex-col bg-surface border border-border rounded-lg overflow-hidden transition-[transform,border-color] duration-200 ease-out-expo hover:-translate-y-0.5 hover:border-sea/50">
       <div className="absolute top-2 right-2 z-[1]">
         <SaveButton
           compact

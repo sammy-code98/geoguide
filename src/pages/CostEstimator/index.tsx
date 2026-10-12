@@ -8,6 +8,7 @@ import CostResult from "../../components/Cost/CostResult";
 import SaveButton from "../../components/Saved/SaveButton";
 import { Button } from "../../components/ui/button";
 import { BackToTop } from "../../components/ui/back-to-top";
+import { PostcardHeader } from "../../components/ui/postcard";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
@@ -42,16 +43,14 @@ export default function CostEstimatorPage(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-bg">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-8">
-        <div>
-          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg flex items-center gap-2">
-            <HiOutlineCalculator className="text-primary" aria-hidden="true" />
-            Travel cost estimator
-          </h1>
-          <p className="text-muted mt-2">
-            Estimate your trip budget with guidance and alternatives.
-          </p>
-        </div>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32 space-y-8">
+        <PostcardHeader
+          tone="terracotta"
+          title="Travel cost estimator"
+          subtitle="See what the trip will really cost, with ways to stretch your budget further."
+          icon={<HiOutlineCalculator />}
+          stampLabel="Budget"
+        />
 
         {/* Form */}
         <form
