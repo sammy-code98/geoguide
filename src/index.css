@@ -111,6 +111,56 @@
   }
 }
 
+/* ── Travel backdrop (components/ui/travel-backdrop.tsx) ─────────────────── */
+/* Cursor parallax: each doodle shifts against the pointer by its own depth. */
+.travel-parallax {
+  transform: translate3d(
+    calc(var(--px, 0) * var(--d, 0.5) * -22px),
+    calc(var(--py, 0) * var(--d, 0.5) * -16px),
+    0
+  );
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Two gentle float loops so neighbours never move in lockstep. */
+.travel-drift-a {
+  animation: travel-drift-a var(--dur, 12s) ease-in-out var(--delay, 0s) infinite;
+}
+.travel-drift-b {
+  animation: travel-drift-b var(--dur, 12s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes travel-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -14px, 0) rotate(4deg); }
+}
+@keyframes travel-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(10px, -8px, 0) rotate(-5deg); }
+}
+/* The plane: a linear sweep across, an eased rise and fall matching the
+   route's parabola (ease-out up, ease-in down), and a climb-to-descent tilt. */
+.travel-fly-x {
+  animation: travel-fly-x 28s linear infinite;
+}
+.travel-fly-y {
+  animation: travel-fly-y 14s cubic-bezier(0.5, 1, 0.89, 1) infinite alternate;
+}
+.travel-fly-tilt {
+  animation: travel-fly-tilt 28s linear infinite;
+}
+@keyframes travel-fly-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes travel-fly-y {
+  from { transform: translateY(0); }
+  to { transform: translateY(-96px); }
+}
+@keyframes travel-fly-tilt {
+  0% { rotate: -16deg; opacity: 0; }
+  5%, 95% { opacity: 1; }
+  100% { rotate: 18deg; opacity: 0; }
+}
+
 /* Respect users who prefer reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   *,

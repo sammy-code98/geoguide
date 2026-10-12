@@ -21,7 +21,7 @@ export default function ProfilePage(): JSX.Element {
   const { chats } = useChats();
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32 space-y-8">
         {/* Identity — a postcard from the traveler */}
         <header className="relative overflow-hidden rounded-2xl bg-olive-soft px-6 py-10 sm:px-10 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">

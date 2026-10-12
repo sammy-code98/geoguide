@@ -50,7 +50,7 @@ export default function RecommendationsPage(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32 space-y-8">
         <PostcardHeader
           tone="sand"

@@ -67,7 +67,7 @@ export default function DetailsPage() {
 
   if (isLoading)
     return (
-      <div className="min-h-screen bg-bg">
+      <div className="min-h-screen">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <DetailLoader />
         </div>
@@ -76,7 +76,7 @@ export default function DetailsPage() {
 
   if (isError || !country) {
     return (
-      <div className="min-h-screen bg-bg flex items-center justify-center px-4">
+      <div className="min-h-screen flex items-center justify-center px-4">
         <EmptyState
           icon={<HiOutlineLocationMarker />}
           title="Country not found"
@@ -92,7 +92,7 @@ export default function DetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32">
         {/* Toolbar */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
