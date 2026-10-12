@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../../types/routes';
 import { Button } from '../ui/button';
 import { Postmark, Stamp } from '../ui/postcard';
+import { SafeImage } from '../ui/safe-image';
 import { cn } from '../../lib/cn';
 import paris from "../../assets/places/paris.jpg";
 import lagos from "../../assets/places/lagos.jpg";
@@ -19,7 +20,7 @@ function Postcard({ src, place, coords, className, children }: {
 }) {
   return (
     <figure className={cn("absolute bg-surface border border-border p-3", className)}>
-      <img src={src} alt={place} className="aspect-[4/3] w-full object-cover" loading="eager" />
+      <SafeImage src={src} alt={place} className="aspect-[4/3] w-full object-cover" loading="eager" />
       <figcaption className="flex items-end justify-between gap-3 px-1 pt-3 pb-1">
         <span>
           <span className="block font-serif text-lg font-semibold text-fg leading-tight">{place}</span>

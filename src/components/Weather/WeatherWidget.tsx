@@ -6,6 +6,8 @@ import { useWeather } from "../../hooks/useWeather";
 import type { WeatherUnits } from "../../types/weather";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/button";
+import { SafeImage } from "../ui/safe-image";
+import { PiCloudSunDuotone } from "react-icons/pi";
 
 interface WeatherWidgetProps {
   /** City to fetch weather for (e.g. the country's capital). */
@@ -73,9 +75,12 @@ export default function WeatherWidget({ city }: WeatherWidgetProps): JSX.Element
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Current conditions */}
               <div className="md:col-span-2 bg-surface border border-border rounded-xl p-5 flex items-center gap-4">
-                {iconUrl(data.current.icon) && (
-                  <img src={iconUrl(data.current.icon) as string} alt={data.current.description} className="w-20 h-20" />
-                )}
+                <SafeImage
+                  src={iconUrl(data.current.icon) ?? undefined}
+                  alt={data.current.description}
+                  className="w-20 h-20 shrink-0"
+                  fallback={<PiCloudSunDuotone className="w-20 h-20 shrink-0 p-3 text-muted/60" role="img" aria-label={data.current.description} />}
+                />
                 <div>
                   <p className="text-4xl font-semibold text-fg">
                     {round(data.current.temperature)}
@@ -115,9 +120,12 @@ export default function WeatherWidget({ city }: WeatherWidgetProps): JSX.Element
                 {data.forecast.map((day) => (
                   <div key={day.date} className="bg-surface border border-border rounded-lg p-3 text-center">
                     <p className="font-medium text-fg">{weekday(day.date)}</p>
-                    {iconUrl(day.icon) && (
-                      <img src={iconUrl(day.icon) as string} alt={day.description} className="w-14 h-14 mx-auto" />
-                    )}
+                    <SafeImage
+                      src={iconUrl(day.icon) ?? undefined}
+                      alt={day.description}
+                      className="w-14 h-14 mx-auto"
+                      fallback={<PiCloudSunDuotone className="w-14 h-14 mx-auto p-2.5 text-muted/60" role="img" aria-label={day.description} />}
+                    />
                     <p className="text-sm">
                       <span className="font-semibold text-fg">{day.tempMax}{tempUnit}</span>{" "}
                       <span className="text-muted">{day.tempMin}{tempUnit}</span>

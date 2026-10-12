@@ -1,3 +1,5 @@
+import { SafeImage } from "../ui/safe-image";
+
 interface AvatarProps {
   photoURL: string | null;
   name: string | null;
@@ -13,24 +15,24 @@ function initials(name: string | null, email?: string | null): string {
   return chars.toUpperCase();
 }
 
-/** User avatar — shows the Google photo, falling back to initials. */
+/** User avatar — shows the Google photo, falling back to initials when there's
+ *  no photo or it fails to load. */
 export default function Avatar({ photoURL, name, email, className = "w-9 h-9" }: AvatarProps): JSX.Element {
-  if (photoURL) {
-    return (
-      <img
-        src={photoURL}
-        alt=""
-        referrerPolicy="no-referrer"
-        className={`${className} rounded-full object-cover`}
-      />
-    );
-  }
-  return (
+  const fallback = (
     <span
       aria-hidden="true"
       className={`${className} rounded-full bg-primary/10 text-primary flex items-center justify-center font-medium`}
     >
       {initials(name, email)}
     </span>
+  );
+  return (
+    <SafeImage
+      src={photoURL ?? undefined}
+      alt=""
+      referrerPolicy="no-referrer"
+      className={`${className} rounded-full object-cover`}
+      fallback={fallback}
+    />
   );
 }

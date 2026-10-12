@@ -16,6 +16,8 @@ import SaveButton from "../../components/Saved/SaveButton";
 import { Button, button } from "../../components/ui/button";
 import { EmptyState } from "../../components/ui/empty-state";
 import { Stamp } from "../../components/ui/postcard";
+import { SafeImage } from "../../components/ui/safe-image";
+import { PiFlagDuotone } from "react-icons/pi";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
 
 // Leaflet is heavy — load the map only when a Detail page actually renders it.
@@ -143,10 +145,11 @@ export default function DetailsPage() {
           />
           {/* The flag, printed and pinned like a photo */}
           <div className="bg-surface p-3 border border-border -rotate-[1.5deg]">
-            <img
+            <SafeImage
               alt={`${country.name}'s flag`}
               src={country.flagPng}
               className="w-full h-[240px] lg:h-[320px] object-cover"
+              fallbackIcon={<PiFlagDuotone />}
             />
           </div>
           <div className="lg:pr-20">

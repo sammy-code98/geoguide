@@ -1,6 +1,8 @@
 import { memo } from "react"
 import { Link } from "react-router-dom"
+import { PiFlagDuotone } from "react-icons/pi"
 import { AppRoutes } from "../../types/routes"
+import { SafeImage } from "../ui/safe-image"
 interface CountryCardI {
   code: string;
   name: string;
@@ -19,11 +21,12 @@ const CountryCard = memo(function CountryCard({ code, name, population, region, 
       to={detailLink}
       className="group block h-full bg-surface border border-border rounded-lg p-3 transition-[transform,border-color] duration-200 ease-out-expo hover:-translate-y-0.5 hover:border-sea/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
-      <img
+      <SafeImage
         className="h-40 w-full object-cover border border-border"
         src={img}
         alt={alt}
         loading="lazy"
+        fallbackIcon={<PiFlagDuotone />}
       />
       <div className="px-2 pt-4 pb-1 space-y-3">
         <h3 className="text-lg font-semibold text-fg group-hover:text-primary transition-colors">

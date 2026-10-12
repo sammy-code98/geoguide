@@ -1,3 +1,5 @@
+import { SafeImage } from "../ui/safe-image";
+
 type PlaceCardT = {
   title: string;
   description: string;
@@ -9,7 +11,7 @@ export default function PlaceCard({ title, description, imageUrl }: PlaceCardT) 
   return (
     <figure className="group h-full bg-surface border border-border rounded-lg p-3 transition-transform duration-200 ease-out-expo hover:-translate-y-0.5">
       <div className="relative overflow-hidden">
-        <img
+        <SafeImage
           alt={title}
           src={imageUrl}
           loading="lazy"

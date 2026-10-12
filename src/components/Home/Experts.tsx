@@ -1,6 +1,7 @@
 import { HiOutlineCheckCircle } from "react-icons/hi2"
 import Expert from "../../assets/places/expert.jpg"
 import { Badge } from "../ui/badge"
+import { SafeImage } from "../ui/safe-image"
 
 const FEATURES = ["Travel experts", "Local expertise", "24/7 support", "Best deals"]
 
@@ -10,7 +11,7 @@ export default function Experts() {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="order-1">
-            <img
+            <SafeImage
               alt="A local travel expert"
               src={Expert}
               loading="lazy"

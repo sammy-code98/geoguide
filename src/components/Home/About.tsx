@@ -1,5 +1,6 @@
 import aboutUs from "../../assets/bgImg.jpg"
 import { Badge } from "../ui/badge"
+import { SafeImage } from "../ui/safe-image"
 import { CountUp } from "../ui/count-up"
 
 export default function About() {
@@ -44,7 +45,7 @@ export default function About() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <img
+            <SafeImage
               alt="Travelers exploring a destination"
               src={aboutUs}
               loading="lazy"
