@@ -13,6 +13,7 @@ import { GiCutDiamond } from "react-icons/gi";
 import type { CountryInsights } from "../../types/insights";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
+import { ErrorPostcard } from "../ui/error-postcard";
 
 interface CountryInsightsProps {
   data: CountryInsights | undefined;
@@ -83,12 +84,13 @@ export default function CountryInsights({
 
   if (isError || !data) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
-        <p className="text-muted">
-          {error?.message || "We couldn't generate insights right now."}
-        </p>
-        <Button onClick={onRetry}>Try again</Button>
-      </div>
+      <ErrorPostcard
+        tone="sand"
+        stampLabel="Delayed"
+        title="Your travel guide didn't arrive"
+        message={error?.message || "We couldn't put this guide together right now. Please try again."}
+        action={<Button onClick={onRetry}>Try again</Button>}
+      />
     );
   }
 

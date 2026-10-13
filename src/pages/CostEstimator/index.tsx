@@ -9,6 +9,7 @@ import SaveButton from "../../components/Saved/SaveButton";
 import { Button } from "../../components/ui/button";
 import { BackToTop } from "../../components/ui/back-to-top";
 import { PostcardHeader } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
 const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
@@ -19,7 +20,7 @@ const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
 
 export default function CostEstimatorPage(): JSX.Element {
   const [searchParams] = useSearchParams();
-  const { mutate, data, isPending, isError, error } = useCostEstimate();
+  const { mutate, data, isPending, isError, error, variables } = useCostEstimate();
 
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState(searchParams.get("destination") ?? "");
@@ -153,9 +154,13 @@ export default function CostEstimatorPage(): JSX.Element {
         )}
 
         {isError && !isPending && (
-          <p className="text-center text-danger" role="alert">
-            {(error as Error)?.message || "Couldn't estimate the cost. Please try again."}
-          </p>
+          <ErrorPostcard
+            tone="terracotta"
+            stampLabel="Returned"
+            title="We couldn't estimate this trip"
+            message={(error as Error)?.message || "Something went wrong on our side. Please try again."}
+            action={variables && <Button onClick={() => mutate(variables)}>Try again</Button>}
+          />
         )}
 
         {data && !isPending && (

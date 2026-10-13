@@ -9,6 +9,7 @@ import RecommendationCard from "../../components/Recommendations/RecommendationC
 import { Button } from "../../components/ui/button";
 import { BackToTop } from "../../components/ui/back-to-top";
 import { PostcardHeader } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
 import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
@@ -22,7 +23,7 @@ const MONTHS = [
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export default function RecommendationsPage(): JSX.Element {
-  const { mutate, data, isPending, isError, error } = useRecommendations();
+  const { mutate, data, isPending, isError, error, variables } = useRecommendations();
 
   const [interests, setInterests] = useState<string[]>([]);
   const [budgetLevel, setBudgetLevel] = useState<BudgetLevel>("moderate");
@@ -138,9 +139,13 @@ export default function RecommendationsPage(): JSX.Element {
         )}
 
         {isError && !isPending && (
-          <p className="text-center text-danger" role="alert">
-            {(error as Error)?.message || "Couldn't get recommendations. Please try again."}
-          </p>
+          <ErrorPostcard
+            tone="sand"
+            stampLabel="Delayed"
+            title="We couldn't find destinations"
+            message={(error as Error)?.message || "Something went wrong on our side. Please try again."}
+            action={variables && <Button onClick={() => mutate(variables)}>Try again</Button>}
+          />
         )}
 
         {data && !isPending && (

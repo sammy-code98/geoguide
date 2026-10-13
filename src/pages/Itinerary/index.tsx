@@ -9,6 +9,7 @@ import ItineraryResult from "../../components/Itinerary/ItineraryResult";
 import { Button } from "../../components/ui/button";
 import { BackToTop } from "../../components/ui/back-to-top";
 import { PostcardHeader } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
 import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
@@ -17,7 +18,7 @@ const TRAVEL_STYLES: TravelStyle[] = ["relaxed", "balanced", "fast-paced"];
 
 export default function ItineraryPage(): JSX.Element {
   const [searchParams] = useSearchParams();
-  const { mutate, data, isPending, isError, error } = useItinerary();
+  const { mutate, data, isPending, isError, error, variables } = useItinerary();
 
   const [destination, setDestination] = useState(searchParams.get("destination") ?? "");
   const [durationDays, setDurationDays] = useState(5);
@@ -159,9 +160,13 @@ export default function ItineraryPage(): JSX.Element {
         )}
 
         {isError && !isPending && (
-          <p className="text-center text-danger" role="alert">
-            {(error as Error)?.message || "Couldn't generate an itinerary. Please try again."}
-          </p>
+          <ErrorPostcard
+            tone="olive"
+            stampLabel="Delayed"
+            title="Your itinerary didn't arrive"
+            message={(error as Error)?.message || "Something went wrong on our side. Please try again."}
+            action={variables && <Button onClick={() => mutate(variables)}>Try again</Button>}
+          />
         )}
 
         {data && !isPending && (

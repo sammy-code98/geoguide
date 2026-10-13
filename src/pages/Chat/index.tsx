@@ -7,6 +7,7 @@ import ChatMessage from "../../components/Chat/ChatMessage";
 import ChatInput from "../../components/Chat/ChatInput";
 import ConversationList from "../../components/Chat/ConversationList";
 import { Scene, Stamp } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
 
 const SUGGESTIONS = [
   "Plan a weekend in Lagos.",
@@ -151,9 +152,12 @@ export default function ChatPage(): JSX.Element {
             )}
 
             {error && (
-              <p className="text-center text-danger text-sm" role="alert">
-                {error}
-              </p>
+              <ErrorPostcard
+                size="compact"
+                title="That message didn't go through"
+                message={error}
+                className="mx-auto max-w-xl"
+              />
             )}
             <div ref={bottomRef} />
           </div>

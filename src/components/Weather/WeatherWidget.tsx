@@ -7,6 +7,7 @@ import type { WeatherUnits } from "../../types/weather";
 import { cn } from "../../lib/cn";
 import { Button } from "../ui/button";
 import { SafeImage } from "../ui/safe-image";
+import { ErrorPostcard } from "../ui/error-postcard";
 import { PiCloudSunDuotone } from "react-icons/pi";
 
 interface WeatherWidgetProps {
@@ -62,12 +63,14 @@ export default function WeatherWidget({ city }: WeatherWidgetProps): JSX.Element
         {isLoading && <div className="h-40 rounded-xl bg-surface-2 animate-pulse" />}
 
         {isError && !isLoading && (
-          <div className="flex flex-col items-center gap-3 py-8 text-center bg-surface border border-border rounded-xl">
-            <p className="text-muted">
-              {(error as Error)?.message || "Weather data is currently unavailable."}
-            </p>
-            <Button onClick={() => refetch()}>Try again</Button>
-          </div>
+          <ErrorPostcard
+            tone="sea"
+            icon={<PiCloudSunDuotone />}
+            stampLabel="No signal"
+            title="The forecast didn't come through"
+            message={(error as Error)?.message || "Weather data is unavailable right now. Please try again."}
+            action={<Button onClick={() => refetch()}>Try again</Button>}
+          />
         )}
 
         {data && !isLoading && !isError && (

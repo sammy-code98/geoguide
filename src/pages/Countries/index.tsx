@@ -10,6 +10,8 @@ import CountryCard from "../../components/CountryCard";
 import { EmptyState } from "../../components/ui/empty-state";
 import { BackToTop } from "../../components/ui/back-to-top";
 import { PostcardHeader } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
+import { Button } from "../../components/ui/button";
 import { NumComma, shortenString } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 
@@ -17,7 +19,7 @@ export default function CountriesPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");
 
-  const { isLoading, isError, data, error } = useQuery({
+  const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
     queryKey: [QueryKey.getCountries],
     queryFn: getCountries,
   });
@@ -58,12 +60,19 @@ export default function CountriesPage(): JSX.Element {
 
   if (isError) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <EmptyState
-          icon={<HiOutlineGlobeAlt />}
-          title="Couldn't load countries"
-          description={`${error.message}. Check your internet connection and try again.`}
-        />
+      <div className="min-h-screen">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-40">
+          <ErrorPostcard
+            as="h1"
+            title="We couldn't load the countries"
+            message={error.message}
+            action={
+              <Button onClick={() => refetch()} disabled={isFetching}>
+                {isFetching ? "Trying…" : "Try again"}
+              </Button>
+            }
+          />
+        </div>
       </div>
     );
   }

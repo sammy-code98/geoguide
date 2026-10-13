@@ -14,8 +14,9 @@ import CurrencyConverter from "../../components/Currency/CurrencyConverter";
 import PlaceDiscovery from "../../components/Places/PlaceDiscovery";
 import SaveButton from "../../components/Saved/SaveButton";
 import { Button, button } from "../../components/ui/button";
-import { EmptyState } from "../../components/ui/empty-state";
 import { Stamp } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
+import { isNotFound } from "../../utils/axios";
 import { SafeImage } from "../../components/ui/safe-image";
 import { PiFlagDuotone } from "react-icons/pi";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
@@ -58,7 +59,7 @@ export default function DetailsPage() {
   const { code } = useParams();
   const [showInsights, setShowInsights] = useState<boolean>(false);
 
-  const { isLoading, isError, data: country } = useQuery({
+  const { isLoading, isError, error, data: country, refetch } = useQuery({
     queryKey: [QueryKey.getACountry, code],
     queryFn: () => getCountryByCode(code as string),
     enabled: Boolean(code),
@@ -77,18 +78,33 @@ export default function DetailsPage() {
     );
 
   if (isError || !country) {
+    // A 404 means there's no such country; anything else is a real failure
+    // worth retrying.
+    const failed = isError && !isNotFound(error);
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <EmptyState
-          icon={<HiOutlineLocationMarker />}
-          title="Country not found"
-          description="We couldn't find details for this country."
-          action={
-            <Link to={AppRoutes.countries} className={button({ variant: "outline", size: "sm" })}>
-              <MdArrowBackIos className="text-xs" /> Back to countries
-            </Link>
-          }
-        />
+      <div className="min-h-screen">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-40">
+          <ErrorPostcard
+            as="h1"
+            tone="sand"
+            icon={<HiOutlineLocationMarker />}
+            stampLabel="Unknown"
+            title={failed ? "We couldn't load this country" : "Country not found"}
+            message={
+              failed
+                ? (error as Error).message
+                : "We couldn't find a country at this address. It may have been mistyped."
+            }
+            action={
+              <>
+                {failed && <Button onClick={() => refetch()}>Try again</Button>}
+                <Link to={AppRoutes.countries} className={button({ variant: "outline" })}>
+                  <MdArrowBackIos className="text-xs" /> Back to countries
+                </Link>
+              </>
+            }
+          />
+        </div>
       </div>
     );
   }

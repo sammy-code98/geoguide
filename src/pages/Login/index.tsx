@@ -5,6 +5,7 @@ import { useAuth } from "../../auth/useAuth";
 import { AppRoutes } from "../../types/routes";
 import { Card } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
 
 /**
  * Guest-only sign-in page. Redirects authenticated users back to where they
@@ -20,7 +21,7 @@ export default function LoginPage(): JSX.Element {
   if (user) return <Navigate to={from} replace />;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <Card className="w-full max-w-md p-8 text-center">
         <div className="w-14 h-14 mx-auto rounded-xl bg-primary/10 text-primary flex items-center justify-center text-2xl">
           <HiOutlineGlobeAlt aria-hidden="true" />
@@ -40,9 +41,12 @@ export default function LoginPage(): JSX.Element {
         </Button>
 
         {error && (
-          <p className="text-danger text-sm mt-4" role="alert">
-            {error}
-          </p>
+          <ErrorPostcard
+            size="compact"
+            title="Sign-in didn't complete"
+            message={error}
+            className="mt-4"
+          />
         )}
 
         <p className="text-xs text-muted mt-6">
