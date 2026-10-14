@@ -3,6 +3,9 @@ import DiscoveryCard from '../HomeCards/DiscoveryCard'
 import { discoverTravelFeaturesData } from './data'
 import { AppRoutes } from '../../types/routes'
 import { Button } from '../ui/button'
+import type { Tone } from '../ui/postcard'
+
+const TONE_ORDER: Tone[] = ["sea", "terracotta", "olive"]
 
 export default function Discover() {
   const navigate = useNavigate()
@@ -21,7 +24,7 @@ export default function Discover() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {discoverTravelFeaturesData.map((data, index) => (
-            <DiscoveryCard key={index} {...data} />
+            <DiscoveryCard key={index} {...data} tone={TONE_ORDER[index % TONE_ORDER.length]} />
           ))}
         </div>
 

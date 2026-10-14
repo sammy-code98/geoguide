@@ -25,6 +25,16 @@ export default {
           foreground: withAlpha("--primary-foreground"),
           hover: withAlpha("--primary-hover"),
         },
+        accent: {
+          DEFAULT: withAlpha("--accent"),
+          foreground: withAlpha("--accent-foreground"),
+        },
+        // ── Postcard destination tones ──
+        sea: { DEFAULT: withAlpha("--sea"), soft: withAlpha("--sea-soft") },
+        sand: { DEFAULT: withAlpha("--sand"), soft: withAlpha("--sand-soft") },
+        terracotta: { DEFAULT: withAlpha("--terracotta"), soft: withAlpha("--terracotta-soft") },
+        olive: { DEFAULT: withAlpha("--olive"), soft: withAlpha("--olive-soft") },
+        sun: withAlpha("--sun"),
         danger: withAlpha("--danger"),
         success: withAlpha("--success"),
         warning: withAlpha("--warning"),
@@ -41,6 +51,25 @@ export default {
       fontFamily: {
         sans: ['"Inter Variable"', "Inter", "system-ui", "sans-serif"],
         serif: ['"Fraunces Variable"', "Georgia", "Cambria", "serif"],
+      },
+      transitionTimingFunction: {
+        // Confident natural deceleration for arrivals and feedback.
+        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
+      },
+      keyframes: {
+        "typing-dot": {
+          "0%, 100%": { opacity: "0.35", transform: "translateY(0)" },
+          "50%": { opacity: "1", transform: "translateY(-3px)" },
+        },
+        "float-soft": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+      },
+      animation: {
+        // Smooth (non-bounce) motion for the chat typing indicator and 404 mark.
+        "typing-dot": "typing-dot 1.2s ease-in-out infinite",
+        "float-soft": "float-soft 3s ease-in-out infinite",
       },
       borderRadius: {
         none: "0",

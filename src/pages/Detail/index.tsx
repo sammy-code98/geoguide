@@ -14,7 +14,11 @@ import CurrencyConverter from "../../components/Currency/CurrencyConverter";
 import PlaceDiscovery from "../../components/Places/PlaceDiscovery";
 import SaveButton from "../../components/Saved/SaveButton";
 import { Button, button } from "../../components/ui/button";
-import { EmptyState } from "../../components/ui/empty-state";
+import { Stamp } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
+import { isNotFound } from "../../utils/axios";
+import { SafeImage } from "../../components/ui/safe-image";
+import { PiFlagDuotone } from "react-icons/pi";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
 
 // Leaflet is heavy — load the map only when a Detail page actually renders it.
@@ -23,9 +27,9 @@ const CountryMap = lazy(() => import("../../components/Map/CountryMap"));
 /** One label/value pair in the country fact grid. */
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="py-2.5 border-b border-border">
-      <dt className="text-xs uppercase tracking-wide text-muted">{label}</dt>
-      <dd className="mt-0.5 text-fg font-medium">{children}</dd>
+    <div className="py-2.5 border-b border-fg/10">
+      <dt className="text-xs uppercase tracking-wide text-fg/60">{label}</dt>
+      <dd className="mt-0.5 text-fg font-medium tabular-nums">{children}</dd>
     </div>
   );
 }
@@ -55,7 +59,7 @@ export default function DetailsPage() {
   const { code } = useParams();
   const [showInsights, setShowInsights] = useState<boolean>(false);
 
-  const { isLoading, isError, data: country } = useQuery({
+  const { isLoading, isError, error, data: country, refetch } = useQuery({
     queryKey: [QueryKey.getACountry, code],
     queryFn: () => getCountryByCode(code as string),
     enabled: Boolean(code),
@@ -66,7 +70,7 @@ export default function DetailsPage() {
 
   if (isLoading)
     return (
-      <div className="min-h-screen bg-bg">
+      <div className="min-h-screen">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <DetailLoader />
         </div>
@@ -74,25 +78,40 @@ export default function DetailsPage() {
     );
 
   if (isError || !country) {
+    // A 404 means there's no such country; anything else is a real failure
+    // worth retrying.
+    const failed = isError && !isNotFound(error);
     return (
-      <div className="min-h-screen bg-bg flex items-center justify-center px-4">
-        <EmptyState
-          icon={<HiOutlineLocationMarker />}
-          title="Country not found"
-          description="We couldn't find details for this country."
-          action={
-            <Link to={AppRoutes.countries} className={button({ variant: "outline", size: "sm" })}>
-              <MdArrowBackIos className="text-xs" /> Back to countries
-            </Link>
-          }
-        />
+      <div className="min-h-screen">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-40">
+          <ErrorPostcard
+            as="h1"
+            tone="sand"
+            icon={<HiOutlineLocationMarker />}
+            stampLabel="Unknown"
+            title={failed ? "We couldn't load this country" : "Country not found"}
+            message={
+              failed
+                ? (error as Error).message
+                : "We couldn't find a country at this address. It may have been mistyped."
+            }
+            action={
+              <>
+                {failed && <Button onClick={() => refetch()}>Try again</Button>}
+                <Link to={AppRoutes.countries} className={button({ variant: "outline" })}>
+                  <MdArrowBackIos className="text-xs" /> Back to countries
+                </Link>
+              </>
+            }
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-bg">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+    <div className="min-h-screen">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32">
         {/* Toolbar */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <Link to={AppRoutes.countries} className={button({ variant: "ghost", size: "sm" })}>
@@ -132,20 +151,32 @@ export default function DetailsPage() {
           </div>
         </div>
 
-        {/* Destination hero */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-          <img
-            alt={`${country.name}'s flag`}
-            src={country.flagPng}
-            className="w-full h-[280px] lg:h-[360px] object-cover rounded-xl border border-border"
+        {/* Destination hero — a postcard from this country */}
+        <div className="relative mt-8 overflow-hidden rounded-2xl bg-sand-soft p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <Stamp
+            tone="sand"
+            icon={<HiOutlineLocationMarker />}
+            label={country.cca3}
+            className="absolute right-5 top-5 z-10 sm:right-8 sm:top-7"
           />
-          <div>
-            <p className="text-sm text-muted">{country.region}{country.subregion ? ` · ${country.subregion}` : ""}</p>
+          {/* The flag, printed and pinned like a photo */}
+          <div className="bg-surface p-3 border border-border -rotate-[1.5deg]">
+            <SafeImage
+              alt={`${country.name}'s flag`}
+              src={country.flagPng}
+              className="w-full h-[240px] lg:h-[320px] object-cover"
+              fallbackIcon={<PiFlagDuotone />}
+            />
+          </div>
+          <div className="lg:pr-20">
+            <p className="text-sm text-fg/70 pr-24 lg:pr-0">
+              {country.region}{country.subregion ? ` · ${country.subregion}` : ""}
+            </p>
             <h1 className="font-serif text-4xl md:text-5xl font-semibold text-fg mt-1">
               {country.name}
             </h1>
             {country.nativeName && (
-              <p className="text-muted mt-1">{country.nativeName}</p>
+              <p className="text-fg/70 mt-1">{country.nativeName}</p>
             )}
 
             <dl className="mt-6 grid grid-cols-2 gap-x-8">
@@ -163,10 +194,10 @@ export default function DetailsPage() {
 
             {country.timezones.length > 0 && (
               <div className="mt-5">
-                <p className="text-xs uppercase tracking-wide text-muted mb-2">Time zones</p>
+                <p className="text-xs uppercase tracking-wide text-fg/60 mb-2">Time zones</p>
                 <div className="flex flex-wrap gap-1.5">
                   {country.timezones.map((tz) => (
-                    <span key={tz} className="text-xs text-fg bg-surface-2 border border-border rounded-md px-2 py-1">
+                    <span key={tz} className="text-xs text-fg bg-surface border border-fg/10 rounded-md px-2 py-1">
                       {tz}
                     </span>
                   ))}

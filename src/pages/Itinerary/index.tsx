@@ -8,6 +8,8 @@ import { TRAVEL_INTERESTS } from "../../constants/interests";
 import ItineraryResult from "../../components/Itinerary/ItineraryResult";
 import { Button } from "../../components/ui/button";
 import { BackToTop } from "../../components/ui/back-to-top";
+import { PostcardHeader } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
 import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
 
@@ -16,7 +18,7 @@ const TRAVEL_STYLES: TravelStyle[] = ["relaxed", "balanced", "fast-paced"];
 
 export default function ItineraryPage(): JSX.Element {
   const [searchParams] = useSearchParams();
-  const { mutate, data, isPending, isError, error } = useItinerary();
+  const { mutate, data, isPending, isError, error, variables } = useItinerary();
 
   const [destination, setDestination] = useState(searchParams.get("destination") ?? "");
   const [durationDays, setDurationDays] = useState(5);
@@ -47,17 +49,15 @@ export default function ItineraryPage(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-bg">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 space-y-8">
-        <div>
-          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg flex items-center gap-2">
-            <HiOutlineMap className="text-primary" aria-hidden="true" />
-            Itinerary planner
-          </h1>
-          <p className="text-muted mt-2">
-            A personalized day-by-day travel plan, tailored to your interests.
-          </p>
-        </div>
+    <div className="min-h-screen">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32 space-y-8">
+        <PostcardHeader
+          tone="olive"
+          title="Itinerary planner"
+          subtitle="Tell us where you're headed and we'll sketch your trip, day by day."
+          icon={<HiOutlineMap />}
+          stampLabel="Plan"
+        />
 
         {/* Form */}
         <form
@@ -160,9 +160,13 @@ export default function ItineraryPage(): JSX.Element {
         )}
 
         {isError && !isPending && (
-          <p className="text-center text-danger" role="alert">
-            {(error as Error)?.message || "Couldn't generate an itinerary. Please try again."}
-          </p>
+          <ErrorPostcard
+            tone="olive"
+            stampLabel="Delayed"
+            title="Your itinerary didn't arrive"
+            message={(error as Error)?.message || "Something went wrong on our side. Please try again."}
+            action={variables && <Button onClick={() => mutate(variables)}>Try again</Button>}
+          />
         )}
 
         {data && !isPending && (

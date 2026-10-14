@@ -9,6 +9,9 @@ import CardLoader from "../../components/CountryCard/cardLoader";
 import CountryCard from "../../components/CountryCard";
 import { EmptyState } from "../../components/ui/empty-state";
 import { BackToTop } from "../../components/ui/back-to-top";
+import { PostcardHeader } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
+import { Button } from "../../components/ui/button";
 import { NumComma, shortenString } from "../../utils/custom";
 import { QueryKey } from "../../utils/queryKeys";
 
@@ -16,7 +19,7 @@ export default function CountriesPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");
 
-  const { isLoading, isError, data, error } = useQuery({
+  const { isLoading, isError, data, error, refetch, isFetching } = useQuery({
     queryKey: [QueryKey.getCountries],
     queryFn: getCountries,
   });
@@ -57,24 +60,34 @@ export default function CountriesPage(): JSX.Element {
 
   if (isError) {
     return (
-      <div className="min-h-screen bg-bg flex items-center justify-center px-4">
-        <EmptyState
-          icon={<HiOutlineGlobeAlt />}
-          title="Couldn't load countries"
-          description={`${error.message}. Check your internet connection and try again.`}
-        />
+      <div className="min-h-screen">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-40">
+          <ErrorPostcard
+            as="h1"
+            title="We couldn't load the countries"
+            message={error.message}
+            action={
+              <Button onClick={() => refetch()} disabled={isFetching}>
+                {isFetching ? "Trying…" : "Try again"}
+              </Button>
+            }
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-bg">
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-      <div className="mb-8">
-        <h1 className="font-serif text-3xl md:text-4xl font-semibold text-fg">Explore countries</h1>
-        <p className="mt-2 text-muted">Browse destinations and dive into details, weather, and travel tips.</p>
-      </div>
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 md:pt-32">
+      <PostcardHeader
+        tone="sea"
+        title="Explore countries"
+        subtitle="Browse every destination on the map, then dive into details, weather, and travel tips."
+        icon={<HiOutlineGlobeAlt />}
+        stampLabel="World"
+        className="mb-8"
+      />
       <div className="flex justify-between items-center flex-wrap gap-4">
         <Search value={searchQuery} onChange={handleSearchChange} />
         <Filter

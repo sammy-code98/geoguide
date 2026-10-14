@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import CountryCard from "./index";
 
 const props = {
@@ -13,12 +13,15 @@ const props = {
   alt: "Nigeria's flag",
 };
 
-const renderCard = () =>
-  render(
-    <MemoryRouter>
-      <CountryCard {...props} />
-    </MemoryRouter>
+// CountryCard uses view transitions, which require a data router (as the real
+// app provides via createBrowserRouter).
+const renderCard = () => {
+  const router = createMemoryRouter(
+    [{ path: "/", element: <CountryCard {...props} /> }],
+    { initialEntries: ["/"] }
   );
+  return render(<RouterProvider router={router} />);
+};
 
 describe("CountryCard", () => {
   it("renders the country's details", () => {
