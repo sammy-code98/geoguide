@@ -1,31 +1,30 @@
+import { SafeImage } from "../ui/safe-image";
+
 type PlaceCardT = {
   title: string;
   description: string;
   imageUrl: string;
 };
 
+/** A printed postcard: framed photo, then a caption you'd write on the back. */
 export default function PlaceCard({ title, description, imageUrl }: PlaceCardT) {
   return (
-    <div className="relative group overflow-hidden rounded-lg border border-border h-80 md:h-96">
-      <img
-        alt={title}
-        src={imageUrl}
-        loading="lazy"
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-      />
-      {/* Purposeful overlay for text legibility over the photo. */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-
-      <div className="absolute top-4 left-4">
-        <span className="text-xs font-medium bg-white/90 text-stone-800 px-2.5 py-1 rounded-full">
+    <figure className="group h-full bg-surface border border-border rounded-lg p-3 transition-transform duration-200 ease-out-expo hover:-translate-y-0.5">
+      <div className="relative overflow-hidden">
+        <SafeImage
+          alt={title}
+          src={imageUrl}
+          loading="lazy"
+          className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+        <span className="absolute left-3 top-3 rounded-full bg-surface px-2.5 py-1 text-xs font-medium text-terracotta">
           Top destination
         </span>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <h4 className="text-lg md:text-xl font-semibold text-white line-clamp-1">{title}</h4>
-        <p className="text-sm text-white/85  mt-1">{description}</p>
-      </div>
-    </div>
+      <figcaption className="px-2 pt-5 pb-2">
+        <h4 className="font-serif text-xl md:text-2xl font-semibold text-fg">{title}</h4>
+        <p className="mt-2 text-muted leading-relaxed line-clamp-3">{description}</p>
+      </figcaption>
+    </figure>
   )
 }

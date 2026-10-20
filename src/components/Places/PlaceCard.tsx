@@ -2,6 +2,7 @@ import { IoStar } from "react-icons/io5";
 import { HiOutlineLocationMarker, HiOutlineMap } from "react-icons/hi";
 import type { Place } from "../../types/place";
 import SaveButton from "../Saved/SaveButton";
+import { SafeImage } from "../ui/safe-image";
 
 interface PlaceCardProps {
   place: Place;
@@ -9,7 +10,7 @@ interface PlaceCardProps {
 
 export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
   return (
-    <div className="group relative flex flex-col bg-surface border border-border rounded-lg overflow-hidden transition-colors hover:border-primary/40">
+    <div className="group relative flex flex-col bg-surface border border-border rounded-lg overflow-hidden transition-[transform,border-color] duration-200 ease-out-expo hover:-translate-y-0.5 hover:border-sea/50">
       <div className="absolute top-2 right-2 z-[1]">
         <SaveButton
           compact
@@ -23,21 +24,20 @@ export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
           }}
         />
       </div>
-      {/* Image (with a calm fallback when none is available) */}
-      {place.thumbnail ? (
-        <img
-          src={place.thumbnail}
-          alt={place.title}
-          className="h-40 w-full object-cover"
-          loading="lazy"
-        />
-      ) : (
-        <div className="h-40 w-full bg-surface-2 flex items-center justify-center">
-          <span className="font-serif text-4xl text-muted">
-            {place.title.charAt(0).toUpperCase()}
-          </span>
-        </div>
-      )}
+      {/* Image — the place's initial stands in when there's none or it fails */}
+      <SafeImage
+        src={place.thumbnail ?? undefined}
+        alt={place.title}
+        className="h-40 w-full object-cover"
+        loading="lazy"
+        fallback={
+          <div className="h-40 w-full bg-surface-2 flex items-center justify-center" aria-hidden="true">
+            <span className="font-serif text-4xl text-muted">
+              {place.title.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        }
+      />
 
       <div className="p-4 flex flex-col gap-2 flex-1">
         <h4 className="font-medium text-fg leading-snug line-clamp-2">

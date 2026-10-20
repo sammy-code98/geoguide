@@ -17,6 +17,7 @@ import { cn } from "../../lib/cn";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { EmptyState } from "../ui/empty-state";
+import { ErrorPostcard } from "../ui/error-postcard";
 import PlaceCard from "./PlaceCard";
 
 interface PlaceDiscoveryProps {
@@ -115,9 +116,11 @@ export default function PlaceDiscovery({ country }: PlaceDiscoveryProps): JSX.El
         )}
 
         {category && isError && (
-          <EmptyState
-            title="Couldn't load places"
-            description={error?.message || "Something went wrong. Please try again."}
+          <ErrorPostcard
+            tone="olive"
+            stampLabel="No reply"
+            title="We couldn't load places"
+            message={error?.message || "Something went wrong reaching the places service. Please try again."}
             action={<Button onClick={() => refetch()}>Try again</Button>}
           />
         )}

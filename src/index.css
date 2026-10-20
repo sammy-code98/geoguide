@@ -4,55 +4,161 @@
 
 /* ── Design tokens (R G B channels for Tailwind alpha support) ── */
 :root {
-  --bg: 250 250 249; /* stone-50 */
-  --surface: 255 255 255; /* white */
-  --surface-2: 245 245 244; /* stone-100 */
-  --border: 231 229 228; /* stone-200 */
-  --fg: 28 25 23; /* stone-900 */
-  --muted: 120 113 108; /* stone-500 */
+  --bg: 248 246 241; /* warm paper */
+  --surface: 255 255 255;
+  --surface-2: 241 238 231;
+  --border: 226 221 211;
+  --fg: 28 25 23; /* ink */
+  --muted: 112 105 98;
   --primary: 15 118 110; /* teal-700 */
-  --primary-foreground: 255 255 255; /* white on teal-700 */
-  --primary-hover: 17 94 89; /* teal-800 */
-  --danger: 220 38 38; /* red-600 */
-  --success: 21 128 61; /* green-700 */
-  --warning: 180 83 9; /* amber-700 */
-  --ring: 15 118 110; /* teal-700 */
+  --primary-foreground: 255 255 255;
+  --primary-hover: 17 94 89;
+  --accent: 180 83 9; /* amber-700 */
+  --accent-foreground: 255 255 255;
+  --danger: 220 38 38;
+  --success: 21 128 61;
+  --warning: 180 83 9;
+  --ring: 15 118 110;
+
+  /* Postcard destination tones: `-soft` is the flat block colour, the bare
+     token is the ink/illustration colour used on top of it. */
+  --sea: 15 118 110;
+  --sea-soft: 211 234 229;
+  --sand: 146 100 30;
+  --sand-soft: 243 230 205;
+  --terracotta: 170 68 40;
+  --terracotta-soft: 246 222 210;
+  --olive: 84 99 45;
+  --olive-soft: 226 230 205;
+  --sun: 232 162 52;
 }
 
 .dark {
-  --bg: 12 10 9; /* stone-950 */
-  --surface: 28 25 23; /* stone-900 */
-  --surface-2: 41 37 36; /* stone-800 */
-  --border: 68 64 60; /* stone-700 */
-  --fg: 245 245 244; /* stone-100 */
-  --muted: 168 162 158; /* stone-400 */
-  --primary: 45 212 191; /* teal-400 */
-  --primary-foreground: 28 25 23; /* stone-900 on teal-400 */
-  --primary-hover: 94 234 212; /* teal-300 */
-  --danger: 248 113 113; /* red-400 */
-  --success: 74 222 128; /* green-400 */
-  --warning: 251 191 36; /* amber-400 */
-  --ring: 45 212 191; /* teal-400 */
+  --bg: 18 16 14;
+  --surface: 30 27 24;
+  --surface-2: 42 38 34;
+  --border: 66 61 55;
+  --fg: 245 242 236;
+  --muted: 170 162 152;
+  --primary: 45 212 191;
+  --primary-foreground: 28 25 23;
+  --primary-hover: 94 234 212;
+  --accent: 251 191 36;
+  --accent-foreground: 28 25 23;
+  --danger: 248 113 113;
+  --success: 74 222 128;
+  --warning: 251 191 36;
+  --ring: 45 212 191;
+
+  --sea: 104 206 190;
+  --sea-soft: 20 46 43;
+  --sand: 226 184 112;
+  --sand-soft: 50 40 24;
+  --terracotta: 236 146 116;
+  --terracotta-soft: 56 32 25;
+  --olive: 180 196 124;
+  --olive-soft: 37 42 25;
+  --sun: 240 186 92;
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     font-synthesis: none;
+    /* Browser-chrome surfaces, themed from the palette. */
+    accent-color: rgb(var(--primary));
+    scrollbar-color: rgb(var(--border)) transparent;
   }
   body {
     @apply bg-bg text-fg font-sans;
     line-height: 1.6;
+    font-optical-sizing: auto;
   }
   h1,
   h2,
   h3 {
     @apply font-serif;
-    line-height: 1.15;
+    line-height: 1.12;
+    text-wrap: balance;
+    font-optical-sizing: auto;
   }
+  h1 {
+    letter-spacing: -0.021em;
+  }
+  h2 {
+    letter-spacing: -0.015em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: rgb(var(--primary) / 0.22);
+    color: rgb(var(--fg));
+  }
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--border));
+    border: 3px solid rgb(var(--bg));
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--muted) / 0.6);
+  }
+}
+
+/* ── Travel backdrop (components/ui/travel-backdrop.tsx) ─────────────────── */
+/* Cursor parallax: each doodle shifts against the pointer by its own depth. */
+.travel-parallax {
+  transform: translate3d(
+    calc(var(--px, 0) * var(--d, 0.5) * -22px),
+    calc(var(--py, 0) * var(--d, 0.5) * -16px),
+    0
+  );
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Two gentle float loops so neighbours never move in lockstep. */
+.travel-drift-a {
+  animation: travel-drift-a var(--dur, 12s) ease-in-out var(--delay, 0s) infinite;
+}
+.travel-drift-b {
+  animation: travel-drift-b var(--dur, 12s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes travel-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -14px, 0) rotate(4deg); }
+}
+@keyframes travel-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(10px, -8px, 0) rotate(-5deg); }
+}
+/* The plane: a linear sweep across, an eased rise and fall matching the
+   route's parabola (ease-out up, ease-in down), and a climb-to-descent tilt. */
+.travel-fly-x {
+  animation: travel-fly-x 28s linear infinite;
+}
+.travel-fly-y {
+  animation: travel-fly-y 14s cubic-bezier(0.5, 1, 0.89, 1) infinite alternate;
+}
+.travel-fly-tilt {
+  animation: travel-fly-tilt 28s linear infinite;
+}
+@keyframes travel-fly-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes travel-fly-y {
+  from { transform: translateY(0); }
+  to { transform: translateY(-96px); }
+}
+@keyframes travel-fly-tilt {
+  0% { rotate: -16deg; opacity: 0; }
+  5%, 95% { opacity: 1; }
+  100% { rotate: 18deg; opacity: 0; }
 }
 
 /* Respect users who prefer reduced motion. */

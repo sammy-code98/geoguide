@@ -3,6 +3,8 @@ import { MdSwapHoriz } from "react-icons/md";
 import { useExchangeRates } from "../../hooks/useExchangeRates";
 import { CURRENCIES } from "../../constants/currencies";
 import { formatCurrency } from "../../utils/custom";
+import { Button } from "../ui/button";
+import { ErrorPostcard } from "../ui/error-postcard";
 
 interface CurrencyConverterProps {
   defaultFrom?: string;
@@ -92,14 +94,16 @@ export default function CurrencyConverter({
         )}
 
         {isError && !isLoading && (
-          <div className="flex items-center gap-3">
-            <p className="text-muted">
-              {(error as Error)?.message || "Rates are unavailable right now."}
-            </p>
-            <button onClick={() => refetch()} className="text-primary font-medium hover:underline">
-              Retry
-            </button>
-          </div>
+          <ErrorPostcard
+            size="compact"
+            title="Exchange rates didn't load"
+            message={(error as Error)?.message || "Rates are unavailable right now."}
+            action={
+              <Button size="sm" variant="outline" onClick={() => refetch()}>
+                Try again
+              </Button>
+            }
+          />
         )}
 
         {!isLoading && !isError && (

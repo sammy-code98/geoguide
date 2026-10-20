@@ -6,6 +6,8 @@ import { useChats } from "../../hooks/useChats";
 import ChatMessage from "../../components/Chat/ChatMessage";
 import ChatInput from "../../components/Chat/ChatInput";
 import ConversationList from "../../components/Chat/ConversationList";
+import { Scene, Stamp } from "../../components/ui/postcard";
+import { ErrorPostcard } from "../../components/ui/error-postcard";
 
 const SUGGESTIONS = [
   "Plan a weekend in Lagos.",
@@ -41,7 +43,7 @@ export default function ChatPage(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-6 flex gap-6 h-screen">
         {/* Sidebar (md+) */}
         <aside className="hidden md:flex w-72 shrink-0 flex-col border-r border-border pr-4">
@@ -107,13 +109,26 @@ export default function ChatPage(): JSX.Element {
                 <p className="text-muted" role="status">Loading conversation…</p>
               </div>
             ) : isEmpty ? (
-              <div className="h-full flex flex-col items-center justify-center text-center gap-6">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-3xl">
-                  <MdOutlineTravelExplore aria-hidden="true" />
+              <div className="h-full flex flex-col items-center justify-center gap-4">
+                {/* A postcard to open the conversation */}
+                <div className="relative w-full max-w-xl overflow-hidden rounded-2xl bg-sea-soft px-6 py-8">
+                  <Scene
+                    tone="sea"
+                    className="pointer-events-none absolute bottom-0 right-0 hidden h-full w-1/2 sm:block"
+                  />
+                  <Stamp
+                    tone="sea"
+                    icon={<MdOutlineTravelExplore />}
+                    label="Ask"
+                    className="absolute right-5 top-5"
+                  />
+                  <p className="relative pr-24 font-serif text-2xl font-semibold text-fg">
+                    Where are you dreaming of?
+                  </p>
+                  <p className="relative mt-2 max-w-xs text-fg/75">
+                    Ask about destinations, budgets, visas, or safety. Try one of these:
+                  </p>
                 </div>
-                <p className="text-muted max-w-md">
-                  Your personal travel companion. Try one of these to get started:
-                </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl">
                   {SUGGESTIONS.map((s) => (
                     <button
@@ -137,9 +152,12 @@ export default function ChatPage(): JSX.Element {
             )}
 
             {error && (
-              <p className="text-center text-danger text-sm" role="alert">
-                {error}
-              </p>
+              <ErrorPostcard
+                size="compact"
+                title="That message didn't go through"
+                message={error}
+                className="mx-auto max-w-xl"
+              />
             )}
             <div ref={bottomRef} />
           </div>
