@@ -12,7 +12,7 @@ It is built as a **React SPA backed by an Express API proxy**. Every third-party
 integration (Google Gemini, Serpstack, OpenWeather, ExchangeRate-API) is called
 _server-side_, so no API secret is ever shipped to the browser.
 
-🔗 **Live demo:** [geoguide-five.vercel.app](https://geoguide-five.vercel.app/)
+🔗 **Live demo:** [geoguide-nine.vercel.app](https://geoguide-nine.vercel.app/)
 
 ---
 
