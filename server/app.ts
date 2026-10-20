@@ -1,10 +1,10 @@
 import express, { type Express } from "express";
 import cors from "cors";
-import { env } from "./config/env";
-import api from "./routes";
-import { apiRateLimiter } from "./middleware/rateLimit";
-import { errorHandler } from "./middleware/errorHandler";
-import { notFound } from "./middleware/notFound";
+import { env } from "./config/env.js";
+import api from "./routes/index.js";
+import { apiRateLimiter } from "./middleware/rateLimit.js";
+import { errorHandler } from "./middleware/errorHandler.js";
+import { notFound } from "./middleware/notFound.js";
 
 /**
  * Builds the Express application with the full middleware pipeline.
@@ -14,6 +14,9 @@ export function createApp(): Express {
   const app = express();
 
   app.disable("x-powered-by");
+  // Behind Vercel's (or any) reverse proxy, take the client IP from the first
+  // X-Forwarded-For hop so rate limits apply per visitor, not per proxy.
+  app.set("trust proxy", 1);
   app.use(cors({ origin: env.corsOrigin }));
   app.use(express.json({ limit: "1mb" }));
 

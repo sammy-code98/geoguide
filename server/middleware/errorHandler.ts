@@ -1,7 +1,8 @@
+import { inspect } from "node:util";
 import type { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
-import { ApiError } from "../lib/ApiError";
-import { isProduction } from "../config/env";
+import { ApiError } from "../lib/ApiError.js";
+import { isProduction } from "../config/env.js";
 
 interface ErrorEnvelope {
   error: {
@@ -28,7 +29,11 @@ export function errorHandler(
 
   if (err instanceof ApiError) {
     statusCode = err.statusCode;
-    body = { error: { code: err.code, message: err.message, details: err.details } };
+    // Upstream details are the provider's raw reply (quota names, model ids):
+    // useful in the server log, not something to hand a visitor in production.
+    const showDetails = !(isProduction && err.code.startsWith("upstream_"));
+    body = { error: { code: err.code, message: err.message } };
+    if (showDetails && err.details !== undefined) body.error.details = err.details;
   } else if (err instanceof ZodError) {
     statusCode = 422;
     body = {
@@ -43,7 +48,9 @@ export function errorHandler(
   }
 
   if (statusCode >= 500) {
-    console.error("[error]", err);
+    // Full depth, so a provider's own reason (e.g. Gemini's quota message)
+    // shows in the server/Vercel log rather than as "[Object]".
+    console.error("[error]", inspect(err, { depth: 6 }));
   }
 
   res.status(statusCode).json(body);

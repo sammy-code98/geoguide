@@ -1,17 +1,17 @@
 import { Router } from "express";
 import { z } from "zod";
-import { asyncHandler } from "../lib/asyncHandler";
-import { validate } from "../middleware/validate";
-import { aiCountryService } from "../services/AiCountryService";
-import { geminiService, type GeminiChatMessage } from "../services/GeminiService";
-import { aiItineraryService } from "../services/AiItineraryService";
-import { aiRecommendationsService } from "../services/AiRecommendationsService";
-import { chatRequestSchema } from "../ai/schemas/chat.schema";
-import { itineraryRequestSchema } from "../ai/schemas/itineraryRequest.schema";
-import { recommendationsRequestSchema } from "../ai/schemas/recommendationsRequest.schema";
-import { buildChatSystemPrompt } from "../ai/prompts/chat.prompt";
-import { integrations } from "../config/env";
-import { ApiError } from "../lib/ApiError";
+import { asyncHandler } from "../lib/asyncHandler.js";
+import { validate } from "../middleware/validate.js";
+import { aiCountryService } from "../services/AiCountryService.js";
+import { geminiService, type GeminiChatMessage } from "../services/GeminiService.js";
+import { aiItineraryService } from "../services/AiItineraryService.js";
+import { aiRecommendationsService } from "../services/AiRecommendationsService.js";
+import { chatRequestSchema } from "../ai/schemas/chat.schema.js";
+import { itineraryRequestSchema } from "../ai/schemas/itineraryRequest.schema.js";
+import { recommendationsRequestSchema } from "../ai/schemas/recommendationsRequest.schema.js";
+import { buildChatSystemPrompt } from "../ai/prompts/chat.prompt.js";
+import { integrations } from "../config/env.js";
+import { ApiError } from "../lib/ApiError.js";
 
 const router = Router();
 
@@ -68,7 +68,10 @@ router.post(
       }
       res.write("data: [DONE]\n\n");
     } catch (err) {
-      const message = err instanceof Error ? err.message : "The chat stream failed.";
+      // ApiError messages are written for visitors; anything else stays in the log.
+      if (!(err instanceof ApiError)) console.error("[chat]", err);
+      const message =
+        err instanceof ApiError ? err.message : "The travel assistant hit a problem. Please try again.";
       res.write(`data: ${JSON.stringify({ error: message })}\n\n`);
     } finally {
       res.end();

@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { z } from "zod";
-import { asyncHandler } from "../lib/asyncHandler";
-import { validate } from "../middleware/validate";
-import { integrations } from "../config/env";
-import { ApiError } from "../lib/ApiError";
-import { exchangeRateService } from "../services/ExchangeRateService";
+import { asyncHandler } from "../lib/asyncHandler.js";
+import { validate } from "../middleware/validate.js";
+import { integrations } from "../config/env.js";
+import { ApiError } from "../lib/ApiError.js";
+import { exchangeRateService } from "../services/ExchangeRateService.js";
 
 const router = Router();
 

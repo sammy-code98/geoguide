@@ -1,8 +1,8 @@
 import type { AxiosInstance } from "axios";
-import { env } from "../config/env";
-import { createHttpClient } from "../lib/httpClient";
-import { TtlCache } from "../lib/cache";
-import { ApiError } from "../lib/ApiError";
+import { env } from "../config/env.js";
+import { createHttpClient } from "../lib/httpClient.js";
+import { TtlCache } from "../lib/cache.js";
+import { ApiError } from "../lib/ApiError.js";
 
 /**
  * Normalized place shape returned to the frontend. Frontend components must
@@ -63,6 +63,7 @@ export class SerpstackService {
   constructor() {
     this.http = createHttpClient({
       serviceName: "Serpstack",
+      label: "Place search",
       baseURL: env.serpstack.baseUrl,
       timeout: 15_000,
     });

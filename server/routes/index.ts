@@ -1,12 +1,12 @@
 import { Router } from "express";
-import healthRoutes from "./health.routes";
-import countriesRoutes from "./countries.routes";
-import aiRoutes from "./ai.routes";
-import placesRoutes from "./places.routes";
-import travelCostRoutes from "./travelCost.routes";
-import weatherRoutes from "./weather.routes";
-import exchangeRoutes from "./exchange.routes";
-import { aiRateLimiter } from "../middleware/rateLimit";
+import healthRoutes from "./health.routes.js";
+import countriesRoutes from "./countries.routes.js";
+import aiRoutes from "./ai.routes.js";
+import placesRoutes from "./places.routes.js";
+import travelCostRoutes from "./travelCost.routes.js";
+import weatherRoutes from "./weather.routes.js";
+import exchangeRoutes from "./exchange.routes.js";
+import { aiRateLimiter } from "../middleware/rateLimit.js";
 
 /**
  * Root API router. Feature routers (places, weather, currency) are mounted here

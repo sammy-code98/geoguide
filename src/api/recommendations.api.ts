@@ -1,10 +1,10 @@
-import api from "../utils/axios";
+import api, { AI_TIMEOUT_MS } from "../utils/axios";
 import type { Recommendations, RecommendationsInput } from "../types/recommendations";
 
 /** Get personalized destination recommendations from the backend. */
 export const getRecommendations = async (
   input: RecommendationsInput
 ): Promise<Recommendations> => {
-  const { data } = await api.post<Recommendations>("/ai/recommendations", input);
+  const { data } = await api.post<Recommendations>("/ai/recommendations", input, { timeout: AI_TIMEOUT_MS });
   return data;
 };

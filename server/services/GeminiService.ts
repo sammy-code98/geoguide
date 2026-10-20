@@ -1,8 +1,8 @@
 import type { AxiosInstance } from "axios";
 import type { Readable } from "node:stream";
-import { env } from "../config/env";
-import { createHttpClient } from "../lib/httpClient";
-import { ApiError } from "../lib/ApiError";
+import { env } from "../config/env.js";
+import { createHttpClient, isRetryable } from "../lib/httpClient.js";
+import { ApiError } from "../lib/ApiError.js";
 
 export type GeminiModelTier = "flash" | "pro";
 
@@ -47,6 +47,7 @@ export class GeminiService {
   constructor() {
     this.http = createHttpClient({
       serviceName: "Gemini",
+      label: "The AI travel planner",
       baseURL: env.gemini.baseUrl,
       timeout: 30_000,
     });
@@ -102,7 +103,9 @@ export class GeminiService {
       } catch (err) {
         lastError = err;
         // The Gemini endpoint intermittently returns transient errors; back off
-        // and retry. A genuinely bad request/model surfaces after the retries.
+        // and retry those. Quota, bad-request and auth failures can't succeed on
+        // a retry (and retrying a quota error only spends more of it).
+        if (!isRetryable(err)) break;
         if (attempt < maxAttempts) {
           await delay(300 * attempt);
         }
@@ -182,6 +185,7 @@ export class GeminiService {
         return response.data as Readable;
       } catch (err) {
         lastError = err;
+        if (!isRetryable(err)) break;
         if (attempt < maxAttempts) await delay(300 * attempt);
       }
     }

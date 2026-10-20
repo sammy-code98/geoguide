@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { z } from "zod";
-import { asyncHandler } from "../lib/asyncHandler";
-import { validate } from "../middleware/validate";
-import { restCountriesService } from "../services/RestCountriesService";
+import { asyncHandler } from "../lib/asyncHandler.js";
+import { validate } from "../middleware/validate.js";
+import { restCountriesService } from "../services/RestCountriesService.js";
 
 const router = Router();
 
