@@ -5,6 +5,7 @@ import Footer from "../components/Footer"
 import MigrationPrompt from "../components/Saved/MigrationPrompt";
 import { useSavedTripsSync } from "../hooks/useSavedTrips";
 import { TravelBackdrop } from "../components/ui/travel-backdrop";
+import PwaPrompt from "../components/Pwa/PwaPrompt";
 
 // Content column width (px) per route — the `max-w-*` each page renders in —
 // so the travel backdrop can keep its doodles in the side margins.
@@ -52,6 +53,7 @@ function HomeLayout() {
         </main>
         <Footer />
       </div>
+      <PwaPrompt />
       {/* New pages open at the top; back/forward restores the previous offset. */}
       <ScrollRestoration />
     </>

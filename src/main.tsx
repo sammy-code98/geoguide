@@ -8,6 +8,8 @@ import './index.css'
 import { RouterProvider } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { AuthProvider } from './auth/AuthProvider'
+// Listen for the browser's install offer before anything renders.
+import './lib/install-prompt'
 
 const helmetContext = {};
 const queryClient = new QueryClient({

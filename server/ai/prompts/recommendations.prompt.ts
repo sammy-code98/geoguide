@@ -1,4 +1,4 @@
-import type { RecommendationsRequest } from "../schemas/recommendationsRequest.schema";
+import type { RecommendationsRequest } from "../schemas/recommendationsRequest.schema.js";
 
 /** Builds the prompt for personalized destination recommendations. */
 export function buildRecommendationsPrompt(input: RecommendationsRequest): {

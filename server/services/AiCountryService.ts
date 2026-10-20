@@ -1,12 +1,12 @@
-import { geminiService } from "./GeminiService";
-import { restCountriesService } from "./RestCountriesService";
-import { TtlCache } from "../lib/cache";
-import { ApiError } from "../lib/ApiError";
-import { buildCountryInsightsPrompt } from "../ai/prompts/countryInsights.prompt";
+import { geminiService } from "./GeminiService.js";
+import { restCountriesService } from "./RestCountriesService.js";
+import { TtlCache } from "../lib/cache.js";
+import { ApiError } from "../lib/ApiError.js";
+import { buildCountryInsightsPrompt } from "../ai/prompts/countryInsights.prompt.js";
 import {
   countryInsightsSchema,
   type CountryInsights,
-} from "../ai/schemas/countryInsights.schema";
+} from "../ai/schemas/countryInsights.schema.js";
 
 /**
  * Generates AI travel insights for a country. Orchestrates the country lookup,

@@ -1,9 +1,9 @@
 import type { AxiosInstance } from "axios";
-import { env } from "../config/env";
-import { createHttpClient } from "../lib/httpClient";
-import { TtlCache } from "../lib/cache";
-import { ApiError } from "../lib/ApiError";
-import type { Country, Currency } from "../types/country";
+import { env } from "../config/env.js";
+import { createHttpClient } from "../lib/httpClient.js";
+import { TtlCache } from "../lib/cache.js";
+import { ApiError } from "../lib/ApiError.js";
+import type { Country, Currency } from "../types/country.js";
 
 /**
  * Raw shape returned by countries.dev (kept internal to this module — the rest
@@ -44,6 +44,7 @@ export class RestCountriesService {
   constructor() {
     this.http = createHttpClient({
       serviceName: "Countries",
+      label: "Country data",
       baseURL: env.restCountries.baseUrl,
       headers: { Accept: "application/json" },
     });

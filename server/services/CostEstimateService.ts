@@ -1,14 +1,14 @@
-import { geminiService } from "./GeminiService";
-import { exchangeRateService } from "./ExchangeRateService";
-import { TtlCache } from "../lib/cache";
-import { ApiError } from "../lib/ApiError";
-import { integrations } from "../config/env";
-import { buildCostEstimatePrompt } from "../ai/prompts/costEstimate.prompt";
+import { geminiService } from "./GeminiService.js";
+import { exchangeRateService } from "./ExchangeRateService.js";
+import { TtlCache } from "../lib/cache.js";
+import { ApiError } from "../lib/ApiError.js";
+import { integrations } from "../config/env.js";
+import { buildCostEstimatePrompt } from "../ai/prompts/costEstimate.prompt.js";
 import {
   costEstimateSchema,
   type CostEstimateResult,
-} from "../ai/schemas/costEstimate.schema";
-import type { TravelCostRequest } from "../ai/schemas/travelCost.schema";
+} from "../ai/schemas/costEstimate.schema.js";
+import type { TravelCostRequest } from "../ai/schemas/travelCost.schema.js";
 
 /** Cost estimate returned to the frontend, in `currency` (USD unless converted). */
 export interface CostEstimate extends CostEstimateResult {

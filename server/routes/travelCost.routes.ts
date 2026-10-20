@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { asyncHandler } from "../lib/asyncHandler";
-import { validate } from "../middleware/validate";
-import { integrations } from "../config/env";
-import { ApiError } from "../lib/ApiError";
-import { costEstimateService } from "../services/CostEstimateService";
-import { travelCostRequestSchema } from "../ai/schemas/travelCost.schema";
+import { asyncHandler } from "../lib/asyncHandler.js";
+import { validate } from "../middleware/validate.js";
+import { integrations } from "../config/env.js";
+import { ApiError } from "../lib/ApiError.js";
+import { costEstimateService } from "../services/CostEstimateService.js";
+import { travelCostRequestSchema } from "../ai/schemas/travelCost.schema.js";
 
 const router = Router();
 

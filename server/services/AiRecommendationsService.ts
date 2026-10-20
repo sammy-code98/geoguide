@@ -1,11 +1,11 @@
-import { geminiService } from "./GeminiService";
-import { ApiError } from "../lib/ApiError";
-import { buildRecommendationsPrompt } from "../ai/prompts/recommendations.prompt";
+import { geminiService } from "./GeminiService.js";
+import { ApiError } from "../lib/ApiError.js";
+import { buildRecommendationsPrompt } from "../ai/prompts/recommendations.prompt.js";
 import {
   recommendationsSchema,
   type Recommendations,
-} from "../ai/schemas/recommendations.schema";
-import type { RecommendationsRequest } from "../ai/schemas/recommendationsRequest.schema";
+} from "../ai/schemas/recommendations.schema.js";
+import type { RecommendationsRequest } from "../ai/schemas/recommendationsRequest.schema.js";
 
 /**
  * Generates personalized destination recommendations via Gemini. Not cached, so

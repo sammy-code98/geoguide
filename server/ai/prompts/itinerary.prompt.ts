@@ -1,4 +1,4 @@
-import type { ItineraryRequest } from "../schemas/itineraryRequest.schema";
+import type { ItineraryRequest } from "../schemas/itineraryRequest.schema.js";
 
 /**
  * Builds the prompt for a day-by-day travel itinerary. Kept out of the route

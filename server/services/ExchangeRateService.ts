@@ -1,8 +1,8 @@
 import type { AxiosInstance } from "axios";
-import { env } from "../config/env";
-import { createHttpClient } from "../lib/httpClient";
-import { TtlCache } from "../lib/cache";
-import { ApiError } from "../lib/ApiError";
+import { env } from "../config/env.js";
+import { createHttpClient } from "../lib/httpClient.js";
+import { TtlCache } from "../lib/cache.js";
+import { ApiError } from "../lib/ApiError.js";
 
 export interface ConversionResult {
   base: string;
@@ -27,6 +27,7 @@ export class ExchangeRateService {
   constructor() {
     this.http = createHttpClient({
       serviceName: "ExchangeRate",
+      label: "Currency conversion",
       baseURL: env.exchangeRate.baseUrl,
     });
   }

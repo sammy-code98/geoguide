@@ -65,11 +65,17 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-8px)" },
         },
+        "note-in": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         // Smooth (non-bounce) motion for the chat typing indicator and 404 mark.
         "typing-dot": "typing-dot 1.2s ease-in-out infinite",
         "float-soft": "float-soft 3s ease-in-out infinite",
+        // Corner notes (offline, update available) slide up into place.
+        "note-in": "note-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both",
       },
       borderRadius: {
         none: "0",

@@ -15,6 +15,13 @@ const api = axios.create({
   withCredentials: false,
 });
 
+/**
+ * Timeout for AI generation calls. Gemini can take 10–30s (the server allows it
+ * 30s), so these need longer than the 15s default; it stays under the 60s
+ * Vercel function limit in vercel.json.
+ */
+export const AI_TIMEOUT_MS = 45_000;
+
 /** An API failure with a message fit to show a person, plus the HTTP status. */
 export class ApiRequestError extends Error {
   /** HTTP status, or undefined when the request never got a response. */

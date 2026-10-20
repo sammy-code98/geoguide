@@ -1,8 +1,8 @@
-import { geminiService } from "./GeminiService";
-import { ApiError } from "../lib/ApiError";
-import { buildItineraryPrompt } from "../ai/prompts/itinerary.prompt";
-import { itinerarySchema, type Itinerary } from "../ai/schemas/itinerary.schema";
-import type { ItineraryRequest } from "../ai/schemas/itineraryRequest.schema";
+import { geminiService } from "./GeminiService.js";
+import { ApiError } from "../lib/ApiError.js";
+import { buildItineraryPrompt } from "../ai/prompts/itinerary.prompt.js";
+import { itinerarySchema, type Itinerary } from "../ai/schemas/itinerary.schema.js";
+import type { ItineraryRequest } from "../ai/schemas/itineraryRequest.schema.js";
 
 /**
  * Generates a day-by-day travel itinerary via Gemini. Not cached — each request
