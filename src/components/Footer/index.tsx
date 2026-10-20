@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { PiAirplaneTiltDuotone, PiGithubLogoDuotone } from "react-icons/pi";
+import { PiAirplaneTiltDuotone, PiDownloadSimpleDuotone, PiGithubLogoDuotone } from "react-icons/pi";
 import { AppRoutes } from "../../types/routes";
 import { Postmark, Stamp } from "../ui/postcard";
+import { useInstallPrompt } from "../../lib/install-prompt";
 
 const sections: { heading: string; links: { label: string; to: string }[] }[] = [
   {
@@ -31,6 +32,7 @@ const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible
  */
 export default function Footer(): JSX.Element {
   const year = new Date().getFullYear();
+  const { canInstall, install } = useInstallPrompt();
 
   return (
     <footer className="px-4 sm:px-6 lg:px-8 pt-8 pb-8">
@@ -95,16 +97,29 @@ export default function Footer(): JSX.Element {
 
         <div className="mt-10 pt-5 border-t border-dashed border-border flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-muted">© {year} GeoGuide. All rights reserved.</p>
-          <a
-            href="https://github.com/sammy-code98/geoguide"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg transition-colors ${focusRing}`}
-          >
-            <PiGithubLogoDuotone className="text-xl" aria-hidden="true" />
-            GeoGuide on GitHub
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {/* Only where the browser offers installation (Chromium, Android). */}
+            {canInstall && (
+              <button
+                type="button"
+                onClick={() => void install()}
+                className={`inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-hover transition-colors ${focusRing}`}
+              >
+                <PiDownloadSimpleDuotone className="text-xl" aria-hidden="true" />
+                Install the app
+              </button>
+            )}
+            <a
+              href="https://github.com/sammy-code98/geoguide"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg transition-colors ${focusRing}`}
+            >
+              <PiGithubLogoDuotone className="text-xl" aria-hidden="true" />
+              GeoGuide on GitHub
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
