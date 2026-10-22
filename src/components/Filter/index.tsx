@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useSyncExternalStore } from "react";
 import Select from "react-select";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { filterOptions } from "./data";
 
 interface FilterI {
@@ -9,15 +9,6 @@ interface FilterI {
 }
 // Below `md` the filter spans the full width and its list opens in the page
 // flow, pushing the countries down instead of covering the first card.
-const STACKED_QUERY = "(max-width: 767px)";
-const subscribeStacked = (onChange: () => void) => {
-  const mql = window.matchMedia(STACKED_QUERY);
-  mql.addEventListener("change", onChange);
-  return () => mql.removeEventListener("change", onChange);
-};
-const useStacked = () =>
-  useSyncExternalStore(subscribeStacked, () => window.matchMedia(STACKED_QUERY).matches, () => false);
-
 const customStyles = (stacked: boolean) => ({
   control: (base: any, state: any) => ({
     ...base,
@@ -55,7 +46,7 @@ export default function Filter({ onRegionChange, value }: FilterI): JSX.Element 
     onRegionChange(option.value);
   };
   const selectedOption = filterOptions.find((option) => option.value === value);
-  const stacked = useStacked();
+  const stacked = useMediaQuery("(max-width: 767px)");
 
   return (
     <div className="w-full md:w-56">

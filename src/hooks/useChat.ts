@@ -118,14 +118,20 @@ export function useChat() {
       const controller = new AbortController();
       abortRef.current = controller;
       let assistantText = "";
+      // Chunks can arrive many times per frame; render at most once per frame
+      // so the markdown isn't re-laid-out for every network chunk.
+      let frame = 0;
+      const flush = () => {
+        frame = 0;
+        const text = assistantText;
+        setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, content: text } : m)));
+      };
       try {
         await streamChat(history, {
           signal: controller.signal,
           onDelta: (delta) => {
             assistantText += delta;
-            setMessages((prev) =>
-              prev.map((m) => (m.id === assistantId ? { ...m, content: m.content + delta } : m))
-            );
+            if (!frame) frame = requestAnimationFrame(flush);
           },
         });
       } catch (err) {
@@ -133,6 +139,8 @@ export function useChat() {
           setError((err as Error)?.message || "Something went wrong.");
         }
       } finally {
+        if (frame) cancelAnimationFrame(frame);
+        if (assistantText) flush();
         setIsStreaming(false);
         abortRef.current = null;
         if (assistantText) {

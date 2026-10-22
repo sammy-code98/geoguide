@@ -1,5 +1,9 @@
-import { FormEvent, KeyboardEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, useLayoutEffect, useRef, useState } from "react";
 import { IoSend, IoStop } from "react-icons/io5";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+
+/** Tallest the box grows before it scrolls (matches `max-h-40`). */
+const MAX_HEIGHT_PX = 160;
 
 interface ChatInputProps {
   onSend: (text: string) => void;
@@ -9,6 +13,18 @@ interface ChatInputProps {
 
 export default function ChatInput({ onSend, onStop, isStreaming }: ChatInputProps): JSX.Element {
   const [value, setValue] = useState("");
+  const boxRef = useRef<HTMLTextAreaElement>(null);
+  // The full hint wraps to two lines on a phone and gets clipped; keep it to one.
+  const roomy = useMediaQuery("(min-width: 640px)");
+
+  // Grow with the message (up to MAX_HEIGHT_PX), and shrink back once it's sent.
+  useLayoutEffect(() => {
+    const box = boxRef.current;
+    if (!box) return;
+    box.style.height = "auto";
+    const border = box.offsetHeight - box.clientHeight; // scrollHeight excludes it
+    box.style.height = `${Math.min(box.scrollHeight + border, MAX_HEIGHT_PX)}px`;
+  }, [value]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -27,13 +43,14 @@ export default function ChatInput({ onSend, onStop, isStreaming }: ChatInputProp
   return (
     <form onSubmit={submit} className="flex items-end gap-2">
       <textarea
+        ref={boxRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={onKeyDown}
         rows={1}
-        placeholder="Ask about destinations, budgets, visas, safety…"
+        placeholder={roomy ? "Ask about destinations, budgets, visas, safety…" : "Ask about any trip…"}
         aria-label="Message the travel assistant"
-        className="flex-1 resize-none max-h-40 px-4 py-3 rounded-xl bg-surface text-fg placeholder:text-muted border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-primary"
+        className="flex-1 resize-none max-h-40 overflow-y-auto px-4 py-2.5 rounded-xl bg-surface text-fg placeholder:text-muted border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-primary"
       />
       {isStreaming ? (
         <button
