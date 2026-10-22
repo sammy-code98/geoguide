@@ -11,6 +11,7 @@ import { BackToTop } from "../../components/ui/back-to-top";
 import { PostcardHeader } from "../../components/ui/postcard";
 import { ErrorPostcard } from "../../components/ui/error-postcard";
 import { inputClass, labelClass } from "../../constants/formStyles";
+import { LocationCombobox } from "../../components/ui/location-combobox";
 
 const BUDGET_LEVELS: { value: BudgetLevel; label: string }[] = [
   { value: "budget", label: "Budget" },
@@ -60,23 +61,21 @@ export default function CostEstimatorPage(): JSX.Element {
         >
           <div>
             <label className={labelClass} htmlFor="origin">From</label>
-            <input
+            <LocationCombobox
               id="origin"
-              className={inputClass}
               value={origin}
-              onChange={(e) => setOrigin(e.target.value)}
+              onChange={setOrigin}
               placeholder="e.g. Lagos, Nigeria"
               required
             />
           </div>
           <div>
             <label className={labelClass} htmlFor="destination">To</label>
-            <input
+            <LocationCombobox
               id="destination"
-              className={inputClass}
               value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              placeholder="e.g. Japan"
+              onChange={setDestination}
+              placeholder="e.g. Japan or Tokyo"
               required
             />
           </div>

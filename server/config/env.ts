@@ -49,6 +49,12 @@ export const env = {
     baseUrl: withDefault("SERPSTACK_BASE_URL", "https://api.serpstack.com"),
   },
 
+  // Place-name autocomplete (Open-Meteo geocoding — keyless, free for
+  // non-commercial use).
+  geocoding: {
+    baseUrl: withDefault("GEOCODING_BASE_URL", "https://geocoding-api.open-meteo.com/v1"),
+  },
+
   openWeather: {
     apiKey: optional("OPENWEATHER_API_KEY"),
     baseUrl: withDefault("OPENWEATHER_BASE_URL", "https://api.openweathermap.org/data/2.5"),
@@ -72,6 +78,7 @@ export const integrations = {
   openWeather: Boolean(env.openWeather.apiKey),
   exchangeRate: Boolean(env.exchangeRate.apiKey),
   restCountries: true, // keyless public API
+  geocoding: true, // keyless public API
 } as const;
 
 export type IntegrationName = keyof typeof integrations;

@@ -21,6 +21,7 @@ _server-side_, so no API secret is ever shipped to the browser.
 ### Explore
 - **Country directory** — search and filter every country by name, capital, or region, with a lazy-loaded, skeleton-driven grid and a floating _back to top_ control.
 - **Country details** — flag, key facts, timezones, an interactive **Leaflet** map, **live weather** for the capital, an inline **currency converter**, and AI-written **travel insights**.
+- **Location autocomplete** — every place field (itinerary, trip cost, recommendations) suggests countries instantly and cities as you type; free text still works.
 - **Place discovery** — restaurants, hotels, attractions, museums, beaches and more near a destination, sourced via Serpstack, presented as a photography-first directory.
 
 ### Plan
@@ -144,6 +145,7 @@ All routes are mounted under `/api`.
 | `POST` | `/api/ai/itinerary` | Generate a day-by-day itinerary |
 | `POST` | `/api/ai/recommendations` | Personalized destination recommendations |
 | `GET`  | `/api/places` | Places near a location (by category) |
+| `GET`  | `/api/locations?q=` | City / town suggestions for location autocomplete (Open-Meteo geocoding, keyless) |
 | `POST` | `/api/travel-cost` | Estimate a trip budget |
 | `GET`  | `/api/weather` | Current weather + forecast for a city |
 | `GET`  | `/api/exchange/rates` | Currency exchange rates |
