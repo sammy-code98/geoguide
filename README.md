@@ -290,9 +290,6 @@ keeping backend secrets out of any `VITE_`-prefixed key.
 
 ---
 
-## 📄 License
-
-This project is released for educational and portfolio purposes.
 
 ## 👤 Author
 
