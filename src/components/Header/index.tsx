@@ -42,9 +42,13 @@ export default function Header() {
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("pointerdown", onPointer);
+    // The page behind the overlay stays put while the menu is open.
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointer);
+      document.body.style.overflow = overflow;
     };
   }, [menuOpen]);
   const [theme, setTheme] = useState<string | null>(
@@ -110,8 +114,18 @@ export default function Header() {
     (theme === "system" && darkQuery.matches);
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 w-full z-20">
-      <div className="px-4 sm:px-6 lg:px-8 pt-3">
+    // While the menu is open the header rises above the back-to-top button,
+    // so the overlay dims everything on the page.
+    <header ref={headerRef} className={cn("fixed top-0 left-0 w-full", menuOpen ? "z-[35]" : "z-20")}>
+      {/* Dark overlay behind the open mobile menu; tapping it closes the menu. */}
+      {menuOpen && (
+        <div
+          aria-hidden="true"
+          onClick={() => setMenuOpen(false)}
+          className="fixed inset-0 bg-black/50 dark:bg-black/70 animate-fade-in motion-reduce:animate-none lg:hidden"
+        />
+      )}
+      <div className="relative px-4 sm:px-6 lg:px-8 pt-3">
         <nav aria-label="Primary" className="relative mx-auto max-w-7xl">
           <div className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-surface py-2.5 pl-4 pr-2.5 sm:pl-5">
             {/* Brand: a little stamp and the wordmark */}
