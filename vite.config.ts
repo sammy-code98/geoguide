@@ -69,7 +69,7 @@ export default defineConfig({
             // AI generation and other POSTs always go to the server.
             urlPattern: ({ url, sameOrigin }) =>
               sameOrigin &&
-              /^\/api\/(countries|weather|exchange|places|ai\/country)(\/|$|\?)/.test(url.pathname),
+              /^\/api\/(countries|weather|exchange|places|locations|ai\/country)(\/|$|\?)/.test(url.pathname),
             handler: "NetworkFirst",
             options: {
               cacheName: "geoguide-api",

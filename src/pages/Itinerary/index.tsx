@@ -12,6 +12,7 @@ import { PostcardHeader } from "../../components/ui/postcard";
 import { ErrorPostcard } from "../../components/ui/error-postcard";
 import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
+import { LocationCombobox } from "../../components/ui/location-combobox";
 
 const BUDGET_LEVELS: BudgetLevel[] = ["budget", "moderate", "luxury"];
 const TRAVEL_STYLES: TravelStyle[] = ["relaxed", "balanced", "fast-paced"];
@@ -67,12 +68,11 @@ export default function ItineraryPage(): JSX.Element {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
               <label className={labelClass} htmlFor="destination">Destination</label>
-              <input
+              <LocationCombobox
                 id="destination"
-                className={inputClass}
                 value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                placeholder="e.g. Thailand"
+                onChange={setDestination}
+                placeholder="e.g. Thailand or Kyoto"
                 required
               />
             </div>

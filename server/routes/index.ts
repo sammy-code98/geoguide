@@ -6,6 +6,7 @@ import placesRoutes from "./places.routes.js";
 import travelCostRoutes from "./travelCost.routes.js";
 import weatherRoutes from "./weather.routes.js";
 import exchangeRoutes from "./exchange.routes.js";
+import locationsRoutes from "./locations.routes.js";
 import { aiRateLimiter } from "../middleware/rateLimit.js";
 
 /**
@@ -21,5 +22,6 @@ api.use("/places", placesRoutes);
 api.use("/travel-cost", aiRateLimiter, travelCostRoutes);
 api.use("/weather", weatherRoutes);
 api.use("/exchange", exchangeRoutes);
+api.use("/locations", locationsRoutes);
 
 export default api;

@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Select from "react-select";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { filterOptions } from "./data";
 
 interface FilterI {
   value: string;
   onRegionChange: (region: string) => void;
 }
-const customStyles = {
+// Below `md` the filter spans the full width and its list opens in the page
+// flow, pushing the countries down instead of covering the first card.
+const customStyles = (stacked: boolean) => ({
   control: (base: any, state: any) => ({
     ...base,
     minHeight: "46px",
@@ -23,6 +26,7 @@ const customStyles = {
     borderRadius: "10px",
     overflow: "hidden",
     zIndex: 20,
+    ...(stacked ? { position: "relative", marginBottom: 0 } : {}),
   }),
   option: (base: any, state: any) => ({
     ...base,
@@ -36,15 +40,16 @@ const customStyles = {
   singleValue: (base: any) => ({ ...base, color: "rgb(var(--fg))" }),
   input: (base: any) => ({ ...base, color: "rgb(var(--fg))" }),
   placeholder: (base: any) => ({ ...base, color: "rgb(var(--muted))" }),
-};
+});
 export default function Filter({ onRegionChange, value }: FilterI): JSX.Element {
   const handleRegionChange = (option: any) => {
     onRegionChange(option.value);
   };
   const selectedOption = filterOptions.find((option) => option.value === value);
+  const stacked = useMediaQuery("(max-width: 767px)");
 
   return (
-    <div className="max-w-xl">
+    <div className="w-full md:w-56">
       <label htmlFor="region-filter" className="sr-only">
         Filter countries by region
       </label>
@@ -56,7 +61,9 @@ export default function Filter({ onRegionChange, value }: FilterI): JSX.Element 
         options={filterOptions}
         value={selectedOption}
         onChange={handleRegionChange}
-        styles={customStyles}
+        styles={customStyles(stacked)}
+        // Six fixed regions: no typing needed, and no phone keyboard popping up.
+        isSearchable={false}
       />
     </div>
   );

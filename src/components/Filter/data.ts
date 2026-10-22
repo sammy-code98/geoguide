@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const filterOptions: any[] = [
-  { value: "All", label: "All" },
+  { value: "All", label: "All regions" },
   { value: "Africa", label: "Africa" },
   { value: "Americas", label: "Americas" },
   { value: "Asia", label: "Asia" },

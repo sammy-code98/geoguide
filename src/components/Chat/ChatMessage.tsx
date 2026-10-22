@@ -61,10 +61,12 @@ export default function ChatMessage({ message, isStreaming }: ChatMessageProps):
       </div>
 
       <div
-        className={`max-w-[80%] rounded-xl px-4 py-3 ${
+        className={`max-w-[80%] min-w-0 rounded-xl px-4 py-3 ${
           isUser
             ? "bg-primary text-primary-foreground rounded-tr-sm"
-            : "bg-surface text-fg border border-border rounded-tl-sm"
+            : // A reply takes its full width as soon as text arrives, so the
+              // bubble doesn't widen word by word while it streams.
+              `bg-surface text-fg border border-border rounded-tl-sm ${message.content ? "w-full" : ""}`
         }`}
       >
         {isUser ? (

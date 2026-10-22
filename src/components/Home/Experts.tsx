@@ -9,8 +9,8 @@ export default function Experts() {
   return (
     <section>
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="order-1">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="order-2 lg:order-1">
             <SafeImage
               alt="A local travel expert"
               src={Expert}
@@ -18,7 +18,7 @@ export default function Experts() {
               className="w-full h-[400px] lg:h-[500px] object-cover rounded-xl border border-border"
             />
           </div>
-          <div className="order-2 space-y-8">
+          <div className="order-1 lg:order-2 space-y-8">
             <div className="space-y-5">
               <Badge variant="accent">Destination experts</Badge>
 
