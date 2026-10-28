@@ -12,7 +12,7 @@ export default function Discover() {
   return (
     <section>
       <div className="max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
+        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12 space-y-4">
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-fg">
             Discover all things geography
           </h2>

@@ -4,11 +4,7 @@ interface CountryPromptInput {
   capital: string | null;
 }
 
-/**
- * Builds the system instruction + user prompt for country travel insights.
- * Prompts live here (never inside route handlers or the frontend) so they can
- * be tuned and reused independently of the AI transport.
- */
+
 export function buildCountryInsightsPrompt(country: CountryPromptInput): {
   system: string;
   prompt: string;

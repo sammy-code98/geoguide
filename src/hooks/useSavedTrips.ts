@@ -11,11 +11,7 @@ import {
 
 const key = (uid: string | undefined) => ["savedTrips", uid ?? "anon"] as const;
 
-/**
- * Loads the current user's saved trips (Firestore → React Query) and mirrors
- * them into the Zustand UI store. Mount ONCE near the app root; every other
- * component reads the store synchronously via `useSavedStore` / `useIsSaved`.
- */
+
 export function useSavedTripsSync(): void {
   const { user } = useAuth();
   const uid = user?.uid;
@@ -29,7 +25,7 @@ export function useSavedTripsSync(): void {
 
   useEffect(() => {
     if (!uid) {
-      setItems([]); // signed out — clear the mirror
+      setItems([]); 
       return;
     }
     if (data) setItems(data);
@@ -40,13 +36,7 @@ interface MutationContext {
   prev: SavedItem[];
 }
 
-/**
- * Optimistic add/remove/clear for saved trips. Lightweight (no query
- * subscription) so it's cheap to call in every SaveButton. Writes go to
- * Firestore; the React Query cache is updated optimistically and the sync hook
- * reflects it into the UI store. Offline writes queue via Firestore and sync on
- * reconnect.
- */
+
 export function useSavedTripsActions() {
   const { user } = useAuth();
   const uid = user?.uid;
@@ -97,7 +87,6 @@ export function useSavedTripsActions() {
     onSettled: settle,
   });
 
-  /** Save if not already saved, otherwise remove. No-op when signed out. */
   const toggle = (item: SavedInput) => {
     if (!uid) return;
     const current = qc.getQueryData<SavedItem[]>(key(uid)) ?? [];

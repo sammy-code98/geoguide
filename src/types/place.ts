@@ -1,7 +1,3 @@
-/**
- * Normalized place returned by `/api/places`. Mirrors the backend contract —
- * the frontend never sees raw Serpstack fields.
- */
 export interface Place {
   id: string;
   title: string;

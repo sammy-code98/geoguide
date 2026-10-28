@@ -7,8 +7,6 @@ import RequireAuth from "./auth/RequireAuth"
 
 import ErrorPage from "./modules/ErrorPage"
 
-// Entry routes are eager; feature pages are code-split so they don't weigh down
-// the initial load (Detail also pulls in Leaflet; Chat pulls in the markdown stack).
 import GetStartedPage from "./pages/Home"
 import CountriesPage from "./pages/Countries"
 

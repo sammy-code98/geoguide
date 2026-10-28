@@ -1,12 +1,6 @@
-/**
- * User profile persistence at `users/{uid}`. Called on sign-in to keep the
- * stored profile in sync with the Google account. UI never touches Firestore
- * directly — it goes through this service.
- */
 import type { AppUser, UserProfile } from "../../types/user";
 import { getDb } from "./firebase";
 
-/** Create the user doc on first sign-in, or refresh its mutable fields. */
 export async function ensureUserDoc(user: AppUser): Promise<void> {
   const db = await getDb();
   const { doc, getDoc, setDoc } = await import("firebase/firestore");
@@ -32,7 +26,6 @@ export async function ensureUserDoc(user: AppUser): Promise<void> {
   }
 }
 
-/** Read the stored profile, or `null` if it doesn't exist yet. */
 export async function getUserProfile(uid: string): Promise<UserProfile | null> {
   const db = await getDb();
   const { doc, getDoc } = await import("firebase/firestore");

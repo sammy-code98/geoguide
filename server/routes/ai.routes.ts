@@ -15,10 +15,7 @@ import { ApiError } from "../lib/ApiError.js";
 
 const router = Router();
 
-/**
- * GET /api/ai/country/:code
- * AI-generated travel insights for a country (by ISO alpha-2/alpha-3 code).
- */
+
 router.get(
   "/country/:code",
   validate({
@@ -34,24 +31,18 @@ router.get(
   })
 );
 
-/**
- * POST /api/ai/chat
- * Streams a conversational travel-assistant reply as Server-Sent Events.
- * Body: { messages: [{ role: "user" | "assistant", content: string }] }.
- * Events: `data: {"text": "..."}` deltas, then `data: [DONE]`.
- */
+
 router.post(
   "/chat",
   validate({ body: chatRequestSchema }),
   asyncHandler(async (req, res) => {
-    // Fail fast with a clean JSON error before switching to the SSE stream.
     if (!integrations.gemini) throw ApiError.notConfigured("Gemini");
 
     const messages: GeminiChatMessage[] = req.body.messages.map(
       (m: { role: "user" | "assistant"; content: string }) => ({
         role: m.role === "assistant" ? "model" : "user",
         content: m.content,
-      })
+      }),
     );
 
     res.setHeader("Content-Type", "text/event-stream");
@@ -68,15 +59,16 @@ router.post(
       }
       res.write("data: [DONE]\n\n");
     } catch (err) {
-      // ApiError messages are written for visitors; anything else stays in the log.
       if (!(err instanceof ApiError)) console.error("[chat]", err);
       const message =
-        err instanceof ApiError ? err.message : "The travel assistant hit a problem. Please try again.";
+        err instanceof ApiError
+          ? err.message
+          : "The travel assistant hit a problem. Please try again.";
       res.write(`data: ${JSON.stringify({ error: message })}\n\n`);
     } finally {
       res.end();
     }
-  })
+  }),
 );
 
 /**

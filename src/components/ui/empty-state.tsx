@@ -9,7 +9,6 @@ interface EmptyStateProps {
   className?: string;
 }
 
-/** Calm empty state: icon, explanation, and an optional action. */
 export function EmptyState({
   icon,
   title,

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { MdOutlineTravelExplore } from "react-icons/md";
 import { HiOutlinePlus } from "react-icons/hi";
 import { useChat } from "../../hooks/useChat";
@@ -29,13 +29,28 @@ export default function ChatPage(): JSX.Element {
     newChat,
   } = useChat();
   const { chats, isLoading, deleteChat } = useChats();
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const logRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  const followRef = useRef(true);
+  const lastCountRef = useRef(0);
 
   const isEmpty = messages.length === 0;
+
+
+  useLayoutEffect(() => {
+    const log = logRef.current;
+    if (!log) return;
+
+    if (messages.length > lastCountRef.current) followRef.current = true;
+    lastCountRef.current = messages.length;
+    if (followRef.current) log.scrollTop = log.scrollHeight;
+  }, [messages, error, loadingHistory]);
+
+  const handleLogScroll = () => {
+    const log = logRef.current;
+    if (!log) return;
+    followRef.current = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
+  };
 
   const handleDelete = (id: string) => {
     deleteChat(id);
@@ -44,8 +59,7 @@ export default function ChatPage(): JSX.Element {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-6 flex gap-6 h-screen">
-        {/* Sidebar (md+) */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-6 flex gap-6 h-[100dvh]">
         <aside className="hidden md:flex w-72 shrink-0 flex-col border-r border-border pr-4">
           <ConversationList
             chats={chats}
@@ -57,7 +71,6 @@ export default function ChatPage(): JSX.Element {
           />
         </aside>
 
-        {/* Chat pane */}
         <div className="flex-1 flex flex-col min-w-0">
           <div className="flex items-center justify-between gap-3 pb-4 border-b border-border">
             <div className="min-w-0">
@@ -69,7 +82,6 @@ export default function ChatPage(): JSX.Element {
                 Ask anything about destinations, budgets, safety, or visas.
               </p>
             </div>
-            {/* Mobile conversation controls */}
             <div className="flex md:hidden items-center gap-2 shrink-0">
               {chats.length > 0 && (
                 <select
@@ -97,11 +109,13 @@ export default function ChatPage(): JSX.Element {
             </div>
           </div>
 
-          {/* Messages */}
           <div
-            className="flex-1 overflow-y-auto py-6 space-y-6"
+            ref={logRef}
+            onScroll={handleLogScroll}
+            className="flex-1 overflow-y-auto overscroll-contain py-6 space-y-6"
             role="log"
             aria-live="polite"
+            aria-busy={isStreaming}
             aria-label="Conversation with the travel assistant"
           >
             {loadingHistory ? (
@@ -109,8 +123,7 @@ export default function ChatPage(): JSX.Element {
                 <p className="text-muted" role="status">Loading conversation…</p>
               </div>
             ) : isEmpty ? (
-              <div className="h-full flex flex-col items-center justify-center gap-4">
-                {/* A postcard to open the conversation */}
+                <div className="h-full flex flex-col items-center justify-center gap-4">
                 <div className="relative w-full max-w-xl overflow-hidden rounded-2xl bg-sea-soft px-6 py-8">
                   <Scene
                     tone="sea"
@@ -159,7 +172,6 @@ export default function ChatPage(): JSX.Element {
                 className="mx-auto max-w-xl"
               />
             )}
-            <div ref={bottomRef} />
           </div>
 
           {/* Input */}

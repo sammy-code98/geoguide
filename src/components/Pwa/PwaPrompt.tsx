@@ -6,9 +6,7 @@ import { TONES, type Tone } from "../ui/postcard";
 import { useOnlineStatus } from "../../hooks/useOnlineStatus";
 import { cn } from "../../lib/cn";
 
-/** How often an open tab checks for a newer deploy. */
 const UPDATE_CHECK_MS = 60 * 60 * 1000;
-/** How long the one-time "works offline" note stays up. */
 const OFFLINE_READY_MS = 8000;
 
 interface NoteProps {
@@ -19,7 +17,6 @@ interface NoteProps {
   children?: ReactNode;
 }
 
-/** A small postcard pinned to the corner of the screen. */
 function Note({ tone, icon, title, message, children }: NoteProps): JSX.Element {
   const t = TONES[tone];
   return (
@@ -45,10 +42,7 @@ function Note({ tone, icon, title, message, children }: NoteProps): JSX.Element 
   );
 }
 
-/**
- * The app's service-worker voice: offers a new version when one is deployed,
- * confirms once that GeoGuide works offline, and says when the connection drops.
- */
+
 export default function PwaPrompt(): JSX.Element {
   const online = useOnlineStatus();
   const [offlineDismissed, setOfflineDismissed] = useState(false);
@@ -59,7 +53,6 @@ export default function PwaPrompt(): JSX.Element {
     updateServiceWorker,
   } = useRegisterSW({
     onRegisteredSW(_url, registration) {
-      // Long-lived tabs (and installed apps) still hear about new deploys.
       if (registration) setInterval(() => void registration.update(), UPDATE_CHECK_MS);
     },
   });
@@ -70,7 +63,6 @@ export default function PwaPrompt(): JSX.Element {
     return () => clearTimeout(id);
   }, [offlineReady, setOfflineReady]);
 
-  // A fresh drop in connection deserves a fresh notice.
   useEffect(() => {
     if (online) setOfflineDismissed(false);
   }, [online]);

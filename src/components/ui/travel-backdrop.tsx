@@ -20,18 +20,13 @@ import { TONES, type Tone } from "./postcard";
 
 interface Doodle {
   Icon: ComponentType<{ className?: string; style?: CSSProperties }>;
-  /** Which side margin it lives in. */
   side: "left" | "right";
-  /** 0–1: where across that margin it sits (0 = screen edge). */
   across: number;
-  /** Vertical position in viewport percent. */
   y: number;
   size: number;
   tone: Tone;
   rotate: number;
-  /** 0–1: how far it shifts with the cursor (nearer = larger). */
   depth: number;
-  /** Seconds for one float cycle, and its offset. */
   dur: number;
   delay: number;
   drift: "a" | "b";
@@ -54,36 +49,25 @@ const DOODLES: Doodle[] = [
   { Icon: PiTentDuotone, side: "right", across: 0.6, y: 94, size: 38, tone: "olive", rotate: 4, depth: 0.6, dur: 16, delay: -11, drift: "a" },
 ];
 
-/** Max sideways travel (px): 22 of cursor parallax + 10 of float drift, plus
- *  slack for rotation — reserved so a moving doodle never reaches text. */
+
 const PARALLAX_X = 36;
 const EDGE = 6;
 
-/** Width of the empty margin beside the page's content column. */
 function measureGutter(contentWidth: number): number {
   const vw = window.innerWidth;
-  // Matches the page containers' px-4 / sm:px-6 / lg:px-8 inner padding.
   const pad = vw >= 1024 ? 32 : vw >= 640 ? 24 : 16;
   return Math.max(0, (vw - Math.min(contentWidth, vw)) / 2 + pad);
 }
 
 interface TravelBackdropProps {
-  /** The current page's content max-width in px (e.g. 1280 for max-w-7xl). */
   contentWidth: number;
 }
 
-/**
- * Ambient travel backdrop: flat duotone doodles that float on slow loops,
- * shift with the cursor on depth layers, and a small plane that flies a dashed
- * route across the top. Doodles live only in the page's side margins — each is
- * placed inside the measured gutter and dropped if it can't fit — so they never
- * sit under text. Never takes pointer events; still under reduced motion.
- */
+
 export function TravelBackdrop({ contentWidth }: TravelBackdropProps): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   const [gutter, setGutter] = useState(() => measureGutter(contentWidth));
 
-  // Re-measure the margin whenever the viewport or the page's width changes.
   useEffect(() => {
     let frame = 0;
     const update = () => {
@@ -98,8 +82,7 @@ export function TravelBackdrop({ contentWidth }: TravelBackdropProps): JSX.Eleme
     };
   }, [contentWidth]);
 
-  // Cursor parallax: write the pointer position (-1..1) to CSS variables once
-  // per frame; each doodle multiplies it by its own depth.
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -128,7 +111,6 @@ export function TravelBackdrop({ contentWidth }: TravelBackdropProps): JSX.Eleme
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden opacity-[0.22] dark:opacity-[0.16]"
     >
-      {/* The flight: a dashed route with a plane travelling along it. */}
       <div className="absolute inset-x-0 top-[11vh] h-[120px] text-sea">
         <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="h-full w-full" fill="none">
           <path
@@ -148,7 +130,6 @@ export function TravelBackdrop({ contentWidth }: TravelBackdropProps): JSX.Eleme
       </div>
 
       {DOODLES.map(({ Icon, side, across, y, size, tone, rotate, depth, dur, delay, drift }, i) => {
-        // Room left in the margin once the icon and its drift are accounted for.
         const room = gutter - size - PARALLAX_X - EDGE;
         if (room < 0) return null;
         const offset = EDGE + across * room;

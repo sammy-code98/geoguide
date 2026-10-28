@@ -21,10 +21,8 @@ import { SafeImage } from "../../components/ui/safe-image";
 import { PiFlagDuotone } from "react-icons/pi";
 import { useCountryInsights } from "../../hooks/useCountryInsights";
 
-// Leaflet is heavy — load the map only when a Detail page actually renders it.
 const CountryMap = lazy(() => import("../../components/Map/CountryMap"));
 
-/** One label/value pair in the country fact grid. */
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="py-2.5 border-b border-fg/10">
@@ -34,7 +32,6 @@ function Fact({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-/** An editorial section with a serif heading and a divider. */
 function Section({ icon, title, subtitle, action, children }: {
   icon: ReactNode; title: string; subtitle?: string; action?: ReactNode; children: ReactNode;
 }) {
@@ -65,7 +62,6 @@ export default function DetailsPage() {
     enabled: Boolean(code),
   });
 
-  // AI insights are fetched lazily — only once the traveler asks for them.
   const insights = useCountryInsights(code, showInsights);
 
   if (isLoading)
@@ -151,7 +147,6 @@ export default function DetailsPage() {
           </div>
         </div>
 
-        {/* Destination hero — a postcard from this country */}
         <div className="relative mt-8 overflow-hidden rounded-2xl bg-sand-soft p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           <Stamp
             tone="sand"
@@ -159,7 +154,6 @@ export default function DetailsPage() {
             label={country.cca3}
             className="absolute right-5 top-5 z-10 sm:right-8 sm:top-7"
           />
-          {/* The flag, printed and pinned like a photo */}
           <div className="bg-surface p-3 border border-border -rotate-[1.5deg]">
             <SafeImage
               alt={`${country.name}'s flag`}
@@ -207,7 +201,6 @@ export default function DetailsPage() {
           </div>
         </div>
 
-        {/* Map (Leaflet + OpenStreetMap) */}
         {country.latlng && (
           <Section icon={<HiOutlineLocationMarker />} title="Map">
             <Suspense fallback={<div className="h-[400px] rounded-xl bg-surface-2 animate-pulse" />}>
@@ -221,10 +214,8 @@ export default function DetailsPage() {
           </Section>
         )}
 
-        {/* Current weather (OpenWeather) */}
         {country.capital && <WeatherWidget city={country.capital} />}
 
-        {/* Currency (ExchangeRate) */}
         <Section
           icon={<HiOutlineCurrencyDollar />}
           title="Currency"
@@ -237,7 +228,6 @@ export default function DetailsPage() {
           <CurrencyConverter defaultTo={country.currencies[0]?.code ?? "EUR"} />
         </Section>
 
-        {/* Travel insights (Gemini) */}
         <Section
           icon={<MdOutlineTravelExplore />}
           title="Travel insights"
@@ -270,7 +260,6 @@ export default function DetailsPage() {
           )}
         </Section>
 
-        {/* Place discovery (Serpstack) */}
         <PlaceDiscovery
           country={{ name: country.name, capital: country.capital, cca2: country.cca2 }}
         />

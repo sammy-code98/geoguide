@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
 interface CountUpProps {
-  /** e.g. "100+", "200k+", "1M+" — the leading number animates, the suffix stays. */
   value: string;
   durationMs?: number;
   className?: string;
@@ -9,7 +8,6 @@ interface CountUpProps {
 
 const EASE_OUT_EXPO = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
-/** Counts a stat up from zero the first time it scrolls into view. */
 export function CountUp({ value, durationMs = 1300, className }: CountUpProps): JSX.Element {
   const match = value.match(/^(\d+(?:\.\d+)?)(.*)$/);
   const target = match ? parseFloat(match[1]) : 0;

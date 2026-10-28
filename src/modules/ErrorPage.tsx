@@ -4,11 +4,7 @@ import { AppRoutes } from "../types/routes";
 import { Button, button } from "../components/ui/button";
 import { ErrorPostcard } from "../components/ui/error-postcard";
 
-/**
- * The router's error boundary: a postcard for a page that isn't on the map
- * (404) or one that broke while loading. Renders outside the app layout, so it
- * paints its own page background.
- */
+
 export default function ErrorPage(): JSX.Element {
   const error = useRouteError();
   const notFound = isRouteErrorResponse(error) && error.status === 404;

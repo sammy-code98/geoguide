@@ -13,7 +13,6 @@ export interface AlternativeDestination {
   reason: string;
 }
 
-/** Cost estimate returned by `POST /api/travel-cost`. */
 export interface CostEstimate {
   currency: string;
   converted: boolean;

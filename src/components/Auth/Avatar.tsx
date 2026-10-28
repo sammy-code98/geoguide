@@ -4,7 +4,6 @@ interface AvatarProps {
   photoURL: string | null;
   name: string | null;
   email?: string | null;
-  /** Tailwind size classes, e.g. "w-9 h-9". */
   className?: string;
 }
 
@@ -15,8 +14,6 @@ function initials(name: string | null, email?: string | null): string {
   return chars.toUpperCase();
 }
 
-/** User avatar — shows the Google photo, falling back to initials when there's
- *  no photo or it fails to load. */
 export default function Avatar({ photoURL, name, email, className = "w-9 h-9" }: AvatarProps): JSX.Element {
   const fallback = (
     <span

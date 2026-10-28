@@ -9,7 +9,7 @@ export default function Advice() {
   return (
     <section>
       <div className="max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
+        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12 space-y-4">
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-fg">
             Popular destinations
           </h2>
@@ -30,7 +30,7 @@ export default function Advice() {
           ))}
         </div>
 
-        <div className="mt-12 flex justify-center items-center">
+        <div className="mt-8 md:mt-12 flex justify-center items-center">
           <Button size="lg" onClick={() => navigate(AppRoutes.countries)}>
             Explore all destinations
           </Button>

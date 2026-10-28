@@ -6,7 +6,6 @@ type PlaceCardT = {
   imageUrl: string;
 };
 
-/** A printed postcard: framed photo, then a caption you'd write on the back. */
 export default function PlaceCard({ title, description, imageUrl }: PlaceCardT) {
   return (
     <figure className="group h-full bg-surface border border-border rounded-lg p-3 transition-transform duration-200 ease-out-expo hover:-translate-y-0.5">

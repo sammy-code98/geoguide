@@ -7,10 +7,9 @@ import { useSavedStore } from "../../store/savedStore";
 import { AppRoutes } from "../../types/routes";
 import Avatar from "./Avatar";
 
-/** Avatar button + dropdown (Profile / Saved Trips / Sign out) for signed-in users. */
 export default function UserMenu(): JSX.Element | null {
   const { user, signOut } = useAuth();
-  const savedCount = useSavedStore((s) => s.items.length); // 19b: Firestore-backed
+  const savedCount = useSavedStore((s) => s.items.length); 
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

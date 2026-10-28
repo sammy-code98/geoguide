@@ -1,10 +1,5 @@
 import axios from "axios";
 
-/**
- * HTTP client for the internal backend API. The frontend talks only to our
- * Express server (which holds all third-party keys). In dev, Vite proxies
- * `/api` to the server; `VITE_API_URL` can override for non-proxied deploys.
- */
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "/api",
   timeout: 15000,
@@ -15,16 +10,9 @@ const api = axios.create({
   withCredentials: false,
 });
 
-/**
- * Timeout for AI generation calls. Gemini can take 10–30s (the server allows it
- * 30s), so these need longer than the 15s default; it stays under the 60s
- * Vercel function limit in vercel.json.
- */
 export const AI_TIMEOUT_MS = 45_000;
 
-/** An API failure with a message fit to show a person, plus the HTTP status. */
 export class ApiRequestError extends Error {
-  /** HTTP status, or undefined when the request never got a response. */
   status?: number;
   constructor(message: string, status?: number) {
     super(message);
@@ -33,15 +21,12 @@ export class ApiRequestError extends Error {
   }
 }
 
-/** True when the server answered "no such thing" rather than failing. */
 export const isNotFound = (error: unknown): boolean =>
   error instanceof ApiRequestError && error.status === 404;
 
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Turn transport-level failures into plain language; UI layers render the
-    // error/retry states themselves and can show this message as-is.
     const status: number | undefined = error?.response?.status;
     let message: string;
     if (!error?.response) {
@@ -57,7 +42,7 @@ api.interceptors.response.use(
           : "That request didn't go through. Please try again.");
     }
     return Promise.reject(new ApiRequestError(message, status));
-  }
+  },
 );
 
 export default api;

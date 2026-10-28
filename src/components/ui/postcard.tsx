@@ -2,14 +2,8 @@
 import type { ReactNode } from "react";
 import { cn } from "../../lib/cn";
 
-/**
- * Flat postcard system. Every page is a postcard from a stop on the trip: a
- * colour-blocked destination tone, a perforated stamp, and a simple geometric
- * scene. Tones map to tokens in index.css (`--sea`, `--sea-soft`, …).
- */
 export type Tone = "sea" | "sand" | "terracotta" | "olive";
 
-// Literal class strings so Tailwind's JIT can see them.
 export const TONES: Record<Tone, { block: string; ink: string; edge: string; hole: string }> = {
   sea: { block: "bg-sea-soft", ink: "text-sea", edge: "border-sea/40", hole: "--sea-soft" },
   sand: { block: "bg-sand-soft", ink: "text-sand", edge: "border-sand/40", hole: "--sand-soft" },
@@ -26,14 +20,11 @@ interface StampProps {
   tone: Tone;
   icon: ReactNode;
   label: string;
-  /** CSS var name of the surface the stamp sits on (its perforation colour). */
   backing?: string;
-  /** CSS var name of the stamp's own paper colour. */
   paper?: string;
   className?: string;
 }
 
-/** A postage stamp with a perforated edge, an icon, and a tiny caption. */
 export function Stamp({ tone, icon, label, backing, paper = "--surface", className }: StampProps): JSX.Element {
   const t = TONES[tone];
   const hole = `rgb(var(${backing ?? t.hole}))`;
@@ -130,15 +121,12 @@ interface PostcardHeaderProps {
   tone: Tone;
   title: string;
   subtitle?: string;
-  /** Icon shown inside the stamp. */
   icon: ReactNode;
   stampLabel: string;
-  /** Optional actions or extra content under the subtitle. */
   children?: ReactNode;
   className?: string;
 }
 
-/** A page's opening postcard: colour-blocked tone, title, stamp, and scene. */
 export function PostcardHeader({
   tone,
   title,

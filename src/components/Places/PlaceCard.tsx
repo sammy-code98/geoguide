@@ -24,7 +24,6 @@ export default function PlaceCard({ place }: PlaceCardProps): JSX.Element {
           }}
         />
       </div>
-      {/* Image — the place's initial stands in when there's none or it fails */}
       <SafeImage
         src={place.thumbnail ?? undefined}
         alt={place.title}

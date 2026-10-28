@@ -1,14 +1,14 @@
-/**
- * Application-level error carrying an HTTP status code and an optional machine
- * readable `code`. Thrown by services/routes and normalized by the central
- * error handler into a consistent JSON envelope.
- */
 export class ApiError extends Error {
   readonly statusCode: number;
   readonly code: string;
   readonly details?: unknown;
 
-  constructor(statusCode: number, message: string, code?: string, details?: unknown) {
+  constructor(
+    statusCode: number,
+    message: string,
+    code?: string,
+    details?: unknown,
+  ) {
     super(message);
     this.name = "ApiError";
     this.statusCode = statusCode;
@@ -34,7 +34,7 @@ export class ApiError extends Error {
     return new ApiError(
       503,
       `The ${integration} integration is not configured on the server.`,
-      "integration_not_configured"
+      "integration_not_configured",
     );
   }
 

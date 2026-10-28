@@ -42,9 +42,13 @@ export default function Header() {
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("pointerdown", onPointer);
+    // The page behind the overlay stays put while the menu is open.
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointer);
+      document.body.style.overflow = overflow;
     };
   }, [menuOpen]);
   const [theme, setTheme] = useState<string | null>(
@@ -84,8 +88,7 @@ export default function Header() {
     }
   }, [element.classList, onWindowMatch, theme]);
 
-  // Follow the OS theme while the user hasn't picked one explicitly.
-  // Registered once with proper teardown so listeners don't accumulate.
+
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme:dark)");
     const handler = (e: MediaQueryListEvent) => {
@@ -110,11 +113,18 @@ export default function Header() {
     (theme === "system" && darkQuery.matches);
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 w-full z-20">
-      <div className="px-4 sm:px-6 lg:px-8 pt-3">
+
+    <header ref={headerRef} className={cn("fixed top-0 left-0 w-full", menuOpen ? "z-[35]" : "z-20")}>
+      {menuOpen && (
+        <div
+          aria-hidden="true"
+          onClick={() => setMenuOpen(false)}
+          className="fixed inset-0 bg-black/50 dark:bg-black/70 animate-fade-in motion-reduce:animate-none lg:hidden"
+        />
+      )}
+      <div className="relative px-4 sm:px-6 lg:px-8 pt-3">
         <nav aria-label="Primary" className="relative mx-auto max-w-7xl">
           <div className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-surface py-2.5 pl-4 pr-2.5 sm:pl-5">
-            {/* Brand: a little stamp and the wordmark */}
             <Link
               to={AppRoutes.getStarted}
               className="flex items-center gap-2.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -134,7 +144,6 @@ export default function Header() {
               <span className="font-serif text-2xl font-semibold tracking-tight text-primary">GeoGuide</span>
             </Link>
 
-            {/* Destinations (large screens) */}
             <div className="hidden lg:flex items-center gap-1">
               {NAV.map(({ to, label, Icon, tone }) => (
                 <NavLink
@@ -171,7 +180,6 @@ export default function Header() {
               >
                 {isDark ? <FiSun aria-hidden="true" /> : <MdOutlineDarkMode aria-hidden="true" />}
               </button>
-              {/* Auth: guests get a Sign In CTA, users get an avatar menu. */}
               {loading ? null : user ? (
                 <span className="ml-1 flex">
                   <UserMenu />
@@ -194,7 +202,6 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Destinations (small screens): a postcard of ruled lines */}
           {menuOpen && (
             <div
               id="primary-menu"

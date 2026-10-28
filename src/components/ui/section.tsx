@@ -9,10 +9,7 @@ interface SectionHeadingProps {
   className?: string;
 }
 
-/**
- * Editorial section header — serif title + muted subtitle, with room for an
- * action. Replaces card-wrapped headers to create hierarchy through typography.
- */
+
 export function SectionHeading({
   title,
   subtitle,

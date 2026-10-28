@@ -7,10 +7,7 @@ import { Card } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { ErrorPostcard } from "../../components/ui/error-postcard";
 
-/**
- * Guest-only sign-in page. Redirects authenticated users back to where they
- * came from (RequireAuth stashes it in `state.from`), or to their profile.
- */
+
 export default function LoginPage(): JSX.Element {
   const { user, signIn, error } = useAuth();
   const location = useLocation();

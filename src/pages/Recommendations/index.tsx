@@ -12,6 +12,7 @@ import { PostcardHeader } from "../../components/ui/postcard";
 import { ErrorPostcard } from "../../components/ui/error-postcard";
 import { cn } from "../../lib/cn";
 import { inputClass, labelClass } from "../../constants/formStyles";
+import { LocationCombobox } from "../../components/ui/location-combobox";
 
 const BUDGET_LEVELS: BudgetLevel[] = ["budget", "moderate", "luxury"];
 const CLIMATES: Climate[] = ["any", "warm", "temperate", "cold"];
@@ -97,7 +98,7 @@ export default function RecommendationsPage(): JSX.Element {
             </div>
             <div className="md:col-span-2">
               <label className={labelClass} htmlFor="from">Departing from (optional)</label>
-              <input id="from" className={inputClass} value={fromCountry} onChange={(e) => setFromCountry(e.target.value)} placeholder="e.g. United Kingdom" />
+              <LocationCombobox id="from" kind="country" value={fromCountry} onChange={setFromCountry} placeholder="e.g. United Kingdom" />
             </div>
           </div>
 

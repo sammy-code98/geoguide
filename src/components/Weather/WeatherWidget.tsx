@@ -11,7 +11,6 @@ import { ErrorPostcard } from "../ui/error-postcard";
 import { PiCloudSunDuotone } from "react-icons/pi";
 
 interface WeatherWidgetProps {
-  /** City to fetch weather for (e.g. the country's capital). */
   city: string;
 }
 

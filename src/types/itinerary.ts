@@ -12,7 +12,6 @@ export interface ItineraryDay {
   transportation: string;
 }
 
-/** Itinerary returned by `POST /api/ai/itinerary`. */
 export interface Itinerary {
   destination: string;
   summary: string;

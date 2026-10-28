@@ -35,7 +35,6 @@ function Slot({
 export default function DayCard({ day }: DayCardProps): JSX.Element {
   return (
     <div className="relative pl-6 pb-8 last:pb-0">
-      {/* Timeline marker (line is drawn by the parent's left border) */}
       <span
         className="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-primary ring-4 ring-bg"
         aria-hidden="true"

@@ -9,13 +9,11 @@ import { Button } from "../ui/button";
 const LEGACY_KEY = "geoguide.saved";
 const MIGRATED_KEY = "geoguide.migrated";
 
-/** Read the pre-19b Zustand-persisted saved trips (if any) from localStorage. */
 function readLegacySaved(): SavedItem[] {
   try {
     const raw = localStorage.getItem(LEGACY_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    // zustand/persist wraps state as { state: { items }, version }.
     const items = Array.isArray(parsed) ? parsed : parsed?.state?.items;
     return Array.isArray(items) ? items : [];
   } catch {
@@ -23,11 +21,7 @@ function readLegacySaved(): SavedItem[] {
   }
 }
 
-/**
- * One-time prompt: when a signed-in user has trips saved locally (from before
- * cloud sync), offer to import them into their account. Merges by id and clears
- * the local copy once done.
- */
+
 export default function MigrationPrompt(): JSX.Element | null {
   const { user } = useAuth();
   const qc = useQueryClient();
