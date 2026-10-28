@@ -7,7 +7,6 @@ import { PiMapTrifoldDuotone, PiWifiSlashDuotone } from "react-icons/pi";
 import { Button } from "../ui/button";
 import { Scene } from "../ui/postcard";
 
-// Vite bundles Leaflet's default marker images; wire them up explicitly.
 import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
@@ -23,10 +22,8 @@ interface CountryMapProps {
 
 type MapStatus = "loading" | "ready" | "offline" | "failed";
 
-/** Tile errors with nothing loaded before we call the map unavailable. A few
- *  stray failures on a working map are normal, so one error isn't enough. */
+
 const ERROR_THRESHOLD = 4;
-/** If no tile has arrived by now, the network is too slow to be useful. */
 const SLOW_TIMEOUT_MS = 12_000;
 
 const formatCoords = (lat: number, lng: number) =>
@@ -117,8 +114,7 @@ export default function CountryMap({ lat, lng, name, capital }: CountryMapProps)
           </Marker>
         </MapContainer>
 
-        {/* Offline state — a postcard in place of the map. Sits above Leaflet's
-            panes and controls (z-index up to 1000). */}
+
         {unavailable && (
           <div
             role="status"

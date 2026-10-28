@@ -1,15 +1,12 @@
-/**
- * Google-only authentication, isolated behind this service. UI/components call
- * these functions — never the Firebase auth SDK directly. All heavy imports are
- * dynamic so Firebase stays out of the initial bundle.
- */
 import type { User } from "firebase/auth";
 import type { AppUser } from "../../types/user";
 import { getFirebaseAuth, FirebaseNotConfiguredError } from "./firebase";
 
-/** Friendly, user-facing auth error with the original Firebase code attached. */
 export class AuthError extends Error {
-  constructor(message: string, public code: string) {
+  constructor(
+    message: string,
+    public code: string,
+  ) {
     super(message);
     this.name = "AuthError";
   }
@@ -36,17 +33,20 @@ function mapAuthError(err: unknown): AuthError {
     case "auth/popup-blocked":
       return new AuthError(
         "Your browser blocked the sign-in popup. Allow popups for this site and try again.",
-        code
+        code,
       );
     case "auth/popup-closed-by-user":
     case "auth/cancelled-popup-request":
       return new AuthError("Sign-in was cancelled.", code);
     case "auth/network-request-failed":
-      return new AuthError("Network error — check your connection and try again.", code);
+      return new AuthError(
+        "Network error — check your connection and try again.",
+        code,
+      );
     case "auth/unauthorized-domain":
       return new AuthError(
         "This domain isn't authorized for sign-in. Add it in the Firebase console.",
-        code
+        code,
       );
     default:
       return new AuthError("Couldn't sign in. Please try again.", code);
@@ -57,7 +57,8 @@ function mapAuthError(err: unknown): AuthError {
 export async function signInWithGoogle(): Promise<AppUser> {
   try {
     const auth = await getFirebaseAuth();
-    const { GoogleAuthProvider, signInWithPopup } = await import("firebase/auth");
+    const { GoogleAuthProvider, signInWithPopup } =
+      await import("firebase/auth");
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
     const cred = await signInWithPopup(auth, provider);
@@ -74,12 +75,8 @@ export async function signOutUser(): Promise<void> {
   await signOut(auth);
 }
 
-/**
- * Subscribe to auth-state changes (handles silent session restoration on load).
- * Resolves with an unsubscribe function.
- */
 export async function onAuthChange(
-  cb: (user: AppUser | null) => void
+  cb: (user: AppUser | null) => void,
 ): Promise<() => void> {
   const auth = await getFirebaseAuth();
   const { onAuthStateChanged } = await import("firebase/auth");

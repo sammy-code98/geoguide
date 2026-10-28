@@ -5,11 +5,7 @@ import { ensureUserDoc } from "../services/firebase/UserService";
 import { isFirebaseConfigured } from "../services/firebase/firebase";
 import { AuthContext, type AuthContextValue } from "./authContext";
 
-/**
- * Owns auth state for the whole app: subscribes to Firebase auth changes (which
- * also restores the session silently on load), and exposes sign-in/out actions.
- * The single auth listener lives here — nothing else subscribes.
- */
+
 export function AuthProvider({ children }: { children: ReactNode }): JSX.Element {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);

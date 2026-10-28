@@ -27,8 +27,7 @@ function ctx(partial: Partial<AuthContextValue>): AuthContextValue {
   };
 }
 
-// The guarded tree lives at /guarded; /login and /profile are neutral landing
-// pages so we can observe where a guard redirects.
+
 function renderGuard(value: AuthContextValue, tree: ReactNode) {
   return render(
     <AuthContext.Provider value={value}>

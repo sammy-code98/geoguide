@@ -3,7 +3,6 @@ export interface CurrencyOption {
   name: string;
 }
 
-/** Common display currencies, shared by the converter and the cost estimator. */
 export const CURRENCIES: CurrencyOption[] = [
   { code: "USD", name: "US Dollar" },
   { code: "EUR", name: "Euro" },

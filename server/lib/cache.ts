@@ -1,11 +1,6 @@
 import NodeCache from "node-cache";
 
-/**
- * Thin wrapper over node-cache providing a typed, promise-friendly TTL cache.
- *
- * Used to stay within third-party rate limits (notably Serpstack) and to speed
- * up repeated lookups. Each service owns its own namespace/instance.
- */
+
 export class TtlCache {
   private readonly store: NodeCache;
 
@@ -29,11 +24,11 @@ export class TtlCache {
     }
   }
 
-  /**
-   * Returns the cached value for `key`, or computes it via `producer`, caches
-   * the result, and returns it. Failures are not cached.
-   */
-  async remember<T>(key: string, ttlSeconds: number, producer: () => Promise<T>): Promise<T> {
+  async remember<T>(
+    key: string,
+    ttlSeconds: number,
+    producer: () => Promise<T>,
+  ): Promise<T> {
     const cached = this.get<T>(key);
     if (cached !== undefined) return cached;
 

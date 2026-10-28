@@ -88,8 +88,7 @@ export default function Header() {
     }
   }, [element.classList, onWindowMatch, theme]);
 
-  // Follow the OS theme while the user hasn't picked one explicitly.
-  // Registered once with proper teardown so listeners don't accumulate.
+
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme:dark)");
     const handler = (e: MediaQueryListEvent) => {
@@ -114,10 +113,8 @@ export default function Header() {
     (theme === "system" && darkQuery.matches);
 
   return (
-    // While the menu is open the header rises above the back-to-top button,
-    // so the overlay dims everything on the page.
+
     <header ref={headerRef} className={cn("fixed top-0 left-0 w-full", menuOpen ? "z-[35]" : "z-20")}>
-      {/* Dark overlay behind the open mobile menu; tapping it closes the menu. */}
       {menuOpen && (
         <div
           aria-hidden="true"
@@ -128,7 +125,6 @@ export default function Header() {
       <div className="relative px-4 sm:px-6 lg:px-8 pt-3">
         <nav aria-label="Primary" className="relative mx-auto max-w-7xl">
           <div className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-surface py-2.5 pl-4 pr-2.5 sm:pl-5">
-            {/* Brand: a little stamp and the wordmark */}
             <Link
               to={AppRoutes.getStarted}
               className="flex items-center gap-2.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -148,7 +144,6 @@ export default function Header() {
               <span className="font-serif text-2xl font-semibold tracking-tight text-primary">GeoGuide</span>
             </Link>
 
-            {/* Destinations (large screens) */}
             <div className="hidden lg:flex items-center gap-1">
               {NAV.map(({ to, label, Icon, tone }) => (
                 <NavLink
@@ -185,7 +180,6 @@ export default function Header() {
               >
                 {isDark ? <FiSun aria-hidden="true" /> : <MdOutlineDarkMode aria-hidden="true" />}
               </button>
-              {/* Auth: guests get a Sign In CTA, users get an avatar menu. */}
               {loading ? null : user ? (
                 <span className="ml-1 flex">
                   <UserMenu />
@@ -208,7 +202,6 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Destinations (small screens): a postcard of ruled lines */}
           {menuOpen && (
             <div
               id="primary-menu"

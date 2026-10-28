@@ -7,8 +7,7 @@ interface FilterI {
   value: string;
   onRegionChange: (region: string) => void;
 }
-// Below `md` the filter spans the full width and its list opens in the page
-// flow, pushing the countries down instead of covering the first card.
+
 const customStyles = (stacked: boolean) => ({
   control: (base: any, state: any) => ({
     ...base,
@@ -62,7 +61,6 @@ export default function Filter({ onRegionChange, value }: FilterI): JSX.Element 
         value={selectedOption}
         onChange={handleRegionChange}
         styles={customStyles(stacked)}
-        // Six fixed regions: no typing needed, and no phone keyboard popping up.
         isSearchable={false}
       />
     </div>

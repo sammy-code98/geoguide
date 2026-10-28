@@ -24,9 +24,6 @@ export class CostEstimateService {
   private readonly cache = new TtlCache(60 * 60 * 12); // 12 hours
 
   async estimate(input: TravelCostRequest): Promise<CostEstimate> {
-    // The base (USD) estimate is cached independently of the display currency,
-    // so switching currency just re-converts the same numbers (and avoids an
-    // extra Gemini call). Conversion is cheap — rates are cached separately.
     const base = await this.getBaseEstimate(input);
     return this.maybeConvert(base, input.displayCurrency);
   }

@@ -9,7 +9,6 @@ import DayCard from "./DayCard";
 
 interface ItineraryResultProps {
   itinerary: Itinerary;
-  /** Omit to hide the Regenerate button (e.g. on the Saved Trips page). */
   onRegenerate?: () => void;
   isRegenerating?: boolean;
 }

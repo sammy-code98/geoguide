@@ -30,19 +30,17 @@ export default function ChatPage(): JSX.Element {
   } = useChat();
   const { chats, isLoading, deleteChat } = useChats();
   const logRef = useRef<HTMLDivElement>(null);
-  // Follow new text only while the reader is at (or near) the bottom, so
-  // scrolling up to re-read an answer isn't yanked back down mid-stream.
+
   const followRef = useRef(true);
   const lastCountRef = useRef(0);
 
   const isEmpty = messages.length === 0;
 
-  // Scroll the message list itself (never the window) and do it before paint,
-  // with no smooth animation to restart on every streamed chunk.
+
   useLayoutEffect(() => {
     const log = logRef.current;
     if (!log) return;
-    // A newly sent message always brings the conversation back into view.
+
     if (messages.length > lastCountRef.current) followRef.current = true;
     lastCountRef.current = messages.length;
     if (followRef.current) log.scrollTop = log.scrollHeight;
@@ -62,7 +60,6 @@ export default function ChatPage(): JSX.Element {
   return (
     <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-6 flex gap-6 h-[100dvh]">
-        {/* Sidebar (md+) */}
         <aside className="hidden md:flex w-72 shrink-0 flex-col border-r border-border pr-4">
           <ConversationList
             chats={chats}
@@ -74,7 +71,6 @@ export default function ChatPage(): JSX.Element {
           />
         </aside>
 
-        {/* Chat pane */}
         <div className="flex-1 flex flex-col min-w-0">
           <div className="flex items-center justify-between gap-3 pb-4 border-b border-border">
             <div className="min-w-0">
@@ -86,7 +82,6 @@ export default function ChatPage(): JSX.Element {
                 Ask anything about destinations, budgets, safety, or visas.
               </p>
             </div>
-            {/* Mobile conversation controls */}
             <div className="flex md:hidden items-center gap-2 shrink-0">
               {chats.length > 0 && (
                 <select
@@ -114,14 +109,12 @@ export default function ChatPage(): JSX.Element {
             </div>
           </div>
 
-          {/* Messages */}
           <div
             ref={logRef}
             onScroll={handleLogScroll}
             className="flex-1 overflow-y-auto overscroll-contain py-6 space-y-6"
             role="log"
             aria-live="polite"
-            // Screen readers wait for the finished reply instead of every chunk.
             aria-busy={isStreaming}
             aria-label="Conversation with the travel assistant"
           >
@@ -130,8 +123,7 @@ export default function ChatPage(): JSX.Element {
                 <p className="text-muted" role="status">Loading conversation…</p>
               </div>
             ) : isEmpty ? (
-              <div className="h-full flex flex-col items-center justify-center gap-4">
-                {/* A postcard to open the conversation */}
+                <div className="h-full flex flex-col items-center justify-center gap-4">
                 <div className="relative w-full max-w-xl overflow-hidden rounded-2xl bg-sea-soft px-6 py-8">
                   <Scene
                     tone="sea"

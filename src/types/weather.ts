@@ -18,7 +18,6 @@ export interface ForecastDay {
   icon: string | null;
 }
 
-/** Weather report from `GET /api/weather`. */
 export interface WeatherReport {
   units: string;
   current: CurrentWeather;

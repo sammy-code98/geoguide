@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-/** A single chat turn from the client. `assistant` maps to Gemini's `model`. */
 export const chatMessageSchema = z.object({
   role: z.enum(["user", "assistant"]),
   content: z.string().min(1).max(4000),

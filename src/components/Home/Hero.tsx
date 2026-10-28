@@ -14,7 +14,7 @@ import paris from "../../assets/places/paris.jpg";
 import lagos from "../../assets/places/lagos.jpg";
 import rome from "../../assets/places/rome.jpg";
 
-/** One printed postcard: a framed photo with a handwritten-style caption. */
+
 function Postcard({ src, place, coords, className, children }: {
   src: string; place: string; coords: string; className?: string; children?: React.ReactNode;
 }) {

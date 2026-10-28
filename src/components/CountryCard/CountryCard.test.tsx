@@ -13,8 +13,7 @@ const props = {
   alt: "Nigeria's flag",
 };
 
-// CountryCard uses view transitions, which require a data router (as the real
-// app provides via createBrowserRouter).
+
 const renderCard = () => {
   const router = createMemoryRouter(
     [{ path: "/", element: <CountryCard {...props} /> }],

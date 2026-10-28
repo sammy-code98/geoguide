@@ -6,10 +6,7 @@ interface CostPromptInput {
   budgetLevel: "budget" | "moderate" | "luxury";
 }
 
-/**
- * Builds the prompt for a travel cost estimate. Gemini returns all monetary
- * values in USD as the total for the whole trip (all travelers, full duration).
- */
+
 export function buildCostEstimatePrompt(input: CostPromptInput): {
   system: string;
   prompt: string;

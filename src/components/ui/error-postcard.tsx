@@ -6,23 +6,16 @@ import { Postmark, Scene, Stamp, TONES, type Tone } from "./postcard";
 interface ErrorPostcardProps {
   title: string;
   message?: string;
-  /** Recovery control(s): a retry button, a link back, etc. */
   action?: ReactNode;
-  /** Icon for the stamp (full) or badge (compact). */
   icon?: ReactNode;
   stampLabel?: string;
   tone?: Tone;
-  /** `full` for page/section failures; `compact` for inline ones in tight spots. */
   size?: "full" | "compact";
   as?: "h1" | "h2" | "h3";
   className?: string;
 }
 
-/**
- * The app's failure state: a postcard that came back "returned to sender".
- * Used wherever a network or API call fails, so every error shares one look
- * and always says what went wrong and how to recover.
- */
+
 export function ErrorPostcard({
   title,
   message,

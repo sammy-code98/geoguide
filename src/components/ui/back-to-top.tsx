@@ -3,16 +3,11 @@ import { HiArrowUp } from "react-icons/hi2";
 import { cn } from "../../lib/cn";
 
 interface BackToTopProps {
-  /** Scroll distance (px) after which the button appears. */
   threshold?: number;
   className?: string;
 }
 
-/**
- * Floating "back to top" control. Fades in once the page is scrolled past
- * `threshold`, and jumps to the top on click (smooth unless the user prefers
- * reduced motion). Fixed to the bottom-right corner.
- */
+
 export function BackToTop({ threshold = 400, className }: BackToTopProps): JSX.Element {
   const [visible, setVisible] = useState(false);
 

@@ -3,21 +3,14 @@ import { PiMountainsDuotone } from "react-icons/pi";
 import { cn } from "../../lib/cn";
 
 interface SafeImageProps extends ImgHTMLAttributes<HTMLImageElement> {
-  /** What to show instead of a broken image. Defaults to a calm placeholder. */
   fallback?: ReactNode;
-  /** Icon for the default placeholder (e.g. a flag for flags). */
   fallbackIcon?: ReactNode;
 }
 
-// The placeholder must hold the image's space; if the image only got its height
-// from the photo itself, give the box a sensible aspect ratio instead.
+
 const HAS_HEIGHT = /(^|\s|:)(h-|aspect-|size-)/;
 
-/**
- * An <img> that never shows the browser's broken-image icon. When `src` is
- * missing or fails to load, it renders a placeholder in the same box — same
- * size, radius, and border classes — so the layout doesn't jump.
- */
+
 export function SafeImage({
   src,
   alt = "",
@@ -30,8 +23,7 @@ export function SafeImage({
   const [failed, setFailed] = useState(!src);
   const ref = useRef<HTMLImageElement>(null);
 
-  // A new source gets a fresh attempt. Also catch images that already failed
-  // before React attached the error handler (e.g. a cached 404).
+
   useEffect(() => {
     setFailed(!src);
     const img = ref.current;

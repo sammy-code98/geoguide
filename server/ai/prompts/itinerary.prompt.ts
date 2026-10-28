@@ -1,9 +1,6 @@
 import type { ItineraryRequest } from "../schemas/itineraryRequest.schema.js";
 
-/**
- * Builds the prompt for a day-by-day travel itinerary. Kept out of the route
- * handler so it can be tuned independently of the AI transport.
- */
+
 export function buildItineraryPrompt(input: ItineraryRequest): {
   system: string;
   prompt: string;

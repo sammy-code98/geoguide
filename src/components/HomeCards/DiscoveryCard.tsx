@@ -10,7 +10,6 @@ type DiscoveryCardT = {
   tone: Tone;
 };
 
-/** A flat, colour-blocked postcard for one feature. */
 export default function DiscoveryCard({ Icon, title, description, tone }: DiscoveryCardT) {
   const t = TONES[tone];
   return (

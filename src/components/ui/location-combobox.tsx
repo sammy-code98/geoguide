@@ -14,32 +14,26 @@ interface LocationComboboxProps {
   onChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
-  /** `place`: countries and cities. `country`: countries only. */
   kind?: "place" | "country";
   className?: string;
 }
 
 interface Option {
   key: string;
-  /** What goes into the field when chosen. */
   value: string;
   primary: string;
   secondary: string | null;
   icon: ReactNode;
 }
 
-/** Cities are looked up once typing pauses for this long. */
 const DEBOUNCE_MS = 250;
 const MIN_CITY_QUERY = 2;
 
-/** Lower-case and strip accents, so "sao" finds "São Paulo". */
 const fold = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 
-/** True when `query` begins at any word of `name` ("abu" → "Mount Abu"). */
 const startsAWord = (name: string, query: string) =>
   name.split(/[\s-]+/).some((_, i, words) => words.slice(i).join(" ").startsWith(query));
 
-/** Bold the typed part of a suggestion, when it appears verbatim. */
 function Highlight({ text, query }: { text: string; query: string }): JSX.Element {
   const at = query ? text.toLowerCase().indexOf(query.toLowerCase().trim()) : -1;
   if (at < 0 || !query.trim()) return <>{text}</>;
@@ -53,12 +47,7 @@ function Highlight({ text, query }: { text: string; query: string }): JSX.Elemen
   );
 }
 
-/**
- * A text field that suggests places as you type: countries instantly (from the
- * already-loaded country list, so they work offline) and cities from the
- * backend. It's a combo field — anything typed is still a valid answer, and
- * picking a suggestion just fills it in.
- */
+
 export function LocationCombobox({
   id,
   value,
@@ -84,7 +73,6 @@ export function LocationCombobox({
     enabled: wantCities,
     staleTime: 24 * 60 * 60 * 1000,
     retry: 0,
-    // Keep the last suggestions on screen while the next ones load (no flicker).
     placeholderData: keepPreviousData,
   });
 
@@ -94,7 +82,7 @@ export function LocationCombobox({
     const rank = (name: string) => {
       const n = fold(name);
       if (n.startsWith(query)) return 0;
-      return startsAWord(n, query) ? 1 : -1; // mid-word hits ("Wal-lis") are noise
+      return startsAWord(n, query) ? 1 : -1;
     };
     const ranked = (countries.data ?? [])
       .map((c) => ({ c, r: rank(c.name) }))
@@ -108,13 +96,13 @@ export function LocationCombobox({
         secondary: kind === "country" ? c.region : `Country · ${c.region}`,
         icon: <span className="text-base leading-none">{c.flagEmoji ?? "🏳️"}</span>,
     });
-    // Countries whose name starts with the query lead; later-word matches
-    // ("kingdom" → United Kingdom) follow the cities.
+
+
     const leading = ranked.filter(({ r }) => r === 0).map(toOption);
     const trailing = ranked.filter(({ r }) => r > 0).map(toOption);
     if (kind === "country" || query.length < MIN_CITY_QUERY) return [...leading, ...trailing];
 
-    // Previous results stay visible while typing, but only those still matching.
+
     const cityOptions: Option[] = (cities.data ?? [])
       .filter((p) => startsAWord(fold(p.name), query) || fold(`${p.name}, ${p.country ?? ""}`).startsWith(query))
       .map((p) => ({
@@ -141,7 +129,7 @@ export function LocationCombobox({
             : null;
   const showList = open && (options.length > 0 || status !== null);
 
-  // Keep the highlighted option inside the list's own scroll area (never the page).
+
   useLayoutEffect(() => {
     const list = listRef.current;
     const item = active >= 0 ? (list?.children[active] as HTMLElement | undefined) : undefined;
@@ -204,8 +192,7 @@ export function LocationCombobox({
         }}
       />
 
-      {/* Below `md` the list opens in the page flow (pushing the form down)
-          rather than covering the next field, matching the region filter. */}
+
       <ul
         ref={listRef}
         id={listId}
@@ -220,9 +207,7 @@ export function LocationCombobox({
             id={optionId(i)}
             role="option"
             aria-selected={i === active}
-            // One clean name for screen readers (the bolded match splits the text).
             aria-label={o.secondary ? `${o.primary}, ${o.secondary}` : o.primary}
-            // Keep focus in the input so blur doesn't close the list first.
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => choose(o)}
             onMouseMove={() => i !== active && setActive(i)}

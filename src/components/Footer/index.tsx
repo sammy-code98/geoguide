@@ -25,11 +25,7 @@ const sections: { heading: string; links: { label: string; to: string }[] }[] = 
 
 const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm";
 
-/**
- * The footer is the back of a postcard: the message on the left, a dividing
- * line down the middle, and the links as ruled address lines on the right,
- * finished with a stamp and postmark.
- */
+
 export default function Footer(): JSX.Element {
   const year = new Date().getFullYear();
   const { canInstall, install } = useInstallPrompt();

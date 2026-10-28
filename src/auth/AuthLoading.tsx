@@ -1,4 +1,3 @@
-/** Full-screen loading state shown while auth is resolving. */
 export default function AuthLoading(): JSX.Element {
   return (
     <div

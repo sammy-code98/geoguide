@@ -9,7 +9,6 @@ const subscribe = (onChange: () => void) => {
   };
 };
 
-/** True while the browser reports a network connection. */
 export function useOnlineStatus(): boolean {
   return useSyncExternalStore(subscribe, () => navigator.onLine, () => true);
 }

@@ -11,7 +11,6 @@ export interface RecommendedCountry {
   bestSeason: string;
 }
 
-/** Recommendations returned by `POST /api/ai/recommendations`. */
 export interface Recommendations {
   summary: string;
   countries: RecommendedCountry[];

@@ -1,7 +1,3 @@
-/**
- * System instruction for the AI travel assistant chat. Defines scope, tone, and
- * output format. Kept out of route handlers so it can be tuned independently.
- */
 export function buildChatSystemPrompt(): string {
   return [
     "You are GeoGuide AI, a friendly and knowledgeable travel assistant.",

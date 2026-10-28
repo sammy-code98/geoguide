@@ -1,7 +1,3 @@
-/**
- * AI-generated country travel insights returned by `/api/ai/country/:code`.
- * Mirrors `server/ai/schemas/countryInsights.schema.ts`.
- */
 export interface CountryInsights {
   overview: string;
   culture: string;

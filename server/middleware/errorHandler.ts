@@ -12,10 +12,7 @@ interface ErrorEnvelope {
   };
 }
 
-/**
- * Central error handler. Converts thrown errors into a consistent JSON envelope
- * so the frontend can render error/retry/empty states reliably.
- */
+
 export function errorHandler(
   err: unknown,
   _req: Request,
@@ -29,11 +26,11 @@ export function errorHandler(
 
   if (err instanceof ApiError) {
     statusCode = err.statusCode;
-    // Upstream details are the provider's raw reply (quota names, model ids):
-    // useful in the server log, not something to hand a visitor in production.
+
     const showDetails = !(isProduction && err.code.startsWith("upstream_"));
     body = { error: { code: err.code, message: err.message } };
-    if (showDetails && err.details !== undefined) body.error.details = err.details;
+    if (showDetails && err.details !== undefined)
+      body.error.details = err.details;
   } else if (err instanceof ZodError) {
     statusCode = 422;
     body = {
@@ -48,8 +45,6 @@ export function errorHandler(
   }
 
   if (statusCode >= 500) {
-    // Full depth, so a provider's own reason (e.g. Gemini's quota message)
-    // shows in the server/Vercel log rather than as "[Object]".
     console.error("[error]", inspect(err, { depth: 6 }));
   }
 

@@ -9,9 +9,8 @@ export default {
       colors: {
         transparent: "transparent",
         white: "#FFFFFF",
-        black: "#1C1917", // softened near-black (stone-900) for editorial headings
+        black: "#1C1917",
 
-        // ── Semantic design tokens (CSS vars → theme-aware) ──
         bg: withAlpha("--bg"),
         surface: {
           DEFAULT: withAlpha("--surface"),
@@ -29,31 +28,34 @@ export default {
           DEFAULT: withAlpha("--accent"),
           foreground: withAlpha("--accent-foreground"),
         },
-        // ── Postcard destination tones ──
         sea: { DEFAULT: withAlpha("--sea"), soft: withAlpha("--sea-soft") },
         sand: { DEFAULT: withAlpha("--sand"), soft: withAlpha("--sand-soft") },
-        terracotta: { DEFAULT: withAlpha("--terracotta"), soft: withAlpha("--terracotta-soft") },
-        olive: { DEFAULT: withAlpha("--olive"), soft: withAlpha("--olive-soft") },
+        terracotta: {
+          DEFAULT: withAlpha("--terracotta"),
+          soft: withAlpha("--terracotta-soft"),
+        },
+        olive: {
+          DEFAULT: withAlpha("--olive"),
+          soft: withAlpha("--olive-soft"),
+        },
         sun: withAlpha("--sun"),
         danger: withAlpha("--danger"),
         success: withAlpha("--success"),
         warning: withAlpha("--warning"),
         ring: withAlpha("--ring"),
 
-        // ── Legacy names (mapped to new palette so existing classes hold) ──
-        secondary: withAlpha("--danger"), // was decorative red-orange → now error-only
-        grayish: "#A8A29E", // stone-400
+        secondary: withAlpha("--danger"),
+        grayish: "#A8A29E",
         grayLight: "#A8A29E",
-        bgDark: "#1C1917", // stone-900 surface
-        textWhite: "#F5F5F4", // stone-100
-        textGray: "#78716C", // stone-500
+        bgDark: "#1C1917",
+        textWhite: "#F5F5F4",
+        textGray: "#78716C",
       },
       fontFamily: {
         sans: ['"Inter Variable"', "Inter", "system-ui", "sans-serif"],
         serif: ['"Fraunces Variable"', "Georgia", "Cambria", "serif"],
       },
       transitionTimingFunction: {
-        // Confident natural deceleration for arrivals and feedback.
         "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
       },
       keyframes: {
@@ -75,10 +77,8 @@ export default {
         },
       },
       animation: {
-        // Smooth (non-bounce) motion for the chat typing indicator and 404 mark.
         "typing-dot": "typing-dot 1.2s ease-in-out infinite",
         "float-soft": "float-soft 3s ease-in-out infinite",
-        // Corner notes (offline, update available) slide up into place.
         "fade-in": "fade-in 0.2s ease-out both",
         "note-in": "note-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both",
       },

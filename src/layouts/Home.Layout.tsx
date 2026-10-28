@@ -7,22 +7,20 @@ import { useSavedTripsSync } from "../hooks/useSavedTrips";
 import { TravelBackdrop } from "../components/ui/travel-backdrop";
 import PwaPrompt from "../components/Pwa/PwaPrompt";
 
-// Content column width (px) per route — the `max-w-*` each page renders in —
-// so the travel backdrop can keep its doodles in the side margins.
+
 const CONTENT_WIDTH: [prefix: string, px: number][] = [
-  ["/detail", 1152], // max-w-6xl
+  ["/detail", 1152], 
   ["/chat", 1152],
-  ["/itinerary", 1024], // max-w-5xl
+  ["/itinerary", 1024], 
   ["/cost-estimator", 1024],
   ["/recommendations", 1024],
-  ["/profile", 768], // max-w-3xl
-  ["/login", 448], // max-w-md
+  ["/profile", 768],
+  ["/login", 448],
 ];
 const contentWidthFor = (path: string) =>
-  CONTENT_WIDTH.find(([prefix]) => path.startsWith(prefix))?.[1] ?? 1280; // max-w-7xl
+  CONTENT_WIDTH.find(([prefix]) => path.startsWith(prefix))?.[1] ?? 1280; 
 
 function HomeLayout() {
-  // Single owner of the saved-trips Firestore→store sync for the whole app.
   useSavedTripsSync();
   const { pathname } = useLocation();
   return (
@@ -31,8 +29,7 @@ function HomeLayout() {
         title="GeoGuide"
         description="GeoGuide"
       />
-      {/* `isolate` gives the layout its own stacking context, so the backdrop's
-          negative z-index lands above this background but below all content. */}
+
       <div className="relative isolate min-h-screen bg-bg">
         <TravelBackdrop contentWidth={contentWidthFor(pathname)} />
         <a
@@ -54,7 +51,6 @@ function HomeLayout() {
         <Footer />
       </div>
       <PwaPrompt />
-      {/* New pages open at the top; back/forward restores the previous offset. */}
       <ScrollRestoration />
     </>
   );

@@ -5,10 +5,7 @@ import { deleteChat, listChats, renameChat } from "../services/firebase/ChatServ
 
 const key = (uid: string | undefined) => ["chats", uid ?? "anon"] as const;
 
-/**
- * The current user's conversation list (Firestore → React Query) plus
- * delete/rename mutations. Empty for guests.
- */
+
 export function useChats() {
   const { user } = useAuth();
   const uid = user?.uid;

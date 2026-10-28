@@ -14,12 +14,7 @@ function newId(): string {
 
 const chatsKey = (uid: string) => ["chats", uid] as const;
 
-/**
- * Manages the active conversation: message state, streaming send, and
- * persistence. For signed-in users conversations are stored in Firestore
- * (multi-conversation: select / new / continue). Guests get an ephemeral
- * in-memory thread (no history) — sign-in unlocks saved conversations.
- */
+
 export function useChat() {
   const { user } = useAuth();
   const uid = user?.uid;
@@ -32,10 +27,8 @@ export function useChat() {
   const [loadingHistory, setLoadingHistory] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
-  // Ids we created locally this session — skip re-fetching (we already hold them).
   const justCreatedRef = useRef<string | null>(null);
 
-  // Load messages when an existing conversation becomes active.
   useEffect(() => {
     if (!uid || !activeChatId) {
       setMessages([]);
@@ -85,7 +78,6 @@ export function useChat() {
       if (!trimmed || isStreaming) return;
       setError(null);
 
-      // Ensure a persisted conversation exists (signed-in users only).
       let chatId = activeChatId;
       if (uid && !chatId) {
         try {
@@ -118,13 +110,14 @@ export function useChat() {
       const controller = new AbortController();
       abortRef.current = controller;
       let assistantText = "";
-      // Chunks can arrive many times per frame; render at most once per frame
-      // so the markdown isn't re-laid-out for every network chunk.
+      
       let frame = 0;
       const flush = () => {
         frame = 0;
         const text = assistantText;
-        setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, content: text } : m)));
+        setMessages((prev) =>
+          prev.map((m) => (m.id === assistantId ? { ...m, content: text } : m)),
+        );
       };
       try {
         await streamChat(history, {
@@ -144,11 +137,14 @@ export function useChat() {
         setIsStreaming(false);
         abortRef.current = null;
         if (assistantText) {
-          // Persist whatever streamed (full reply, or partial if stopped).
-          if (uid && chatId) appendMessage(uid, chatId, "assistant", assistantText).catch(() => {});
+          if (uid && chatId)
+            appendMessage(uid, chatId, "assistant", assistantText).catch(
+              () => {},
+            );
         } else {
-          // Nothing streamed — drop the empty assistant bubble.
-          setMessages((prev) => prev.filter((m) => !(m.id === assistantId && m.content === "")));
+          setMessages((prev) =>
+            prev.filter((m) => !(m.id === assistantId && m.content === "")),
+          );
         }
         if (uid) qc.invalidateQueries({ queryKey: chatsKey(uid) });
       }

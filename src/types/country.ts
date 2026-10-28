@@ -1,8 +1,3 @@
-/**
- * Normalized country contract returned by the internal backend (`/api/countries`).
- * The frontend depends only on this shape — never on the upstream data source.
- * Mirrors `server/types/country.ts`.
- */
 export interface Currency {
   code: string;
   name: string;
